@@ -18,6 +18,12 @@ endpoints:
     path: /api/agent-hub/knowledge/upload
     description: 文档上传
   - method: GET
+    path: /api/agent-hub/knowledge-bases/{knowledgeBaseId}/documents
+    description: 知识库文档列表
+  - method: POST
+    path: /api/agent-hub/knowledge/documents/batch-delete
+    description: 批量删除文档
+  - method: GET
     path: /api/agent-hub/knowledge-bases
     description: 知识库列表
   - method: GET

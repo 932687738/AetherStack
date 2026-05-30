@@ -29,6 +29,8 @@ ai_react (Nebula Desk)
 | POST | `/api/agent-hub/requirement-dev` | 需求开发模式 SSE | `ai_react/src/api/chat.js` |
 | GET | `/api/agent-hub/status` | 运行时状态 | `ai_react/src/api/agentHub.js` |
 | POST | `/api/agent-hub/knowledge/upload` | 文档上传 | `ai_react/src/api/knowledge.js` |
+| GET | `/api/agent-hub/knowledge-bases/{knowledgeBaseId}/documents` | 知识库文档列表 | `ai_react/src/api/knowledge.js` |
+| POST | `/api/agent-hub/knowledge/documents/batch-delete` | 批量删除文档 | `ai_react/src/api/knowledge.js` |
 | GET/POST/PUT/DELETE | `/api/agent-hub/knowledge-bases` | 知识库 CRUD | `ai_react/src/api/knowledge.js` |
 
 ## 4. SSE 契约要点
