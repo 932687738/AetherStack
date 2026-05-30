@@ -27,7 +27,8 @@
 | 前端 | `ai_react` 仓库（见 LOCALPATH.md） | React + Vite |
 | 规范 | `openspec/`（本仓） | OpenSpec |
 | AI 配置 | `.aetherstack/`（本仓） | 单一配置源 |
-| Skills | `aether-skills/`（本仓） | Superpower 技能 |
+| Superpower 工作流 | `.aetherstack/workflows/`（本仓） | 代码审查、单测（关键词路由） |
+| 项目技能 | `aether-skills/`（本仓） | doc-sync、DDD 设计等 |
 
 ## 启动边界
 
