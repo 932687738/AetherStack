@@ -32,6 +32,12 @@ ai_react (Nebula Desk)
 | GET | `/api/agent-hub/knowledge-bases/{knowledgeBaseId}/documents` | 知识库文档列表 | `ai_react/src/api/knowledge.js` |
 | POST | `/api/agent-hub/knowledge/documents/batch-delete` | 批量删除文档 | `ai_react/src/api/knowledge.js` |
 | GET/POST/PUT/DELETE | `/api/agent-hub/knowledge-bases` | 知识库 CRUD | `ai_react/src/api/knowledge.js` |
+| GET | `/api/agent-hub/conversations` | 历史会话列表 | `ai_react/src/api/conversationHistory.js` |
+| POST | `/api/agent-hub/conversations` | 创建/更新会话元数据 | `ai_react/src/api/conversationHistory.js` |
+| GET | `/api/agent-hub/conversations/{conversationId}/messages` | 历史消息列表 | `ai_react/src/api/conversationHistory.js` |
+| POST | `/api/agent-hub/conversations/{conversationId}/messages` | 追加历史消息 | `ai_react/src/api/conversationHistory.js` |
+| PATCH | `/api/agent-hub/conversations/{conversationId}` | 重命名会话 | `ai_react/src/api/conversationHistory.js` |
+| DELETE | `/api/agent-hub/conversations/{conversationId}` | 删除会话及消息 | `ai_react/src/api/conversationHistory.js` |
 
 ## 4. SSE 契约要点
 

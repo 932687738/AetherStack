@@ -27,6 +27,24 @@ endpoints:
     path: /api/agent-hub/knowledge-bases
     description: 知识库列表
   - method: GET
+    path: /api/agent-hub/conversations
+    description: 历史会话列表
+  - method: POST
+    path: /api/agent-hub/conversations
+    description: 创建或更新会话元数据
+  - method: GET
+    path: /api/agent-hub/conversations/{conversationId}/messages
+    description: 历史消息列表
+  - method: POST
+    path: /api/agent-hub/conversations/{conversationId}/messages
+    description: 追加历史消息
+  - method: PATCH
+    path: /api/agent-hub/conversations/{conversationId}
+    description: 重命名历史会话
+  - method: DELETE
+    path: /api/agent-hub/conversations/{conversationId}
+    description: 删除历史会话
+  - method: GET
     path: /swagger-ui.html
     description: API 文档
 
