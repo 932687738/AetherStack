@@ -31,26 +31,37 @@ PostgreSQL + pgvector
 
 ## 后端模块
 
-### Agent Hub (`ai/.../agents`)
+> **现状梳理与目标设计**：[`backend-design-guide.md`](backend-design-guide.md)
 
-- **OrchestratorAgent**：统一接收输入，意图路由
+### Agent Hub (`ai/.../agents`) — 存量 Orchestrator 路径
+
+- **OrchestratorAgent**：统一接收输入，意图路由（**待迁移** CompiledGraph/ReactAgent）
 - **SubAgent**：客服、数据分析、代码生成、需求开发等
-- **Tool / Skill / Plugin**：可扩展工具与技能包
-- **Hook**：Spring Events（Before/After/Error/KnowledgeCapture）
-- **MCP**：Model Context Protocol Client/Server
+- **RequirementDevelopmentOrchestrator**：Java 工作流（**待迁移** CompiledGraph）
+- **Tool / Skill / Hook / MCP**：可扩展能力
+- **agents.knowledge**：旧 VectorStore RAG + 会话捕获（与 knowledgehub **重复**，待收敛）
 
-典型链路：`AgentHubController` → `OrchestratorAgent` → `SubAgent` / 直答 → `ChatClient` + Tools → `Flux<String>` (SSE)
+典型链路（As-Is）：`AgentHubController` → `OrchestratorAgent` → `SubAgent` / 直答 → `AgentChatService` (ChatClient)
 
-### Knowledge Hub (`ai/.../knowledgehub`)
+### Knowledge Hub (`ai/.../knowledgehub`) — 目标生产 RAG 路径
 
-- **上传流水线**：parse → split → embed → store
-- **问答流水线**：retrieval → rerank → prompt → memory update
-- **聚合**：KnowledgeBase、KnowledgeDocument、KnowledgeChunk（含 embedding）
+- **上传**：CompiledGraph 线性链（parse → split → embed → store）
+- **问答**：CompiledGraph prep → ChatClient 流式 → CompiledGraph post（**目标**：端到端 Graph + post Bean 单例）
+- **CRUD**：KnowledgeBase 聚合（**目标**：domain 行为补强，Graph 节点瘦身）
 
-### Spring AI Demo (`ai/.../springai`)
+### Spring AI Alibaba 编排（新需求默认）
 
-- 教程、Graph Human-in-the-loop、RAG 实验
-- 路由前缀多为 `/springai/demo/...`，与生产 `/api/agent-hub/...` 分离
+| 组件 | 用途 | 参考 |
+|------|------|------|
+| **CompiledGraph** | 多步工作流、条件边、检查点、HIL | `knowledgehub/graph/`、`springai/graph/` |
+| **ReactAgent** | ReAct + 工具、MemorySaver | `recommendedpackaging/`、`springai/agent/` |
+
+细则：`.aetherstack/rules/backend-ai.md`
+
+### Spring AI Demo (`ai/.../springai`) — 仅教程
+
+- 路由 `/springai/demo/*`；**目标** `@Profile("demo")` 隔离
+- **禁止** agents/knowledgehub 生产代码依赖本包
 
 ## 前端模块
 
@@ -62,10 +73,13 @@ PostgreSQL + pgvector
 
 - **PostgreSQL 16 + pgvector**：业务表 + 向量检索（HNSW）
 - **Flyway**：`V1__knowledge_schema.sql` 等
-- **双向量路径**：
-  - Spring AI `vector_store` 表
-  - 业务表 `knowledge_chunks.embedding`
+- **向量路径（目标统一）**：
+  - **生产主路径**：`knowledgehub` — `knowledge_chunks.embedding` + 多 KB 召回
+  - **存量/待收敛**：Spring AI `vector_store`（agents 会话捕获）
+  - **Demo 仅**：`springai` PgVectorRagDemo（不与生产互通）
 - **LLM**：默认 DashScope OpenAI 兼容 API
+
+详见 `backend-design-guide.md` §2.2 三套 RAG 问题。
 
 ## 治理与工程层
 

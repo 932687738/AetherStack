@@ -29,22 +29,25 @@
 
 ## Knowledge Hub 领域
 
-- **KnowledgeBase**（聚合根）：知识库元数据与配置
-- **KnowledgeDocument**：上传文档生命周期
-- **KnowledgeChunk**：分段内容与 embedding
+- **KnowledgeBase**（聚合根）：知识库元数据；**目标** 校验与不变式迁入 domain
+- **KnowledgeDocument**：上传文档生命周期；去重/替换规则 **目标** 在聚合内
+- **KnowledgeChunk**：分段与 embedding
 - **SessionMemory / LongTermMemory**：会话与长期记忆
-- **Graph Pipeline**：upload/query 节点编排
+- **Graph Pipeline**：upload/query CompiledGraph 编排（节点 **目标** 仅做适配，规则在 DomainService）
+
+**与 agents.knowledge 边界**：agents 侧 VectorStore 会话捕获为存量路径；新 RAG 能力只扩展 knowledgehub，不新增第三套存储。
 
 ## 核心流程
 
-### 1. 知识库对话（SSE）
+### 1. 知识库对话（SSE）— 生产唯一入口
 
 ```text
 用户 -> ai_react -> POST /api/agent-hub/chat/knowledge
-  -> QueryKnowledgeService / Graph
-  -> pgvector 检索 + LLM
-  -> SSE 流式返回
+  -> QueryKnowledgeService (CompiledGraph prep -> ChatClient -> Graph post)
+  -> knowledgehub 多路召回 + LLM -> SSE
 ```
+
+> 勿使用 OrchestratorAgent KNOWLEDGE 模式（遗留无 HTTP 入口）。
 
 ### 2. 智能体对话
 

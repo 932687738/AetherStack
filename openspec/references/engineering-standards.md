@@ -13,29 +13,35 @@
 
 | 层 | 职责 | backend 包/目录示例 |
 |----|------|---------------------|
-| 接口层 | HTTP、SSE、DTO 转换、参数校验 | `*.web`、`*.dto`、`agents.constants.web` |
-| 应用层 | 用例编排、事务边界、调用领域与基础设施 | `*.service`（编排）、`agents.agent.orchestrator`、`knowledgehub.graph.*` |
-| 领域层 | 业务规则、实体、值对象、领域服务 | `knowledgehub.domain`（record）、领域算法 |
-| 基础设施层 | DB、向量存储、MyBatis、外部 LLM/MCP | `*.repository`、`*.config`、`agents.mcp` |
+| 接口层 | HTTP、SSE、DTO 转换、参数校验 | `*.web`、`*.dto` |
+| 应用层 | 用例编排、事务边界、Graph/Agent invoke/stream | `*.application.*ApplicationService` |
+| 领域层 | 业务规则、聚合、领域服务、Repository 接口 | `*.domain.*` |
+| 基础设施层 | Repository 实现、DB、向量、LLM/MCP 适配 | `*.infrastructure.*`、`*.repository.*` |
+| 编排配置 | CompiledGraph / ReactAgent Bean 装配（非业务编排） | `*.graph.*`、`*AgentConfiguration` |
 
 **模块映射（关联仓库）：**
 
-- **ai/.../agents**：Agent Hub 编排、SubAgent、Tool、Hook、MCP
-- **ai/.../knowledgehub**：知识库 RAG、Graph 流水线、记忆
-- **ai/.../springai**：Spring AI 教程与 Demo（非生产默认路径）
-- **ai_react/**：Nebula Desk UI，通过 `/api/agent-hub/*` 调用后端
+- **ai/.../agents**：Agent Hub（**存量** Orchestrator + ChatClient；**新 AI 能力**优先 Graph/ReactAgent）
+- **ai/.../knowledgehub**：知识库 RAG（**目标** CompiledGraph 生产路径）
+- **ai/.../springai**：教程 Demo（`@Profile("demo")` 目标态；**禁止**被 agents/knowledgehub 依赖）
+- **ai_react/**：Nebula Desk UI
+
+**详细现状问题与目标架构**：`openspec/references/backend-design-guide.md`
 
 **允许/禁止调用矩阵（强制）：**
 
-- Controller → **只允许** 调用 ApplicationService / Orchestrator；**禁止** 直连 Repository
-- 应用层 → **允许** 调用 Repository、VectorStore、外部 API；**禁止** 反向依赖 Controller
-- 领域层 → **允许** 纯业务计算；**禁止** 依赖 Spring Web、具体 DAO 实现（目标态）
-- 基础设施层 → 实现 Repository 接口；**禁止** 包含业务编排
+- Controller → **只允许** ApplicationService / Orchestrator；**禁止** Repository、CompiledGraph 直连
+- ApplicationService → **允许** DomainService、CompiledGraph/ReactAgent、Repository 接口；**禁止** 依赖 `web.dto` 以外的反向 web 层
+- Graph 节点 → **允许** 调用 DomainService、Port；**禁止** import `web.dto`、**禁止** 复杂业务规则、**禁止** 直连 Repository 实现（应经 domain 接口）
+- Domain → **禁止** Spring Web、具体 DAO、springai
+- Infrastructure → 实现 Repository；**禁止** HTTP 编排
+- agents/knowledgehub → **禁止** import springai（存量 `RagContentAuditor` 待迁出）
 
 **参考分层实现：**
 
-- `ai/.../springai/projectpractice/recommendedpackaging/`（较完整 DDD 分包示例）
-- `ai/.../knowledgehub/`（Graph + Repository 生产路径）
+- **目标样板**：`ai/.../springai/projectpractice/recommendedpackaging/`（DDD 四层 + ReactAgent）
+- **Graph 生产参考**：`ai/.../knowledgehub/graph/`（待收敛节点瘦身）
+- **反例（勿复制）**：`OrchestratorAgent` 单体编排、Graph 节点内写去重/选库规则
 
 ## 2. 接口与 DTO 规范
 
@@ -54,7 +60,24 @@
 
 ## 4. AI / LLM 集成规范
 
-- 模型调用通过 Spring AI `ChatClient` / `VectorStore` 抽象
+### 4.1 Spring AI Alibaba 编排（优先）
+
+本仓库为 **Spring AI Alibaba** 项目。新增 AI 相关后端能力时：
+
+1. **优先**使用 **CompiledGraph**（多步流水线、条件分支、检查点、HIL）或 **ReactAgent**（ReAct + 工具调用）
+2. 若场景足够简单（单次 ChatClient、纯 CRUD、纯向量检索等），可选用更轻量方案，并在 design 中说明理由
+3. 细则见 `.aetherstack/rules/backend-ai.md`
+
+**参考代码：**
+
+| 能力 | 生产/推荐路径 | 教程路径 |
+|------|---------------|----------|
+| CompiledGraph | `knowledgehub/graph/` | `springai/graph/` |
+| ReactAgent | `springai/projectpractice/recommendedpackaging/` | `springai/agent/` |
+
+### 4.2 通用约束
+
+- 模型调用通过 Spring AI `ChatClient` / `ChatModel` / `VectorStore` 抽象；Graph/Agent 内部仍走上述抽象
 - API Key 通过环境变量注入（`DASHSCOPE_API_KEY`），禁止硬编码
 - Prompt 模板放在 `ai/src/main/resources/prompts/`
 - RAG 检索需说明 topK、相似度阈值、rerank 策略（design 文档必填）
@@ -82,5 +105,33 @@
 
 ## 8. 存量与演进
 
-- 存量包名 `com.yxy.deepseek` 保留，新模块可对齐 `recommendedpackaging` 分层
-- `springai/` Demo 代码与生产 Agent Hub 路径分离；生产变更优先改 `agents/`、`knowledgehub/`
+- 存量包名 `com.yxy.deepseek` 保留，新模块对齐 `recommendedpackaging` 四层分包
+- `springai/` 与生产分离；**禁止**新增 agents/knowledgehub → springai 依赖
+- 生产变更优先改 `knowledgehub/`（Graph 收敛），Agent Hub 大改走 OpenSpec 专项
+
+## 9. 后端架构债务与演进（强制知晓）
+
+> 完整梳理见 **`openspec/references/backend-design-guide.md`**
+
+### 9.1 已知不合理实现（勿复制）
+
+| 类别 | 说明 |
+|------|------|
+| 编排分裂 | Agent Hub 手写 Orchestrator；Knowledge Hub 已 CompiledGraph |
+| 三套 RAG | agents VectorStore、knowledgehub 表、springai PgVectorRagDemo |
+| 遗留死路径 | `OrchestratorAgent.processKnowledgeMode()` 无 HTTP 入口 |
+| 分层违规 | Graph 节点直连 Repository、依赖 web.dto、业务规则在 Node |
+| 生产依赖 Demo | `ConversationKnowledgeService` → `springai.rag.audit` |
+| 性能 | 每次问答重新 compile post Graph |
+
+### 9.2 新代码必须遵循
+
+1. 编排选型按 §4.1 与 `backend-ai.md`
+2. Graph 节点禁令、模块依赖禁令见 §1 矩阵
+3. CompiledGraph **单例 Bean**，禁止 per-request compile
+4. Demo 使用 `@Profile("demo")` 或等价隔离（目标态）
+5. 触及架构债务清理时，单独 OpenSpec 变更，避免与功能 PR 混杂
+
+### 9.3 演进优先级
+
+P1 Knowledge Hub Graph/Domain 收敛 → P1 迁出 springai 依赖 → P2 Agent Hub Graph/ReactAgent 化 → P2 需求开发 Graph 化 → P3 全模块 DDD 对齐

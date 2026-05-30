@@ -18,6 +18,7 @@ project:
 # 规则源（按顺序合并；人工只编辑 .aetherstack/rules/）
 rules:
   - rules/core.md
+  - rules/backend-ai.md
   - rules/openspec.md
   - rules/documentation.md
   - rules/harness.md

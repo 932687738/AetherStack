@@ -64,6 +64,7 @@ Cursor Skills：`.cursor/skills/openspec-*/SKILL.md`
 ## 工程参考
 
 - 架构：`ARCHITECTURE.md`、`openspec/references/architecture.md`
+- **后端设计指南（现状/目标/演进）**：`openspec/references/backend-design-guide.md`
 - 工程规范：`openspec/references/engineering-standards.md`
 - 技术栈：`openspec/references/tech-stack.md`
 - 领域模型：`openspec/references/domain-models.md`

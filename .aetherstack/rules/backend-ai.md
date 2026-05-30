@@ -1,0 +1,80 @@
+# 后端 AI 设计规则（Spring AI Alibaba）
+
+## 适用范围
+
+关联仓库 **ai** 中所有与 LLM、Agent、Graph、RAG 编排、工具调用相关的**新需求设计与实现**。
+
+**必读配套**：`openspec/references/backend-design-guide.md`（现状问题、目标架构、演进路线）。
+
+## 默认选型（优先）
+
+| 能力 | 典型场景 | 生产参考 | 教程参考 |
+|------|----------|----------|----------|
+| **CompiledGraph** | 多步流水线、条件分支、检查点/HIL、阶段工作流 | `knowledgehub/graph/` | `springai/graph/` |
+| **ReactAgent** | ReAct + 工具调用、单 Agent 多轮、工具人工确认 | `projectpractice/recommendedpackaging/` | `springai/agent/` |
+| **ChatClient** | 单次问答、无状态单轮、极简工具调用 | `AgentChatService` | `springai/chat/` |
+
+### CompiledGraph 优先于
+
+- ApplicationService 内手写多步 `if/else` 编排 LLM/检索/后处理
+- Java Flux 串并行模拟工作流（见存量 `RequirementDevelopmentOrchestrator`，新需求勿复制）
+
+### ReactAgent 优先于
+
+- 手写 while 循环驱动「模型 → 工具 → 模型」
+- Controller / Orchestrator 内直接拼装 tool call
+
+## 可不采用 CompiledGraph / ReactAgent
+
+- 单次 `ChatClient` / `ChatModel` 调用即可
+- 纯 CRUD / 纯向量检索（无 LLM 编排）
+- 存量 Orchestrator **小范围补丁**（须在 PR 注明；不得扩大手写编排范围）
+- design 中已说明的轻量/性能理由
+
+## 分层与依赖（强制）
+
+### Bean 边界
+
+| 层 | 职责 |
+|----|------|
+| `*.graph` / `*.agent` Configuration | 装配 CompiledGraph / ReactAgent Bean（单例 compile） |
+| `*ApplicationService` | `invoke` / `stream` 编排；SSE 事件组装 |
+| `web` / `controller` | HTTP/SSE、DTO；**禁止** Repository / Graph 直连 |
+| `domain` | 业务规则、聚合行为、Repository **接口** |
+| `infrastructure` | Repository 实现、外部 API、审计等 |
+
+### Graph 节点禁令
+
+- **禁止** import `web.dto`
+- **禁止** 在节点内写复杂业务规则（去重、选库、分段策略 → DomainService）
+- **禁止** 节点内 `Executors.newFixedThreadPool` 等无生命周期资源
+- **禁止** 每次请求 `buildLinearGraph`（post/prep Graph 须复用 Bean）
+
+### 模块依赖禁令
+
+- **禁止** `agents/**`、`knowledgehub/**` import `springai/**`（存量 `RagContentAuditor` 等待迁出）
+- **禁止** 新增第三套 RAG 存储路径；生产以 `knowledgehub` 表结构为准
+
+## 各上下文目标（摘要）
+
+| 上下文 | 新需求默认 | 存量 |
+|--------|------------|------|
+| Knowledge Hub | CompiledGraph + DomainService | 继续收敛节点瘦身 |
+| Agent Hub 对话 | CompiledGraph 或 ReactAgent（新能力） | OrchestratorAgent 仅维护 |
+| 需求开发 | CompiledGraph + checkpoint | Orchestrator 待迁移 |
+| springai | 教程 / `@Profile("demo")` | 不得被生产依赖 |
+
+## 设计输出要求（OpenSpec design.md）
+
+1. 选型：CompiledGraph / ReactAgent / ChatClient
+2. 理由与 `backend-design-guide.md` 对照
+3. Bean 边界与 sessionId/threadId 策略
+4. 是否触及 RAG 统一、是否新增 springai 依赖
+5. 事务边界：禁止 `@Transactional` 内调 LLM
+
+## 参考文档
+
+- 后端设计指南：`openspec/references/backend-design-guide.md`
+- 工程规范：`openspec/references/engineering-standards.md` §1、§4、§9
+- 架构：`openspec/references/architecture.md`
+- 领域：`openspec/references/domain-models.md`

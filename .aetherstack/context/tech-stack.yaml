@@ -8,6 +8,21 @@ backend:
   database: PostgreSQL 16 + pgvector
   api_doc: springdoc-openapi /swagger-ui.html
 
+spring_ai_alibaba:
+  default_orchestration:
+    - CompiledGraph
+    - ReactAgent
+  when_optional: 单次 ChatClient、纯 CRUD、纯向量检索、存量 Orchestrator 小改
+  rule: .aetherstack/rules/backend-ai.md
+  design_guide: openspec/references/backend-design-guide.md
+  production_paths:
+    knowledge_hub: knowledgehub/graph (CompiledGraph)
+    agent_hub: agents OrchestratorAgent (legacy, migrate to Graph/ReactAgent)
+  references:
+    compiled_graph: [knowledgehub/graph, springai/graph]
+    react_agent: [springai/agent, springai/projectpractice/recommendedpackaging]
+    ddd_template: springai/projectpractice/recommendedpackaging
+
 frontend:
   language: JavaScript (JSX)
   build: Vite 8

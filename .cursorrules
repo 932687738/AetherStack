@@ -38,7 +38,8 @@
 ## 强制入口
 
 - 进入 OpenSpec 流程或调用 Superpower 技能前，先读根目录 `AGENTS.md`。
-- 修改代码前，按需读 `ARCHITECTURE.md` 与 `LOCALPATH.md`。
+- 修改代码前，按需读 `ARCHITECTURE.md`、`LOCALPATH.md`、`openspec/references/backend-design-guide.md`。
+- **AI 相关后端需求**：优先读 `rules/backend-ai.md`（CompiledGraph / ReactAgent 选型）。
 
 
 ## See also

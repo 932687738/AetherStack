@@ -7,6 +7,7 @@ root = "."
 [instructions]
 agents = "AGENTS.md"
 rules = [
+  ".aetherstack/rules/backend-ai.md",
   ".aetherstack/rules/core.md",
   ".aetherstack/rules/documentation.md",
   ".aetherstack/rules/harness.md",
