@@ -1,0 +1,233 @@
+name: simple-spec-driven
+version: 1
+description: QWMS workflow - proposal → specs → design-lite → tasks → apply（test-cases 为测试同学提供的并行工件，非 apply 准入前置）
+artifacts:
+  - id: proposal
+    generates: proposal.md
+    description: 变更提案（中文，简版流程）
+    template: proposal.md
+    instruction: |
+      创建 proposal.md（中文），明确为什么要做、做什么、影响什么。
+
+      必读参考：
+      - openspec/config.yaml（项目约束与规则摘要）
+      - openspec/references/qwms-rules.md（命名与影响分析要求）
+
+      范围要求（只做“概要描述”）：
+      - 说明背景/目标/范围（Why / What）
+      - Capabilities 只列出“需求层面有变化”的能力（命名规则见 qwms-rules）
+      - 简洁清晰（1 页为宜）
+
+      影响分析：
+      - proposal 仅简述影响，完整 Impact 清单放在 design-lite.md（系统清单见 openspec/references/architecture.md）
+    requires: []
+
+  - id: specs
+    generates: specs/**/*.md
+    description: 业务规范（双层结构）
+    template: spec.md
+    instruction: |
+      创建 spec 增量文件（中文）。每个 capability 一份。
+
+      必须遵循 QWMS 结构规范，包含：
+      1. ## 一、OpenSpec 需求（前提/操作/结果）
+      2. ## ADDED/MODIFIED/REMOVED/RENAMED Requirements
+
+      关键规则：
+      - Delta 标题必须使用英文：`## ADDED/MODIFIED/REMOVED/RENAMED Requirements`
+      - Requirement 标题格式：`### Requirement: 1. 标题`
+      - 场景采用兼容写法：`#### 场景: 场景名称`
+      - 场景内容使用中文“前提/操作/结果”
+      - 场景必须使用 `#### 场景:`（4 个 #），否则解析失败
+      - 场景使用“前提/操作/结果”（语义等同 GIVEN/WHEN/THEN）
+      - Requirement 之间用 `---` 分隔
+      - 必须包含锚点：`<a name="req-X"></a>` 与 `<a name="openspec-req-X"></a>`
+      - ADDED Requirements 章节可写中文标题（如“新增用户故事”），但需保留 ADDED/MODIFIED/REMOVED/RENAMED 语义
+
+      语义规范：
+      - 使用业务语言，避免技术细节（类名/表名/方法名）
+      - spec 仅表达业务需求与业务口径，不写测试策略/测试矩阵/测试步骤
+      - 覆盖 PRD 全部章节，避免遗漏
+      - 需求数量建议 < 8 个，超过需考虑是否走 standard-spec-driven
+      - spec.md = 业务/产品定义；设计实现放 design-lite.md
+
+      主/子能力规则：
+      - 主能力需完整背景与目标 + 完整 mindmap
+      - 子能力可 1-2 句简写并引用 proposal 或主能力 spec
+      - 子能力 mindmap 可仅画相关节点，或引用主能力 mindmap
+
+      粒度规则：
+      - Requirement 按“用户故事”粒度拆分（目标即 1 条 Requirement）
+      - 规则/校验类内容归入对应用户故事的 Scenario
+      
+      分组规则：
+      - 需要按“功能组”对 Requirements 分段组织（使用 `### 功能组 X：名称`）
+    requires:
+      - proposal
+
+  - id: design-lite
+    generates: design-lite.md
+    description: 技术方案（简版）
+    template: design-lite.md
+    instruction: |
+      生成 design-lite.md（中文，1 页以内）。
+
+      【强制】代码准确性要求：
+      - 现状代码必须从实际代码文件中读取，不能凭空编写
+      - 代码位置必须通过实际代码追踪确认
+      - 如果无法确认代码位置，必须先停下来询问
+      - 改造要点必须基于实际代码，不能猜测
+      - 必须遵循 openspec/references/engineering-standards.md 的工程规范
+      - 若补充流程图/时序图，图中参与者必须细化到“组件/模块级”而非仅“应用级”；至少体现入口组件、核心编排组件、关键依赖（如 DAO/MQ/任务监听器/外部接口）中的适用项
+      - 不得因“简版/1 页以内”将关键链路降级为只有 UI/系统A/系统B 的摘要图；图示可以少，但粒度必须足够支撑实现与评审
+      - 图中组件名称必须来自真实代码、现有模块命名或已明确的设计命名；若无法确认组件粒度，必须先停下来确认，不能凭空泛化成 Controller/Service/System
+
+      必须包含：
+      - 需求摘要
+      - 方案概述（关键实现点）
+      - 阶段准入与批量/失败口径（如待收/验货中/收货完成，整批阻断/部分成功）
+      - 代码改造分析
+      - 影响范围（模块/接口/数据）
+      - 核心场景覆盖正常/边界/异常三类（常规≥3；涉及跨系统/异步/配置门禁时≥6）
+      - 若 PRD 包含 OMS/ERP/EDI 改造，必须单列“外部系统改造点”（接口、字段、兼容、联调口径）
+      - 可观测性清单（接口返回、任务中心、日志事件、数据库、库存、外部反馈）
+      - 数据落点清单（单头/单明细/任务/库存/凭证/反馈，按需写明验证口径）
+      - 七. 非功能性需求设计中必须明确：并发与幂等验收口径、性能与容量验收口径
+
+      无变更项明确写"无"。
+
+      影响分析：
+      - 如为技术/跨系统/接口/数据/性能/安全类变更，需完整 Impact 清单（系统清单见 openspec/references/architecture.md）
+    requires:
+      - specs
+
+  - id: test-cases
+    generates: test-cases.md
+    description: 测试用例（独立文件，由测试同学提供）
+    template: test-cases.md
+    instruction: |
+      test-cases.md 由测试同学提供，AI 不主动生成用例内容。
+      本工件用于测试设计对齐与 Automation 回填，不作为本 schema 的 apply 准入前置（以 apply.requires 为准）。
+
+      ## 触发条件
+
+      仅当用户明确说”测试同学已提供 testcase”或直接粘贴/上传测试用例内容时，才进入本步骤。
+      若用户未提供，必须停下并提示：
+      “test-cases.md 需由测试同学提供，请将测试用例内容粘贴到对话中，或告知测试稿文件路径后继续。”
+
+      ## AI 执行内容（仅做格式对齐，不生成用例）
+
+      ### Step 1：接收输入
+      - 接收测试同学提供的测试用例（粘贴内容 / 文件路径）
+      - 读取 spec.md 和 design-lite.md，用于 Requirement 追溯和 AUTO-UT 标记判断
+
+      ### Step 2：格式规范化
+      将测试同学的用例转换为 `[S]/[C]` 标准格式：
+      - 补充 `[S]` 场景包分组（按业务主题，若原稿已有分组则保留）
+      - 补充 `[C]` 用例编号（TC-REQx-yy，若原稿已有编号则保留）
+      - 补充 Requirement 追溯标注（对照 spec.md）
+      - **不得修改用例内容、步骤、预期结果**；仅做结构对齐
+
+      ### Step 3：AUTO-UT 标记
+      对每条 `[C]` 判断并标注 `Automation`：
+      - `AUTO-UT`：可在后端 Service 层稳定验证（规则校验/边界/异常/幂等/防重），无强环境依赖；命中”校验/阻断/拒绝/默认值/分流/状态判断/数量计算/幂等/防重”时默认 `AUTO-UT`
+      - `MANUAL`：页面交互/跨系统联调/强数据环境依赖；必须补 `ManualReason` 说明原因
+      - 标记依据来自 spec.md 和 design-lite.md，不得擅自修改测试同学的场景意图
+
+      ### Step 4：冲突标记
+      对比 spec.md / design-lite.md，若发现用例与设计存在口径冲突：
+      - **不得修改用例内容**
+      - 在用例末尾标注 `⚠️ 待确认：[冲突描述]`
+      - 汇总到文件末尾的”口径冲突清单”
+
+      ### Step 5：输出与确认提示
+      - `Source` 填写 `测试同学提供`
+      - `Status` 固定为 `Draft`
+      - 完成后**主动列出需要测试同学确认的项**，格式如下：
+
+        ```
+        ✅ test-cases.md 格式对齐完成，请确认以下内容：
+
+        【AUTO-UT 标记清单】（共 N 条，请确认是否可不依赖真实环境验证）
+        - TC-REQ1-02：[用例名称] → AUTO-UT
+        - TC-REQ2-01：[用例名称] → AUTO-UT
+        ...
+
+        【口径冲突清单】（共 M 条，请与开发对齐后补充结论）
+        - TC-REQ3-01：[冲突描述]
+        ...（无冲突则写”无”）
+
+        确认无误后请回复”确认”，或指出需要修正的条目，AI 将更新后把 Status 改为 Reviewed。
+        ```
+
+      - 收到测试同学确认（或修正）后，更新对应标记，将 `Status` 改为 `Reviewed`
+
+      ## 产出结构
+      1. 测试基线来源（必填，Source / OpenSpec 基线 / Status）
+      2. 用例主体（`[S]/[C]` 可导入格式，正文主体）
+      3. 口径冲突清单（按需，仅在用例与 spec/design-lite 存在冲突时填写）
+    requires:
+      - specs
+      - design-lite
+
+  - id: tasks
+    generates: tasks.md
+    description: 实施任务清单
+    template: tasks.md
+    instruction: |
+      创建 tasks.md（中文），每个任务必须可验证。
+
+      任务拆分原则（强制）：
+      - 输出物导向：每个任务是用户可感知的业务交付物
+      - 粒度控制：1 个任务 ≈ 1 个 Requirement 或独立子功能（参考 spec.md）
+      - 覆盖后端 + 前端 + 测试 + 依赖 + 可验证输出
+      - 标注依赖关系，支持并行
+
+      测试任务占位规则（强制）：
+      - 测试任务（1.3～1.6）在 tasks 生成时先占位，不等 test-cases 就绪
+      - 占位格式：`- [ ] x.3 测试任务（待 test-cases Reviewed 后补充）`
+
+      AI 生成 tasks.md 的强制步骤：
+      1) 重新阅读 spec.md，列出所有 Requirements
+      2) 按 Requirement 分组拆分开发任务（后端 + 前端）
+      3) 每个 Requirement 补充测试任务占位（1.3～1.6）
+      4) 每个任务包含”可验证输出”描述
+    requires:
+      - specs
+      - design-lite
+
+apply:
+  requires: [tasks]
+  tracks: tasks.md
+  instruction: |
+    逐项执行 tasks.md，完成后勾选 `- [x]`。
+    准入说明：本 schema 进入 apply 仅要求 `tasks`；`test-cases.md` 未就绪时，按占位任务规则跳过测试占位项并在结果中显式列出待补项。
+
+    【强制】编码前验证：
+    - 通读 proposal.md、specs/ 下相关 spec.md 与 design-lite.md 的对应章节
+    - 对 `AUTO-UT` 任务，先读取 `test-cases.md` 中对应 `[C]` 用例，再定位代码写单测
+    - 后端单测必须先读取 `.aetherstack/workflows/unit-testing.md` 与 `harness/adapters/java-maven/test-templates.md`
+    - 执行前先读取 design-lite.md 中提到的代码文件
+    - 验证代码位置和代码片段是否与实际一致
+    - 如果不一致，先更新 design-lite.md，再执行
+    - 不能盲目相信设计文档，必须以实际代码为准
+    - 对齐 openspec/references/engineering-standards.md（分层/校验/DTO/缓存/DB）
+    - 对 `AUTO-UT` 任务，勾选前必须执行对应测试命令并通过
+
+    【占位任务处理】：
+    - 遇到 `待 test-cases Reviewed 后补充` 的占位任务时，先检查 test-cases.md 的 Status
+    - Status: Reviewed：读取 AUTO-UT 用例，定位代码，写单测，跑命令
+    - Status: Draft 或文件不存在：跳过，继续执行其他任务，最后提示"以下测试任务待 test-cases Reviewed 后补充：[列出任务编号]"
+
+    【强制】输出对齐清单（每项 1 句，简洁说明）：
+    1) 需求对齐（specs）
+    2) 方案概述（design-lite）
+    3) 关键路径（design-lite）
+    4) 边界与异常（design-lite，如无写”无”）
+    5) 影响范围（design-lite）
+    6) 任务映射（tasks）
+    7) 测试用例对齐（test-cases；若 test-cases.md 尚未就绪写”待补”）
+    8) 工程规范对齐（engineering-standards）
+    9) 单测执行结果（仅 `AUTO-UT`；若测试任务尚未执行写”待补”）
+
+    遇到阻塞或不明确处先停下询问。

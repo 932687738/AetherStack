@@ -1,0 +1,26 @@
+name: Governance
+
+on:
+  push:
+    branches: [main, master, develop]
+  pull_request:
+    branches: [main, master, develop]
+  workflow_dispatch:
+
+jobs:
+  sync-config-check:
+    name: sync-config consistency
+    if: vars.CI_ENABLED != 'false'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run sync-config
+        shell: pwsh
+        run: |
+          ./.aetherstack/scripts/sync-config.ps1
+          git diff --exit-code -- .cursorrules CLAUDE.md .codex/ .cursor/rules/ || (
+            echo "Generated AI config out of date. Run make sync-config and commit."
+            exit 1
+          )
+
+  # 前后端 test/lint 在各自仓库 CI 中执行，见 docs/REPOS.md

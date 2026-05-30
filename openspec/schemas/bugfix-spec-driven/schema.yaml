@@ -1,0 +1,175 @@
+name: bugfix-spec-driven
+version: 1
+description: QWMS workflow - bug-report → fix-plan → test-cases → tasks → apply
+artifacts:
+  - id: bug-report
+    generates: bug-report.md
+    description: 缺陷报告（中文）
+    template: bug-report.md
+    instruction: |
+      创建 bug-report.md（中文），清晰描述问题与影响。
+
+      必填：
+      - 问题描述
+      - 期望 vs 实际
+      - 影响范围
+      - 相关信息（日志/截图/版本）
+      可选：
+      - 开发初步思路（根因假设 / 影响范围 / 验证方式），用于后续 fix-plan
+    requires: []
+
+  - id: fix-plan
+    generates: fix-plan.md
+    description: 修复方案（含技术设计）
+    template: fix-plan.md
+    instruction: |
+      创建 fix-plan.md（中文），分析根因并给出修复方案。
+
+      【强制】代码准确性要求：
+      - 问题代码必须从实际代码文件中读取，不能凭空编写
+      - 代码位置必须通过实际代码追踪确认
+      - 如果无法确认代码位置，必须先停下来询问
+      - 代码片段必须从实际代码中复制，不能猜测
+      - 必须遵循 openspec/references/engineering-standards.md 的工程规范
+
+      必填：
+      - 一. 问题摘要
+      - 二. 问题现象与复现（复现条件是关键）
+      - 三. 根本原因【强制】（调用链追踪、问题代码、根本原因）
+      - 四. 修复方案（修复思路、修复代码、其他需要改的地方）
+      - 七. 边界与异常分支
+      - 八. 影响范围
+
+      按需填写：
+      - 五. 代码改造分析
+      - 六. 输入/输出契约（如有接口变更）
+
+      代码要求：
+      - 问题代码和修复代码必须给出具体代码片段
+      - 代码位置格式：`ClassName.java:method_name:start-end`
+      - 修复前后代码对比清晰
+
+      无变更项明确写"无"。
+    requires:
+      - bug-report
+
+  - id: test-cases
+    generates: test-cases.md
+    description: 测试用例（独立文件，由测试同学提供）
+    template: test-cases.md
+    instruction: |
+      test-cases.md 由测试同学提供，AI 不主动生成用例内容。
+
+      ## 触发条件
+
+      仅当用户明确说”测试同学已提供 testcase”或直接粘贴/上传测试用例内容时，才进入本步骤。
+      若用户未提供，必须停下并提示：
+      “test-cases.md 需由测试同学提供，请将测试用例内容粘贴到对话中，或告知测试稿文件路径后继续。”
+
+      ## AI 执行内容（仅做格式对齐，不生成用例）
+
+      ### Step 1：接收输入
+      - 接收测试同学提供的测试用例（粘贴内容 / 文件路径）
+      - 读取 bug-report.md 和 fix-plan.md，用于复现点追溯和 AUTO-UT 标记判断
+
+      ### Step 2：格式规范化
+      将测试同学的用例转换为 `[S]/[C]` 标准格式：
+      - 补充 `[S]` 场景包分组（复现/修复验证/边界/回归，若原稿已有分组则保留）
+      - 补充 `[C]` 用例编号（TC-FIXx-yy，若原稿已有编号则保留）
+      - 补充修复点追溯标注（对照 fix-plan.md）
+      - **不得修改用例内容、步骤、预期结果**；仅做结构对齐
+
+      ### Step 3：AUTO-UT 标记
+      对每条 `[C]` 判断并标注 `Automation`：
+      - `AUTO-UT`：可在后端 Service 层稳定验证（规则校验/边界/异常/幂等/防重），无强环境依赖
+      - `MANUAL`：页面交互/跨系统联调/强数据环境依赖；必须补 `ManualReason` 说明原因
+      - 标记依据来自 fix-plan.md，不得擅自修改测试同学的场景意图
+
+      ### Step 4：冲突标记
+      对比 bug-report.md / fix-plan.md，若发现用例与修复方案存在口径冲突：
+      - **不得修改用例内容**
+      - 在用例末尾标注 `⚠️ 待确认：[冲突描述]`
+      - 汇总到文件末尾的”口径冲突清单”
+
+      ### Step 5：输出与确认提示
+      - `Source` 填写 `测试同学提供`
+      - `Status` 固定为 `Draft`
+      - 完成后**主动列出需要测试同学确认的项**，格式如下：
+
+        ```
+        ✅ test-cases.md 格式对齐完成，请确认以下内容：
+
+        【AUTO-UT 标记清单】（共 N 条，请确认是否可不依赖真实环境验证）
+        - TC-FIX1-02：[用例名称] → AUTO-UT
+        ...
+
+        【口径冲突清单】（共 M 条，请与开发对齐后补充结论）
+        - TC-FIX1-03：[冲突描述]
+        ...（无冲突则写”无”）
+
+        确认无误后请回复”确认”，或指出需要修正的条目，AI 将更新后把 Status 改为 Reviewed。
+        ```
+
+      - 收到测试同学确认（或修正）后，更新对应标记，将 `Status` 改为 `Reviewed`
+
+      ## 产出结构
+      1. 测试基线来源（必填，Source / OpenSpec 基线 / Status）
+      2. 用例主体（`[S]/[C]` 可导入格式，正文主体）
+      3. 口径冲突清单（按需，仅在用例与 bug-report/fix-plan 存在冲突时填写）
+    requires:
+      - bug-report
+      - fix-plan
+
+  - id: tasks
+    generates: tasks.md
+    description: 实施任务清单
+    template: tasks.md
+    instruction: |
+      创建 tasks.md（中文），每个任务必须可验证。
+
+      任务拆分原则（强制）：
+      - 输出物导向：每个任务是用户可感知的业务交付物
+      - 粒度控制：1 个任务 ≈ 1 个修复点（参考 fix-plan）
+      - 覆盖后端 + 前端 + 测试 + 可验证输出
+      - 标注依赖关系，支持并行
+
+      测试任务占位规则（强制）：
+      - 测试任务在 tasks 生成时先占位，不等 test-cases 就绪
+      - 占位格式：`- [ ] x.3 测试任务（待 test-cases Reviewed 后补充）`
+    requires:
+      - fix-plan
+
+apply:
+  requires: [tasks]
+  tracks: tasks.md
+  instruction: |
+    逐项执行 tasks.md，完成后勾选 `- [x]`。
+
+    【强制】编码前验证：
+    - 通读 bug-report.md 与 fix-plan.md 的对应章节
+    - 执行前先读取 fix-plan.md 中提到的代码文件
+    - 验证代码位置和代码片段是否与实际一致
+    - 如果不一致，先更新 fix-plan.md，再执行
+    - 不能盲目相信设计文档，必须以实际代码为准
+    - 对 `AUTO-UT` 任务，先读取 `test-cases.md` 中对应 `[C]` 用例，再定位代码写单测
+    - 后端单测必须先读取 `.aetherstack/workflows/unit-testing.md` 与 `harness/adapters/java-maven/test-templates.md`
+    - 对 `AUTO-UT` 任务，勾选前必须执行对应测试命令并通过
+    - 对齐 openspec/references/engineering-standards.md（分层/校验/DTO/缓存/DB）
+
+    【占位任务处理】：
+    - 遇到 `待 test-cases Reviewed 后补充` 的占位任务时，先检查 test-cases.md 的 Status
+    - Status: Reviewed：读取 AUTO-UT 用例，定位代码，写单测，跑命令
+    - Status: Draft 或文件不存在：跳过，继续执行其他任务，最后提示"以下测试任务待 test-cases Reviewed 后补充：[列出任务编号]"
+
+    【强制】输出对齐清单（每项 1 句，简洁说明）：
+    1) 现象/复现对齐（bug-report）
+    2) 根因对齐（fix-plan）
+    3) 修复方案（fix-plan）
+    4) 边界与异常（fix-plan，如无写”无”）
+    5) 影响范围（fix-plan）
+    6) 任务映射（tasks）
+    7) 测试用例对齐（test-cases；若 test-cases.md 尚未就绪写”待补”）
+    8) 工程规范对齐（engineering-standards）
+    9) 单测执行结果（仅 `AUTO-UT`；若测试任务尚未执行写”待补”）
+
+    遇到阻塞或不明确处先停下询问。

@@ -1,0 +1,33 @@
+name: AetherStack
+tagline: 全栈 AI Agent Hub — 规范驱动 + Superpower 增强开发
+
+modules:
+  backend:
+    repo: ai
+    path: D:/cache/workspace/ai
+    stack: Spring Boot 3.4, Spring AI, pgvector
+    main_class: com.yxy.deepseek.DeepseekApplication
+  frontend:
+    repo: ai_react
+    path: D:/cache/workspace/ai_react
+    stack: React 19, Vite 8
+    dev_url: http://localhost:5173
+  openspec:
+    path: openspec/
+    default_schema: standard-spec-driven
+  harness:
+    path: harness/
+    config: harness/harness.config.yaml
+
+docs_index:
+  - README.md
+  - AGENTS.md
+  - ARCHITECTURE.md
+  - STEP1-DESIGN.md
+  - openspec/references/aether-rules.md
+  - ai/README.md  # 关联仓库
+  - ai_react/README.md  # 关联仓库
+  - docs/REPOS.md
+
+migration_policy: copy-only-governance
+migration_note: 仅复制 OpenSpec/Harness/Superpower 框架；前后端代码保留在 ai / ai_react 独立仓库，通过 repos.yaml 关联。

@@ -1,0 +1,32 @@
+# 技能关键词路由 — Superpower 真源
+# 内置工作流：.aetherstack/workflows/
+# 项目技能：aether-skills/
+
+skills:
+  - id: code-review
+    path: .aetherstack/workflows/code-review.md
+    keywords: [cr, code review, review, 代码审查, 发起cr]
+
+  - id: unit-testing
+    path: .aetherstack/workflows/unit-testing.md
+    keywords: [单测, unit test, 写单测, 生成单测, AUTO-UT, Service 测试]
+
+  - id: ddd-design
+    path: aether-skills/design/ddd-commit-usecase-design-doc/SKILL.md
+    keywords: [提交型写用例, DDD设计, composeFrom, 落库事务, Commit专文]
+
+  - id: openspec-new
+    path: .cursor/skills/openspec-new-change/SKILL.md
+    keywords: [openspec new, 新建变更, opsx-new]
+
+  - id: openspec-apply
+    path: .cursor/skills/openspec-apply-change/SKILL.md
+    keywords: [openspec apply, 实现变更, opsx-apply]
+
+  - id: doc-sync
+    path: aether-skills/doc-sync/SKILL.md
+    keywords: [更新文档, 同步文档, changelog]
+
+rules:
+  - 命中关键词时直接读取 path 对应文件，不要说 skill 不可用
+  - 使用后追加追溯标记 Skills: <skill-id>

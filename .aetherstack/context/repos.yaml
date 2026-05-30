@@ -1,0 +1,34 @@
+# 关联代码仓库（真源不在 AetherStack 内）
+
+# AetherStack 仅保留治理层（openspec / .aetherstack / harness / aether-skills）。
+# 前后端代码在独立仓库中开发，通过本文件与 LOCALPATH.md 关联。
+
+repositories:
+  backend:
+    name: ai
+    local: D:/cache/workspace/ai
+    description: Spring AI Agent Hub（Java + pgvector）
+    docker_compose: docker-compose.yml
+    start:
+      backend: mvn spring-boot:run
+    verify: mvn -B test
+
+  frontend:
+    name: ai_react
+    local: D:/cache/workspace/ai_react
+    description: Nebula Desk（React + Vite）
+    start:
+      frontend: npm run dev
+    verify:
+      lint: npm run lint
+      build: npm run build
+
+  # 只读参考（框架已复制到 AetherStack，日常不必改源仓）
+  references:
+    openspec: D:/cache/workspace/qwmsspec
+    harness: D:/cache/workspace/harness-engineering-open
+
+# 环境变量可覆盖 local 路径（CI / 多机器）
+env_overrides:
+  backend: AETHER_BACKEND_REPO
+  frontend: AETHER_FRONTEND_REPO

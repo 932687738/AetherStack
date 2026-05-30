@@ -1,0 +1,50 @@
+version: 1
+
+project:
+  name: AetherStack
+  description: 全栈 AI 项目 — Spring AI Agent Hub + React Nebula Desk
+  language: [java, javascript]
+  modules:
+    backend:
+      repo: ai
+      local: D:/cache/workspace/ai
+    frontend:
+      repo: ai_react
+      local: D:/cache/workspace/ai_react
+    openspec: openspec/
+    harness: harness/
+    skills: aether-skills/
+
+# 规则源（按顺序合并；人工只编辑 .aetherstack/rules/）
+rules:
+  - rules/core.md
+  - rules/openspec.md
+  - rules/documentation.md
+  - rules/harness.md
+
+context:
+  - context/project.yaml
+  - context/tech-stack.yaml
+  - context/api-contracts.yaml
+
+commands: commands/commands.yaml
+skills: skills-index.yaml
+workflows: workflows/
+
+tools:
+  cursor:
+    rules_dir: .cursor/rules
+    rules_glob: alwaysApply
+  codex:
+    config: .codex/config.toml
+    agents: .codex/AGENTS.md
+  claude:
+    index: CLAUDE.md
+    settings: .claude/settings.json
+
+generation:
+  cursorrules: .cursorrules
+  agents_root: AGENTS.md
+  banner: |
+    # AUTO-GENERATED — DO NOT EDIT
+    # Edit .aetherstack/ then run: make sync-config

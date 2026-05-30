@@ -1,0 +1,17 @@
+# AUTO-GENERATED - edit .aetherstack/ then make sync-config
+
+[project]
+name = "AetherStack"
+root = "."
+
+[instructions]
+agents = "AGENTS.md"
+rules = [
+  ".aetherstack/rules/core.md",
+  ".aetherstack/rules/documentation.md",
+  ".aetherstack/rules/harness.md",
+  ".aetherstack/rules/openspec.md"
+]
+
+[context]
+manifest = ".aetherstack/manifest.yaml"

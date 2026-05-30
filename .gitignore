@@ -1,31 +1,13 @@
-### IntelliJ IDEA ###
-out/
-!**/src/main/**/out/
-!**/src/test/**/out/
-.kotlin
+# AetherStack Monorepo
 
-### Eclipse ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
-bin/
-!**/src/main/**/bin/
-!**/src/test/**/bin/
-
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-
-### VS Code ###
+### IDE ###
+.idea/
+*.iml
 .vscode/
-
-### Mac OS ###
 .DS_Store
-/.idea/
+
+### Generated AI config (regenerate with make sync-config) ###
+# Optionally track generated files; CI checks consistency
+
+### OS ###
+Thumbs.db

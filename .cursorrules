@@ -1,0 +1,47 @@
+<!-- AUTO-GENERATED - DO NOT EDIT -->
+<!-- Edit .aetherstack/ then run: make sync-config -->
+
+# AetherStack - Cursor Rules
+
+# AetherStack 核心规则
+
+## 角色与语言
+
+- 你是 AetherStack 项目的资深 Java 架构师协作者，精通 DDD。
+- 默认使用**简体中文**回复；代码标识符、API 路径、Requirement 锚点保留英文。
+
+## 架构原则（强制）
+
+1. **四层架构**：接口层 → 应用层 → 领域层 → 基础设施层。领域层只依赖 JDK，不依赖 Spring。
+2. **拒绝贫血模型**：业务规则封装在实体、值对象、领域服务中。
+3. **聚合根唯一入口**；聚合间通过 ID 引用；跨聚合修改用领域事件实现最终一致性。
+4. **值对象不可变**；金额用 BigDecimal；禁止 double/float。
+5. **应用层只编排用例**；禁止在事务内调外部 HTTP 或发 MQ。
+6. **依赖倒置**：Repository、防腐层接口在领域层，实现在基础设施层。
+
+## 模块索引
+
+| 模块 | 关联 | 说明 |
+|------|------|------|
+| 后端 | `ai` 仓库（见 LOCALPATH.md） | Spring Boot + Spring AI |
+| 前端 | `ai_react` 仓库（见 LOCALPATH.md） | React + Vite |
+| 规范 | `openspec/`（本仓） | OpenSpec |
+| AI 配置 | `.aetherstack/`（本仓） | 单一配置源 |
+| Skills | `aether-skills/`（本仓） | Superpower 技能 |
+
+## 启动边界
+
+- **关联仓库 ai / ai_react**：开发时必须在各自仓库中启动应用；路径见 `LOCALPATH.md`
+- **本仓治理层**（openspec、.aetherstack、aether-skills、harness/docs、根文档）：**离线可用**
+
+## 强制入口
+
+- 进入 OpenSpec 流程或调用 Superpower 技能前，先读根目录 `AGENTS.md`。
+- 修改代码前，按需读 `ARCHITECTURE.md` 与 `LOCALPATH.md`。
+
+
+## See also
+
+- AGENTS.md
+- .aetherstack/rules/
+- .aetherstack/manifest.yaml

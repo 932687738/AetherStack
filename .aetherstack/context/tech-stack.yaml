@@ -1,0 +1,31 @@
+backend:
+  language: Java 17
+  build: Maven
+  framework: Spring Boot 3.4.3
+  ai: Spring AI 1.1.2, Spring AI Alibaba 1.1.2.2
+  orm: MyBatis
+  migration: Flyway
+  database: PostgreSQL 16 + pgvector
+  api_doc: springdoc-openapi /swagger-ui.html
+
+frontend:
+  language: JavaScript (JSX)
+  build: Vite 8
+  framework: React 19
+  lint: ESLint 10 flat config
+  http: native fetch + SSE
+
+infrastructure:
+  compose: docker-compose.yml
+  db_image: pgvector/pgvector:pg16
+  db_name: agenthub
+  db_port: 5432
+
+env_required:
+  backend:
+    - DASHSCOPE_API_KEY
+    - POSTGRES_JDBC_URL
+    - POSTGRES_USERNAME
+    - POSTGRES_PASSWORD
+  frontend:
+    - VITE_API_PROXY_TARGET

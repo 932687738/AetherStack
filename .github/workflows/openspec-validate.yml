@@ -1,0 +1,32 @@
+name: OpenSpec Validate
+
+on:
+  push:
+    branches: [main, master, develop]
+    paths:
+      - 'openspec/**'
+  pull_request:
+    paths:
+      - 'openspec/**'
+  workflow_dispatch:
+
+jobs:
+  validate:
+    name: openspec validate
+    if: vars.OPENSPEC_VALIDATE_ENABLED != 'false'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install OpenSpec CLI
+        run: npm install -g @fission-ai/openspec
+      - name: Validate
+        run: openspec validate
+        continue-on-error: true
+      - name: Note
+        if: failure()
+        run: |
+          echo "If openspec CLI is unavailable, install locally: npm i -g @fission-ai/openspec"
+          echo "Disable this workflow with OPENSPEC_VALIDATE_ENABLED=false"

@@ -1,0 +1,54 @@
+schema: standard-spec-driven
+
+context: |
+  # AetherStack Project Context (OpenSpec 1.x)
+
+  ## Project Summary
+  - AetherStack = Spring AI Agent Hub (backend) + Nebula Desk (frontend)
+  - 规范与代码同仓 Monorepo
+
+  ## Output Language
+  - 简体中文（术语可保留英文）
+
+  ## Key Constraints (Summary)
+  - **强制（仅 OpenSpec 流程）**：进入 OpenSpec artifact 前，必须先阅读 `openspec/references/aether-rules.md` 并按 0.1 顺序执行：工单（可选）→ 选择 schema → 需求材料
+  - **强制**：进入任何流程前，必须先阅读 `LOCALPATH.md`（Monorepo 模块路径）
+  - 遵循 schema 流程（standard-spec-driven / simple-spec-driven / bugfix-spec-driven；选择规则见 aether-rules）
+  - spec 必须双层结构；Requirement 关键字必须英文，Scenario 写法以所选 schema/template 为准（当前兼容「#### 场景 + 前提/操作/结果」）
+  - 复杂需求先 design-draft（判定见 aether-rules）
+  - **启动边界**：治理层（openspec/.aetherstack）可离线；前后端开发必须启动应用
+
+  ## References Index
+  - `openspec/references/architecture.md`：系统/应用架构
+  - `openspec/references/domain-models.md`：领域模型与核心域
+  - `openspec/references/glossary.md`：术语表
+  - `openspec/references/engineering-standards.md`：工程级技术规范（分层/校验/DTO/DB）
+  - `openspec/references/tech-stack.md`：技术栈与测试策略
+  - `openspec/references/directory-examples.md`：目录示例与选址对照
+  - `openspec/references/integration-contracts.md`：前后端接口契约基线
+  - `openspec/references/aether-rules.md`：项目规则与判定标准（强约束）
+  - `aether-skills/`：工具无关技能真源目录（使用规则见 aether-rules 0.3）
+
+  ## Local Paths
+  - 维护 `LOCALPATH.md` 记录 Monorepo 模块路径
+
+rules:
+  proposal:
+    - 使用中文编写，仅概要描述 Why / What / Scope
+    - Capabilities 只列「需求层面变化」的能力（命名见 aether-rules）
+    - Issue/Jira 链接可选；允许无工单
+  specs:
+    - 仅保留 OpenSpec 标准层（BDD）；按模块/流程组织
+    - 章节顺序固定（详见 aether-rules / schema instructions）
+    - Delta 标题与 Requirement/Scenario 使用英文锚点（格式细则见 aether-rules）
+  design:
+    - 复杂需求必须先 design-draft.md 再 design.md
+    - 复杂度判定标准见 openspec/references/aether-rules.md
+    - 设计文档按模板章节顺序输出（详见 aether-rules）
+    - 涉及已有能力的设计需基于现有代码/接口/表结构（详见 aether-rules）
+    - 设计与实现需遵循 openspec/references/engineering-standards.md
+    - 前后端契约变更需对齐 integration-contracts.md
+  tasks:
+    - 任务必须 `- [ ]` 可勾选
+    - 按 Requirement 拆分并包含可验证输出
+    - 测试要求见 `openspec/references/tech-stack.md`

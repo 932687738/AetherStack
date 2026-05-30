@@ -1,0 +1,64 @@
+version: 2
+
+project:
+  name: AetherStack
+  language: java
+  build_tool: maven
+  framework: spring-boot
+
+adapter: java-maven
+
+index:
+  claude_md: CLAUDE.md
+  readme: README.md
+  agents: AGENTS.md
+  architecture: ARCHITECTURE.md
+  design: harness/docs/DESIGN.md
+  plans: harness/docs/PLANS.md
+  doc_index: docs/INDEX.md
+
+decomposition:
+  max_files_per_plan: 15
+  max_interactions_per_plan: 5
+
+# 验证在关联仓库执行（见 .aetherstack/context/repos.yaml）
+verify:
+  loop_max: 3
+  steps:
+    - name: backend-test
+      command: "powershell -File .aetherstack/scripts/verify-all.ps1"
+      note: runs mvn test in AETHER_BACKEND_REPO or D:/cache/workspace/ai
+
+agents:
+  analyzer:
+    name: hev-analyzer
+    enabled: true
+  coder:
+    name: hev-coder
+    enabled: true
+  verifier:
+    name: hev-verifier
+    enabled: true
+
+context:
+  max_doc_lines: 500
+  summary_on_complete: true
+  utilization_warning: 0.4
+  utilization_critical: 0.6
+
+docs:
+  plans: harness/docs/plans/
+  archive: docs/archive/
+  guides: docs/guides/
+  database: docs/database/
+  audits: docs/audits/
+
+extensions:
+  deploy: none
+  push_strategy: manual
+  deploy_trigger: none
+  domain_knowledge: false
+  maven_source_viewer: false
+
+vendoring: project-local
+repositories: .aetherstack/context/repos.yaml

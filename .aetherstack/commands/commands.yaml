@@ -1,0 +1,28 @@
+# Superpower 命令定义（由 sync-config 同步到各工具）
+
+commands:
+  - id: sync-config
+    description: 从 .aetherstack/ 同步 Cursor/Codex/Claude 配置
+    run: make sync-config
+
+  - id: opsx-new
+    description: 创建 OpenSpec 变更（需先完成前置检查）
+    cursor: .cursor/commands/opsx-new.md
+    skill: .cursor/skills/openspec-new-change/SKILL.md
+
+  - id: opsx-continue
+    description: 继续 OpenSpec 变更
+    cursor: .cursor/commands/opsx-continue.md
+
+  - id: opsx-apply
+    description: 按 tasks 实现变更
+    cursor: .cursor/commands/opsx-apply.md
+
+  - id: cr
+    description: 代码审查（Superpower 工作流）
+    workflow: .aetherstack/workflows/code-review.md
+    keywords: [cr, code review, 代码审查, review]
+
+  - id: harness
+    description: Harness 六阶段开发（Claude Code /harness-open 或读 harness/）
+    config: harness/harness.config.yaml
