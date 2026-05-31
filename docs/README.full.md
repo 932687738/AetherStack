@@ -2,7 +2,7 @@
 
 > **维护说明：** 编辑本文件后运行 `make sync-config`，将同步到根目录 `README.md`（UTF-8 字节复制）。
 
-全栈 AI **治理层仓库**：融合 **OpenSpec**、**Harness**、**Superpower**；前后端代码在独立仓库 **ai** / **ai_react** 中关联使用（见 [docs/REPOS.md](docs/REPOS.md)）。
+全栈 AI **治理层仓库**：融合 **OpenSpec**、**Harness**、**obra Superpowers**；前后端代码在独立仓库 **ai** / **ai_react** 中关联使用（见 [docs/REPOS.md](docs/REPOS.md)）。
 
 > 设计背景：[STEP1-DESIGN.md](STEP1-DESIGN.md)
 
@@ -12,7 +12,7 @@
 
 | 层次 | 职责 | 需启动服务 |
 |------|------|------------|
-| 治理层 | openspec、.aetherstack、aether-skills | 否，离线可用 |
+| 治理层 | openspec、.aetherstack | 否，离线可用 |
 | 应用层 | 关联仓库 ai / ai_react | **是**（在各自仓库启动） |
 | 数据层 | ai 仓库内 docker compose pgvector | 联调后端时 |
 
@@ -151,9 +151,9 @@ Cursor：`/opsx-new` → `/opsx-apply` → `/opsx-archive`
 
 ---
 
-## Superpower（统一配置）
+## AI 工作流（obra Superpowers + .aetherstack）
 
-只编辑 `.aetherstack/`，运行 `make sync-config` 同步 Cursor / Codex / Claude Code。
+Cursor 安装插件：`/add-plugin superpowers`。项目规则只编辑 `.aetherstack/`，运行 `make sync-config`。
 
 手册：[docs/SUPERpower.md](docs/SUPERpower.md)
 

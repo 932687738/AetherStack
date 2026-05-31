@@ -1,0 +1,56 @@
+---
+description: AetherStack ddd-commit-design rules
+alwaysApply: true
+---
+
+# 提交型写用例 — DDD 设计文档
+
+> 触发关键词：提交型写用例、DDD设计、composeFrom、落库事务、Commit专文、*-Commit-ddd
+
+本规则描述**与具体业务无关**的文档结构与建模约定，适用于「一次提交、单事务落库」型接口。
+
+## 1. 前置
+
+1. **对齐契约**：HTTP/JSON、错误码、幂等等以 OpenSpec / API 清单 / 主 `design.md` 为准
+2. **准一来源**：专文与主设计并存时，声明唯一维护路径
+3. **实现路径**：读取 `LOCALPATH.md`
+
+## 2. 设计立场
+
+| 维度 | 典型目标 |
+|------|----------|
+| 编排 | 不复用整段业务入口黑盒；显式编排 |
+| 状态 | 中间过程仅在内存；持久化只接收聚合终态 |
+| 外部副作用 | 阶段 C 按主设计顺序集中调用 |
+
+## 3. 三阶段流水线
+
+| 阶段 | 名称 | 要点 |
+|------|------|------|
+| A | 事前加载 | 只读；产出 LoadBundle |
+| B | 内存装配 | 无独立 Factory；聚合根 `composeFrom`；`*Part` 协作 |
+| C | 统一落库 | 写事务在 `Repository.saveFinalState` |
+
+### 对象隔离
+
+- **InputContext**：入参、LoadBundle；不持有聚合根字段
+- **Aggregate**：领域终态
+- **PersistHints**（可选）：横切薄片，供阶段 C 审计/路由
+
+### 事务边界
+
+- 用例方法**不**标类级 `@Transactional`
+- 仓储落库方法为**唯一**写事务位置；注意自调用失效
+
+## 4. 输出物
+
+- 溯源表、伪代码骨架、时序图（全景 / 预检+A / B / C）
+- 类职责表；与主 `design.md` 短链互指
+
+## 5. 检查清单
+
+- [ ] 三阶段清晰；阶段 B 无平行 Factory
+- [ ] InputContext / Aggregate / PersistHints 分离
+- [ ] 写事务位置与项目策略一致
+- [ ] 时序图与伪代码一致
+- [ ] 与 API 契约、落库顺序一致

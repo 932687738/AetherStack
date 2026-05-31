@@ -22,16 +22,16 @@
 | 前端 | `ai_react` 仓库（见 LOCALPATH.md） | React + Vite |
 | 规范 | `openspec/`（本仓） | OpenSpec |
 | AI 配置 | `.aetherstack/`（本仓） | 单一配置源 |
-| Superpower 工作流 | `.aetherstack/workflows/`（本仓） | 代码审查、单测（关键词路由） |
-| 项目技能 | `aether-skills/`（本仓） | doc-sync、DDD 设计等 |
+| obra Superpowers | Cursor 插件 `/add-plugin superpowers` | TDD、代码审查、brainstorming 等 |
+| AI 配置 | `.aetherstack/`（本仓） | rules + context + sync-config |
 
 ## 启动边界
 
 - **关联仓库 ai / ai_react**：开发时必须在各自仓库中启动应用；路径见 `LOCALPATH.md`
-- **本仓治理层**（openspec、.aetherstack、aether-skills、harness/docs、根文档）：**离线可用**
+- **本仓治理层**（openspec、.aetherstack、harness/docs、根文档）：**离线可用**
 
 ## 强制入口
 
-- 进入 OpenSpec 流程或调用 Superpower 技能前，先读根目录 `AGENTS.md`。
+- 进入 OpenSpec 流程前，先读根目录 `AGENTS.md`；通用 AI 工作流依赖 obra Superpowers 插件（见 `rules/superpowers.md`）。
 - 修改代码前，按需读 `ARCHITECTURE.md`、`LOCALPATH.md`、`openspec/references/backend-design-guide.md`。
 - **AI 相关后端需求**：优先读 `rules/backend-ai.md`（CompiledGraph / ReactAgent 选型）。

@@ -9,9 +9,11 @@ agents = "AGENTS.md"
 rules = [
   ".aetherstack/rules/backend-ai.md",
   ".aetherstack/rules/core.md",
+  ".aetherstack/rules/ddd-commit-design.md",
   ".aetherstack/rules/documentation.md",
   ".aetherstack/rules/harness.md",
-  ".aetherstack/rules/openspec.md"
+  ".aetherstack/rules/openspec.md",
+  ".aetherstack/rules/superpowers.md"
 ]
 
 [context]

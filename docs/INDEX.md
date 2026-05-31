@@ -15,7 +15,7 @@
 |------|------|
 | [REPOS.md](REPOS.md) | **关联仓库说明（ai / ai_react）** |
 | [GETTING_STARTED.md](GETTING_STARTED.md) | 新人 onboarding |
-| [SUPERpower.md](SUPERpower.md) | Superpower 三工具手册 |
+| [SUPERpower.md](SUPERpower.md) | obra Superpowers 插件 + .aetherstack 手册 |
 
 ## 指南
 
@@ -46,11 +46,10 @@
 |------|------|
 | [.github/workflows/README.md](../.github/workflows/README.md) | GitHub Actions 开关 |
 
-## Superpower 配置
+## AI 工作流配置
 
-- 配置源：`.aetherstack/`
-- 同步：`make sync-config`
-- 技能：`aether-skills/`
+- obra Superpowers 插件：`/add-plugin superpowers`（Cursor）
+- 项目规则：`.aetherstack/`（`make sync-config`）
 
 ## Harness
 

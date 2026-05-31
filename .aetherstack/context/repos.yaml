@@ -1,6 +1,6 @@
 # 关联代码仓库（真源不在 AetherStack 内）
 
-# AetherStack 仅保留治理层（openspec / .aetherstack / harness / aether-skills）。
+# AetherStack 仅保留治理层（openspec / .aetherstack / harness）。
 # 前后端代码在独立仓库中开发，通过本文件与 LOCALPATH.md 关联。
 
 repositories:

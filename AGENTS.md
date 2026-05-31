@@ -4,6 +4,16 @@
 
 **单一配置源**：`.aetherstack/`。修改规则后运行 `make sync-config`。
 
+## AI 工作流（obra Superpowers）
+
+通用工作流（TDD、代码审查、brainstorming、调试等）由 **obra Superpowers** Cursor 插件提供：
+
+```text
+/add-plugin superpowers
+```
+
+项目约束（多仓库、DDD、Harness）见 `.aetherstack/rules/superpowers.md`（随 sync-config 加载）。
+
 ## 强制入口校验（仅 OpenSpec 流程必做）
 
 当且仅当用户明确要走 **OpenSpec 流程**（创建/继续变更、生成 proposal/spec/design/tasks、调用 opsx-* 或 OpenSpec 技能）时，才需要按 `openspec/references/aether-rules.md` **0.1 前置检查** 逐项执行：
@@ -33,22 +43,15 @@
 Cursor 命令：`.cursor/commands/opsx-*.md`  
 Cursor Skills：`.cursor/skills/openspec-*/SKILL.md`
 
-## Skills 使用约定
+## 关键词速查
 
-- 路由表：`.aetherstack/skills-index.yaml`
-- **Superpower 内置工作流**：`.aetherstack/workflows/`（代码审查、单测等）
-- **项目技能**：`aether-skills/`（doc-sync、DDD 设计等）
-- 若 skills 列表未挂载，也必须直接读取路由表中的 path 执行
-- 使用后追加：`Skills: <skill-id>`
-
-| 关键词 | 路径 |
-|--------|------|
-| cr / code review / 代码审查 | `.aetherstack/workflows/code-review.md` |
-| `cr backend` | 审查关联仓库 `ai`（见 LOCALPATH.md） |
-| `cr frontend` | 审查关联仓库 `ai_react` |
-| 单测 / unit test / AUTO-UT | `.aetherstack/workflows/unit-testing.md` |
-| 提交型 DDD 设计 | `aether-skills/design/ddd-commit-usecase-design-doc/SKILL.md` |
-| 更新文档 / 同步 changelog | `aether-skills/doc-sync/SKILL.md` |
+| 关键词 | obra 插件 skill | AetherStack 规则 |
+|--------|-----------------|------------------|
+| cr / code review / 代码审查 | `requesting-code-review` | `rules/superpowers.md` |
+| `cr backend` / `cr frontend` | 同上 | `LOCALPATH.md` |
+| 单测 / unit test / AUTO-UT | `test-driven-development` | `rules/superpowers.md` |
+| 提交型 DDD 设计 | — | `rules/ddd-commit-design.md` |
+| 更新文档 / 同步 changelog | — | `rules/documentation.md` |
 
 ## Harness
 
@@ -58,7 +61,7 @@ Cursor Skills：`.cursor/skills/openspec-*/SKILL.md`
 
 ## 启动边界
 
-- **治理层**（openspec、.aetherstack、aether-skills、harness/docs、根文档）：**离线可用**
+- **治理层**（openspec、.aetherstack、harness/docs、根文档）：**离线可用**
 - **关联仓库 ai / ai_react**：开发时**必须**在各自仓库路径启动（见 `LOCALPATH.md`）
 
 ## 工程参考

@@ -18,7 +18,7 @@
 | `openspec/references/glossary.md` | glossary.md | 技术+业务术语（精简） |
 | `openspec/references/directory-examples.md` | directory-examples.md | aether-* 命名 |
 | `openspec/references/integration-contracts.md` | integration-contracts.md | 前后端 API 契约 |
-| `AGENTS.md` | qwmsspec/AGENTS.md | 可选工单 + aether-skills |
+| `AGENTS.md` | qwmsspec/AGENTS.md | 可选工单 + obra Superpowers |
 
 ## 机械同步（robocopy 即可）
 

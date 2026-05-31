@@ -206,7 +206,7 @@ apply:
     【强制】编码前验证：
     - 通读 proposal.md、specs/ 下相关 spec.md 与 design-lite.md 的对应章节
     - 对 `AUTO-UT` 任务，先读取 `test-cases.md` 中对应 `[C]` 用例，再定位代码写单测
-    - 后端单测必须先读取 `.aetherstack/workflows/unit-testing.md` 与 `harness/adapters/java-maven/test-templates.md`
+    - 后端单测 invoke obra Superpowers `test-driven-development`，并遵循 `.aetherstack/rules/superpowers.md` 与 `harness/adapters/java-maven/test-templates.md`
     - 执行前先读取 design-lite.md 中提到的代码文件
     - 验证代码位置和代码片段是否与实际一致
     - 如果不一致，先更新 design-lite.md，再执行

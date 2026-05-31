@@ -51,21 +51,17 @@
   提供后，我将创建变更目录并生成对应首个工件，继续后续流程。  
   请提供需求材料。」
 
-### 0.3 Skills 与工作流读取规则（工具无关）
+### 0.3 AI 工作流与规则读取（工具无关）
 
-- **Superpower 路由表**：`.aetherstack/skills-index.yaml`
-- **内置工作流真源**：`.aetherstack/workflows/`（代码审查、单测等，由 sync-config 统一驱动三工具）
-- **项目技能真源**：`aether-skills/`（doc-sync、DDD 设计等）
-- 禁止在工具私有目录（如 `.codex/skills`）维护正文副本
-- 需求命中 code review 关键词时，必须先读取：`.aetherstack/workflows/code-review.md`
+- **obra Superpowers 插件**（Cursor）：`/add-plugin superpowers` — 通用 TDD、代码审查、brainstorming 等；详见 `.aetherstack/rules/superpowers.md`
+- **AetherStack 项目规则**：`.aetherstack/rules/`（DDD、OpenSpec、文档、Harness；随 sync-config 加载）
+- 禁止在仓库内复制 obra 插件 skill 正文；禁止重建已移除的 `workflows/`、`skills-index.yaml`、`aether-skills/`
+- 需求命中 code review 关键词：invoke 插件 `requesting-code-review`，并遵循 `rules/superpowers.md` 中 AetherStack 审查约束
   - 关键词示例：`cr`、`cr backend`、`code review`、`发起cr`、`代码审查`
-- 需求命中单测关键词时，必须先读取：`.aetherstack/workflows/unit-testing.md`
+- 需求命中单测关键词：invoke 插件 `test-driven-development`，并遵循 `rules/superpowers.md` 中测试约束
   - 关键词示例：单测、unit test、UT、AUTO-UT、Service 测试
-- 需求涉及 **提交类写接口** DDD 设计文档、聚合根与落库编排时，必须先读取：`aether-skills/design/ddd-commit-usecase-design-doc/SKILL.md`
-  - 关键词示例：提交型写用例 DDD、落库事务、Commit 专文
-- 需求涉及文档同步时，读取：`aether-skills/doc-sync/SKILL.md`
-- 若当前会话 skills 列表未显式挂载上述 skill，也必须直接读取仓库内对应 `SKILL.md` 并按其流程执行
-- 使用技能后，回复中必须追加追溯标记：`Skills: <skill-id>`
+- 需求涉及提交类写接口 DDD 设计：读取 `.aetherstack/rules/ddd-commit-design.md`
+- 需求涉及文档同步：读取 `.aetherstack/rules/documentation.md`
 
 ## 1. 能力命名与目录规则（必须遵守）
 
@@ -230,4 +226,4 @@
 - `openspec/references/architecture.md`
 - `openspec/references/domain-models.md`
 - `openspec/references/directory-examples.md`
-- `aether-skills/`
+- `.aetherstack/rules/superpowers.md`

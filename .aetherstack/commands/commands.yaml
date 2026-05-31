@@ -1,4 +1,4 @@
-# Superpower 命令定义（由 sync-config 同步到各工具）
+# AI 命令定义
 
 commands:
   - id: sync-config
@@ -19,8 +19,9 @@ commands:
     cursor: .cursor/commands/opsx-apply.md
 
   - id: cr
-    description: 代码审查（Superpower 工作流）
-    workflow: .aetherstack/workflows/code-review.md
+    description: 代码审查（obra Superpowers requesting-code-review）
+    plugin: superpowers
+    skill: requesting-code-review
     keywords: [cr, code review, 代码审查, review]
 
   - id: harness

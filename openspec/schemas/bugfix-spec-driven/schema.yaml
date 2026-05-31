@@ -152,7 +152,7 @@ apply:
     - 如果不一致，先更新 fix-plan.md，再执行
     - 不能盲目相信设计文档，必须以实际代码为准
     - 对 `AUTO-UT` 任务，先读取 `test-cases.md` 中对应 `[C]` 用例，再定位代码写单测
-    - 后端单测必须先读取 `.aetherstack/workflows/unit-testing.md` 与 `harness/adapters/java-maven/test-templates.md`
+    - 后端单测 invoke obra Superpowers `test-driven-development`，并遵循 `.aetherstack/rules/superpowers.md` 与 `harness/adapters/java-maven/test-templates.md`
     - 对 `AUTO-UT` 任务，勾选前必须执行对应测试命令并通过
     - 对齐 openspec/references/engineering-standards.md（分层/校验/DTO/缓存/DB）
 

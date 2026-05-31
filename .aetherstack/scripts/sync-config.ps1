@@ -108,7 +108,6 @@ New-Item -ItemType Directory -Force -Path $claudeDir | Out-Null
 $settings = @{
     additionalDirectories = @(
         (Join-Path $Root "harness"),
-        (Join-Path $Root "aether-skills"),
         (Join-Path $Root ".aetherstack")
     )
 } | ConvertTo-Json -Depth 5

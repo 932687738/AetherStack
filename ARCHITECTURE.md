@@ -9,7 +9,6 @@ flowchart TB
     subgraph AetherStack["AetherStack 本仓 — 离线可用"]
         OS[openspec/]
         AS[.aetherstack/]
-        SK[aether-skills/]
         HD[harness/]
     end
     subgraph External["关联仓库 — 必须启动"]
@@ -26,7 +25,7 @@ flowchart TB
 
 | 位置 | 内容 |
 |------|------|
-| AetherStack | OpenSpec、Superpower、Harness 配置 |
+| AetherStack | OpenSpec、obra Superpowers 集成、Harness 配置 |
 | `D:\cache\workspace\ai` | Agent Hub、KnowledgeHub |
 | `D:\cache\workspace\ai_react` | Nebula Desk UI |
 

@@ -87,7 +87,7 @@ PostgreSQL + pgvector
 |------|------|----------|
 | `openspec/` | OpenSpec 规范与变更 | 离线可用 |
 | `.aetherstack/` | AI 单一配置源 | 离线可用 |
-| `aether-skills/` | Superpower 技能 | 离线可用 |
+| `.aetherstack/` | AI 配置（rules + context + obra 插件约束） | 离线可用 |
 | `harness/` | AI 六阶段工程实践 | 离线可用（文档） |
 
 ## 重要约束

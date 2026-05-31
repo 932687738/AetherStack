@@ -24,9 +24,7 @@ $env:AETHER_FRONTEND_REPO = "D:\path\to\ai_react"
 |----|------|------|
 | openspec | `openspec/` | OpenSpec 规范与变更 |
 | harness | `harness/` | Harness 工程实践 |
-| skills | `aether-skills/` | 可扩展项目技能 |
-| workflows | `.aetherstack/workflows/` | Superpower 内置工作流 |
-| aetherstack | `.aetherstack/` | AI 单一配置源 |
+| aetherstack | `.aetherstack/` | AI 单一配置源（rules + context） |
 
 ## 框架参考（只读，不内嵌业务代码）
 

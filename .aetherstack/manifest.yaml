@@ -13,15 +13,16 @@ project:
       local: D:/cache/workspace/ai_react
     openspec: openspec/
     harness: harness/
-    skills: aether-skills/
 
 # 规则源（按顺序合并；人工只编辑 .aetherstack/rules/）
 rules:
   - rules/core.md
+  - rules/superpowers.md
   - rules/backend-ai.md
   - rules/openspec.md
   - rules/documentation.md
   - rules/harness.md
+  - rules/ddd-commit-design.md
 
 context:
   - context/project.yaml
@@ -29,8 +30,6 @@ context:
   - context/api-contracts.yaml
 
 commands: commands/commands.yaml
-skills: skills-index.yaml
-workflows: workflows/
 
 tools:
   cursor:

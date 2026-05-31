@@ -27,7 +27,7 @@ context: |
   - `openspec/references/directory-examples.md`：目录示例与选址对照
   - `openspec/references/integration-contracts.md`：前后端接口契约基线
   - `openspec/references/aether-rules.md`：项目规则与判定标准（强约束）
-  - `aether-skills/`：工具无关技能真源目录（使用规则见 aether-rules 0.3）
+  - `.aetherstack/rules/superpowers.md`：obra 插件集成与项目 AI 工作流约束
 
   ## Local Paths
   - 维护 `LOCALPATH.md` 记录 Monorepo 模块路径

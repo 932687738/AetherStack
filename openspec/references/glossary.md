@@ -29,7 +29,7 @@
 - **HNSW** - 向量近似最近邻索引算法
 - **MCP** - Model Context Protocol，工具/上下文协议
 - **OpenSpec** - 规范驱动开发流程
-- **Superpower** - `.aetherstack/`（rules、workflows、context、sync-config）+ `aether-skills/` 可扩展技能
+- **obra Superpowers** - Cursor 插件（TDD、代码审查等通用工作流）；项目约束在 `.aetherstack/rules/`
 - **Harness** - 六阶段 AI 工程实践框架
 
 ### 前后端术语

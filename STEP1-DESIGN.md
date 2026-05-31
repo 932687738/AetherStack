@@ -169,10 +169,10 @@ flowchart LR
 | 能力 | 实现组件 | 触发方式 |
 |------|----------|----------|
 | 智能代码生成 | Harness hev-coder + OpenSpec apply | `/harness-open`、`opsx-apply` |
-| 自动代码审查 | `.aetherstack/workflows/code-review.md` | 关键词 `cr`、`code review` |
+| 自动代码审查 | obra `requesting-code-review` + `rules/superpowers.md` | 关键词 `cr`、`code review` |
 | 需求/代码追溯 | OpenSpec changes/specs delta | `opsx-new/continue/sync` |
 | 上下文感知 | `.aetherstack/context/` + ARCHITECTURE | rules 自动加载 |
-| 自动文档 | `aether-skills/doc-sync/` + documentation 规则 | 代码变更后 |
+| 自动文档 | `rules/documentation.md` | 代码变更后 |
 
 ---
 
