@@ -93,5 +93,32 @@
 ## 测试要求（规则）
 
 - `AUTO-UT` 用例必须映射到 `*Test.java`
+- `AUTO-AI-UT`（AI-TDD 开启时）：L1 AI 核心模块单测，Mock LLM，见 `ai-tdd-standards.md`
+- `AUTO-AI-IT`：复杂 RAG 集成测试（推荐）
 - SSE/LLM 联调用例标记 `MANUAL`
 - 新增 API 需补充 integration-contracts 与 test-cases
+
+## AI 应用测试（阶段化）
+
+OpenSpec 变更通过 `.openspec.yaml` 的 `aiTddMode` 开关控制：
+
+| 层级 | 范围 | 要求 |
+|------|------|------|
+| L1 | ChatClient 封装、Prompt、路由、Graph prep、流式 ApplicationService | AI-TDD 开启时 **强制 TDD** |
+| L2 | 复杂 RAG / 多步 Graph | 推荐 `AUTO-AI-IT` |
+| L3 | CRUD、DTO 映射 | 常规 `AUTO-UT`，可放宽 |
+
+范式要点：Mockito 模拟 DashScope/ChatClient；Prompt 断言关键片段；Flux 用 StepVerifier。
+
+详见 `openspec/references/ai-tdd-standards.md`、`harness/adapters/java-maven/ai-test-templates.md`。
+
+## 前端 UI Craft（Impeccable）
+
+OpenSpec `uiCraftMode` 控制是否在 **U1 可见 UI** 任务中强制 Impeccable：
+
+| 层级 | 范围 | uiCraft enabled |
+|------|------|-----------------|
+| U1 | 页面/组件/布局改版 | 必须 Impeccable |
+| U3 | api/*、SSE 逻辑 | 不要求 |
+
+详见 `openspec/references/ui-craft-standards.md`、`.cursor/skills/impeccable/SKILL.md`。

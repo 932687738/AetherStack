@@ -7,13 +7,16 @@ root = "."
 [instructions]
 agents = "AGENTS.md"
 rules = [
+  ".aetherstack/rules/ai-tdd.md",
   ".aetherstack/rules/backend-ai.md",
   ".aetherstack/rules/core.md",
   ".aetherstack/rules/ddd-commit-design.md",
+  ".aetherstack/rules/delivery-workflow.md",
   ".aetherstack/rules/documentation.md",
   ".aetherstack/rules/harness.md",
   ".aetherstack/rules/openspec.md",
-  ".aetherstack/rules/superpowers.md"
+  ".aetherstack/rules/superpowers.md",
+  ".aetherstack/rules/ui-craft.md"
 ]
 
 [context]

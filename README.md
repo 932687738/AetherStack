@@ -2,7 +2,7 @@
 
 > **维护说明：** 编辑本文件后运行 `make sync-config`，将同步到根目录 `README.md`（UTF-8 字节复制）。
 
-全栈 AI **治理层仓库**：融合 **OpenSpec**、**Harness**、**Superpower**；前后端代码在独立仓库 **ai** / **ai_react** 中关联使用（见 [docs/REPOS.md](docs/REPOS.md)）。
+全栈 AI **治理层仓库**：融合 **OpenSpec**、**Harness**、**obra Superpowers**；前后端代码在独立仓库 **ai** / **ai_react** 中关联使用（见 [docs/REPOS.md](docs/REPOS.md)）。
 
 > 设计背景：[STEP1-DESIGN.md](STEP1-DESIGN.md)
 

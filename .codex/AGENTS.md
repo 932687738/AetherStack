@@ -14,6 +14,16 @@
 
 项目约束（多仓库、DDD、Harness）见 `.aetherstack/rules/superpowers.md`（随 sync-config 加载）。
 
+## 需求交付规范（默认强制）
+
+**所有功能/缺陷类需求**默认走完整交付链，见 `.aetherstack/rules/delivery-workflow.md`：
+
+1. **OpenSpec**（0.1 → artifacts → `openspec/changes/`）
+2. **Superpowers**（计划、TDD、验证、CR）
+3. **UI-Craft / Impeccable**（`uiCraftMode` 命中时的 U1 界面）
+
+口头需求也先建 OpenSpec 变更目录；仅探索讨论可跳过。
+
 ## 强制入口校验（仅 OpenSpec 流程必做）
 
 当且仅当用户明确要走 **OpenSpec 流程**（创建/继续变更、生成 proposal/spec/design/tasks、调用 opsx-* 或 OpenSpec 技能）时，才需要按 `openspec/references/aether-rules.md` **0.1 前置检查** 逐项执行：
@@ -21,6 +31,8 @@
 1. 工单链接（**可选**，允许「无工单」）
 2. 选择 schema（standard / simple / bugfix）
 3. 需求材料（**必填**）
+4. **AI-TDD 模式**（AI 相关变更必选其一；非 AI 可答 `disabled`）：`enabled` / `disabled` / `auto`（默认），写入变更 `.openspec.yaml` 的 `aiTddMode`
+5. **UI-Craft 模式**（前端可见 UI 变更必选其一；纯 API 可答 `disabled`）：`enabled` / `disabled` / `auto`（默认），写入 `.openspec.yaml` 的 `uiCraftMode`
 
 未完成第 2、3 步，**不得**进入 OpenSpec artifact、不得创建变更目录。
 
@@ -50,6 +62,8 @@ Cursor Skills：`.cursor/skills/openspec-*/SKILL.md`
 | cr / code review / 代码审查 | `requesting-code-review` | `rules/superpowers.md` |
 | `cr backend` / `cr frontend` | 同上 | `LOCALPATH.md` |
 | 单测 / unit test / AUTO-UT | `test-driven-development` | `rules/superpowers.md` |
+| AI-TDD / `/tdd` / AI 核心模块 | `test-driven-development` | `rules/ai-tdd.md`、`openspec/references/ai-tdd-standards.md` |
+| UI-Craft / `/impeccable` / 前端 UI 改版 | Impeccable skill | `rules/ui-craft.md`、`openspec/references/ui-craft-standards.md` |
 | 提交型 DDD 设计 | — | `rules/ddd-commit-design.md` |
 | 更新文档 / 同步 changelog | — | `rules/documentation.md` |
 
@@ -71,3 +85,5 @@ Cursor Skills：`.cursor/skills/openspec-*/SKILL.md`
 - 工程规范：`openspec/references/engineering-standards.md`
 - 技术栈：`openspec/references/tech-stack.md`
 - 领域模型：`openspec/references/domain-models.md`
+- **AI 阶段化 TDD**：`openspec/references/ai-tdd-standards.md`、`.aetherstack/rules/ai-tdd.md`
+- **前端 UI Craft**：`openspec/references/ui-craft-standards.md`、`.aetherstack/rules/ui-craft.md`、`.cursor/skills/impeccable/`

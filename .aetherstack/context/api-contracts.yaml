@@ -27,6 +27,12 @@ endpoints:
     path: /api/agent-hub/knowledge-bases
     description: 知识库列表
   - method: GET
+    path: /api/agent-hub/conversation-config/knowledge-retrieval-threshold
+    description: 读取知识库对话检索阈值（相关度/向量相似度）
+  - method: PUT
+    path: /api/agent-hub/conversation-config/knowledge-retrieval-threshold
+    description: 保存知识库对话检索阈值
+  - method: GET
     path: /api/agent-hub/conversations
     description: 历史会话列表
   - method: POST

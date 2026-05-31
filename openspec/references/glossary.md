@@ -62,4 +62,9 @@
 | schema | 工作流定义（standard/simple/bugfix） |
 | apply | 按 tasks 进入实现阶段 |
 | AUTO-UT | 可自动化单元测试的用例标记 |
+| AUTO-AI-UT | AI 核心模块单元测试（AI-TDD 开启时强制，Mock LLM） |
+| AUTO-AI-IT | 复杂 RAG/Graph 集成测试（推荐） |
+| aiTddMode | OpenSpec 变更 AI-TDD 开关：enabled / disabled / auto |
+| uiCraftMode | OpenSpec 变更 UI-Craft 开关（Impeccable）：enabled / disabled / auto |
+| UI-CRAFT / UI-FUNC | 前端任务类型：可见 UI 改版 vs 纯 API 逻辑 |
 | MANUAL | 需人工验证的用例标记 |

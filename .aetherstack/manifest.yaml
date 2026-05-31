@@ -18,11 +18,14 @@ project:
 rules:
   - rules/core.md
   - rules/superpowers.md
+  - rules/delivery-workflow.md
   - rules/backend-ai.md
   - rules/openspec.md
   - rules/documentation.md
   - rules/harness.md
   - rules/ddd-commit-design.md
+  - rules/ai-tdd.md
+  - rules/ui-craft.md
 
 context:
   - context/project.yaml

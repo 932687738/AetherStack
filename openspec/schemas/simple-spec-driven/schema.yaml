@@ -98,6 +98,8 @@ artifacts:
 
       影响分析：
       - 如为技术/跨系统/接口/数据/性能/安全类变更，需完整 Impact 清单（系统清单见 openspec/references/architecture.md）
+
+      【UI-Craft】`uiCraftMode: enabled` 或 auto 有 U1 时，须含「前端 UI 界面清单」（见 ui-craft-standards.md）
     requires:
       - specs
 
@@ -128,11 +130,15 @@ artifacts:
       - 补充 Requirement 追溯标注（对照 spec.md）
       - **不得修改用例内容、步骤、预期结果**；仅做结构对齐
 
-      ### Step 3：AUTO-UT 标记
+      ### Step 3：AUTO-UT / AUTO-AI-UT 标记
       对每条 `[C]` 判断并标注 `Automation`：
       - `AUTO-UT`：可在后端 Service 层稳定验证（规则校验/边界/异常/幂等/防重），无强环境依赖；命中”校验/阻断/拒绝/默认值/分流/状态判断/数量计算/幂等/防重”时默认 `AUTO-UT`
       - `MANUAL`：页面交互/跨系统联调/强数据环境依赖；必须补 `ManualReason` 说明原因
+      - `AUTO-AI-UT`：`aiTddMode: enabled` 或 auto 命中 L1 且覆盖 AI 核心逻辑时 **必须**（见 `openspec/references/ai-tdd-standards.md`）
+      - `AUTO-AI-IT`：复杂 RAG/Graph 集成（推荐）
       - 标记依据来自 spec.md 和 design-lite.md，不得擅自修改测试同学的场景意图
+
+      ### Step 3.5：AI-TDD 模式（`.openspec.yaml` → `aiTddMode`）
 
       ### Step 4：冲突标记
       对比 spec.md / design-lite.md，若发现用例与设计存在口径冲突：
@@ -147,6 +153,9 @@ artifacts:
 
         ```
         ✅ test-cases.md 格式对齐完成，请确认以下内容：
+
+        【AUTO-AI-UT 标记清单】（AI-TDD 开启时，L1 必须先测后码）
+        - TC-REQ1-03：[用例名称] → AUTO-AI-UT
 
         【AUTO-UT 标记清单】（共 N 条，请确认是否可不依赖真实环境验证）
         - TC-REQ1-02：[用例名称] → AUTO-UT
@@ -205,14 +214,19 @@ apply:
 
     【强制】编码前验证：
     - 通读 proposal.md、specs/ 下相关 spec.md 与 design-lite.md 的对应章节
+    - 读取 `.openspec.yaml` 的 `aiTddMode`；enabled 或 auto 命中 L1 时必读 `openspec/references/ai-tdd-standards.md`
     - 对 `AUTO-UT` 任务，先读取 `test-cases.md` 中对应 `[C]` 用例，再定位代码写单测
+    - 对 `AUTO-AI-UT` 任务：**先写 `*Test.java` 再改 L1 代码**；invoke `test-driven-development` + `.aetherstack/rules/ai-tdd.md` + `ai-test-templates.md`
     - 后端单测 invoke obra Superpowers `test-driven-development`，并遵循 `.aetherstack/rules/superpowers.md` 与 `harness/adapters/java-maven/test-templates.md`
     - 执行前先读取 design-lite.md 中提到的代码文件
     - 验证代码位置和代码片段是否与实际一致
     - 如果不一致，先更新 design-lite.md，再执行
     - 不能盲目相信设计文档，必须以实际代码为准
     - 对齐 openspec/references/engineering-standards.md（分层/校验/DTO/缓存/DB）
-    - 对 `AUTO-UT` 任务，勾选前必须执行对应测试命令并通过
+    - 对 `AUTO-UT` / `AUTO-AI-UT` 任务，勾选前必须执行对应测试命令并通过
+    - `AUTO-AI-UT` 未完成时不得勾选 L1 实现任务
+
+    【UI-Craft 前端】（`uiCraftMode`）：U1 任务读 Impeccable SKILL + ui-craft-standards；UI-CRAFT/AUDIT 须 shape/craft 或 audit→polish；UI-FUNC 跳过；`npm run lint/build`
 
     【占位任务处理】：
     - 遇到 `待 test-cases Reviewed 后补充` 的占位任务时，先检查 test-cases.md 的 Status
@@ -228,6 +242,8 @@ apply:
     6) 任务映射（tasks）
     7) 测试用例对齐（test-cases；若 test-cases.md 尚未就绪写”待补”）
     8) 工程规范对齐（engineering-standards）
-    9) 单测执行结果（仅 `AUTO-UT`；若测试任务尚未执行写”待补”）
+    9) 单测执行结果（`AUTO-UT` / `AUTO-AI-UT`；若测试任务尚未执行写”待补”）
+    10) AI-TDD 对齐（aiTddMode；disabled 写”不适用”）
+    11) UI-Craft 对齐（uiCraftMode；disabled 写”不适用”）
 
     遇到阻塞或不明确处先停下询问。

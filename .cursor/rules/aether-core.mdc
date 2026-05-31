@@ -35,6 +35,10 @@ alwaysApply: true
 - **关联仓库 ai / ai_react**：开发时必须在各自仓库中启动应用；路径见 `LOCALPATH.md`
 - **本仓治理层**（openspec、.aetherstack、harness/docs、根文档）：**离线可用**
 
+## 需求交付（默认强制）
+
+功能/缺陷类需求走 **OpenSpec + Superpowers + Impeccable（U1）**，见 `.aetherstack/rules/delivery-workflow.md` 与 `AGENTS.md`。
+
 ## 强制入口
 
 - 进入 OpenSpec 流程前，先读根目录 `AGENTS.md`；通用 AI 工作流依赖 obra Superpowers 插件（见 `rules/superpowers.md`）。

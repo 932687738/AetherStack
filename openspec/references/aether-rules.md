@@ -31,6 +31,18 @@
 - 若请求仅为普通问答、方案讨论或非 OpenSpec 文档编辑，不触发 0.1。
 - **探索阶段不触发 0.1**：需求探讨/方案讨论/可行性分析阶段不属于 OpenSpec 流程，禁止调用 OpenSpec 相关技能；当明确进入产物阶段（proposal/spec/design/tasks）时再执行 0.1。
 
+4. **AI-TDD 模式（AI 相关变更必选其一；非 AI 可答 disabled）**：
+   - `enabled`：L1 AI 核心模块强制 TDD + `AUTO-AI-UT`（见 `openspec/references/ai-tdd-standards.md`）
+   - `disabled`：仅常规 `AUTO-UT` / `MANUAL`
+   - `auto`（默认）：design 完成后评估是否触及 L1；触及则等同 `enabled`
+   - 创建变更时写入 `openspec/changes/<name>/.openspec.yaml` → `aiTddMode: <值>`
+
+5. **UI-Craft 模式（前端可见 UI 变更必选其一；纯 API/后端可答 disabled）**：
+   - `enabled`：U1 界面强制 Impeccable（见 `openspec/references/ui-craft-standards.md`）
+   - `disabled`：前端仅功能 + lint/build
+   - `auto`（默认）：design 列出 U1 界面时等同 `enabled`
+   - 写入 `.openspec.yaml` → `uiCraftMode: <值>`
+
 **AI 交互式执行要求（强制）**
 
 - AI 必须按 0.1 的顺序逐项提问并等待回答，不得一次性要求用户提供全部信息
@@ -60,6 +72,8 @@
   - 关键词示例：`cr`、`cr backend`、`code review`、`发起cr`、`代码审查`
 - 需求命中单测关键词：invoke 插件 `test-driven-development`，并遵循 `rules/superpowers.md` 中测试约束
   - 关键词示例：单测、unit test、UT、AUTO-UT、Service 测试
+- **AI 应用 TDD（阶段化）**：OpenSpec `aiTddMode: enabled|auto(命中L1)` 或关键词 `/tdd`、`AI-TDD` 时 invoke `test-driven-development`（见 `rules/ai-tdd.md`）
+- **前端 UI Craft**：OpenSpec `uiCraftMode: enabled|auto(命中U1)` 或关键词 `/impeccable`、`UI-Craft` 时读取 `.cursor/skills/impeccable/SKILL.md`（见 `rules/ui-craft.md`）
 - 需求涉及提交类写接口 DDD 设计：读取 `.aetherstack/rules/ddd-commit-design.md`
 - 需求涉及文档同步：读取 `.aetherstack/rules/documentation.md`
 
@@ -199,7 +213,10 @@
 ### 6.2 Automation 标记与下游任务映射（强制）
 
 - 每条 `[C]` 用例必须标注 `Automation: AUTO-UT` 或 `Automation: MANUAL`
+- 变更 `aiTddMode: enabled`（或 `auto` 判定命中 L1）时，L1 AI 核心行为 **额外** 标注 `Automation: AUTO-AI-UT`；复杂 RAG 可标注 `Automation: AUTO-AI-IT`（推荐）
 - `AUTO-UT`：可在 `ai/src/test/` 稳定验证的场景；`MANUAL`：SSE 联调、前端交互、强环境依赖
+- `AUTO-AI-UT`：AI 核心逻辑单测（Mock LLM，见 `ai-tdd-standards.md`）；AI-TDD 开启时为 **apply 阻断项**
+- `AUTO-AI-IT`：RAG/Graph 集成测试（推荐，非阻断）
 - `tasks.md` 必须基于 Automation 标记拆分任务
 - `AUTO-UT` 可追溯注释要求：
   - 测试类需包含 `TC-REQ -> TestMethod` 映射注释
@@ -214,8 +231,12 @@
 
 - **proposal + spec 完成后**：必须进行复杂度评估
 - **复杂需求**：先 design-draft，再 design
+- **design 完成后（aiTddMode: auto）**：评估是否触及 L1 AI 模块
+- **design 完成后（uiCraftMode: auto）**：评估是否触及 U1 界面；若触及，将 `uiCraftMode` 视为 `enabled` 并更新 `.openspec.yaml`；design 须含「前端 UI 界面清单」
 - **test-cases.md 生成后**：等待 review（Status → Reviewed）后再推进测试任务
-- **开始实现前**：以 schema `apply.requires` 为准；`AUTO-UT` 用例需映射到 `*Test.java`
+- **开始实现前**：以 schema `apply.requires` 为准；`AUTO-UT` / `AUTO-AI-UT` 用例需映射到 `*Test.java`
+- **AI-TDD enabled 时**：L1 模块 apply 必须 invoke Superpowers `test-driven-development`，先测后码
+- **UI-Craft enabled 时**：U1（UI-CRAFT/UI-AUDIT）任务必须走 Impeccable；U3（UI-FUNC）可跳过
 - **simple-spec-driven 特例**：是否可进入实现以 `simple-spec-driven/schema.yaml` 的 `apply.requires` 为准
 
 ## 8. 参考文档（按需加载）
@@ -227,3 +248,7 @@
 - `openspec/references/domain-models.md`
 - `openspec/references/directory-examples.md`
 - `.aetherstack/rules/superpowers.md`
+- `.aetherstack/rules/ai-tdd.md`
+- `openspec/references/ai-tdd-standards.md`
+- `.aetherstack/rules/ui-craft.md`
+- `openspec/references/ui-craft-standards.md`

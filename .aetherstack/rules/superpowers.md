@@ -54,6 +54,17 @@ AetherStack 仅通过 **rules + context** 叠加项目约束（多仓库、DDD�
 4. 后端：JUnit 5 + Mockito；`AUTO-UT` → `*Test.java`；SSE/LLM 联调标 `MANUAL`
 5. 验证：`make verify`；Harness 阶段 4 见 `harness/agents/hev-verifier.md`
 
+### AI 应用 TDD（阶段化，OpenSpec 可开关）
+
+**触发**：OpenSpec `aiTddMode: enabled|auto(命中L1)`，或关键词 `/tdd`、`AI-TDD`、`按 AI 测试规范`。
+
+1. **必须 invoke** `test-driven-development`
+2. 必读：`openspec/references/ai-tdd-standards.md`、`harness/adapters/java-maven/ai-test-templates.md`、`.aetherstack/rules/ai-tdd.md`
+3. **L1 强制**（ChatClient 封装、Prompt 组装、路由决策、Graph prep、流式 ApplicationService）：先写单测再实现
+4. **L3 放宽**：简单 CRUD/DTO 映射沿用常规 `AUTO-UT`，不强制 AI 范式
+5. Mock DashScope/ChatClient；Prompt 断言关键片段；Flux 用 `StepVerifier`
+6. `AUTO-AI-UT` 任务勾选前必须 `mvn -Dtest=XxxTest test` 通过
+
 ## 禁止
 
 - 禁止在仓库内复制 obra 插件 skill 正文

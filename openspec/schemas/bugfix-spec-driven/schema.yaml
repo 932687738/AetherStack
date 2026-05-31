@@ -49,6 +49,8 @@ artifacts:
       - 代码位置格式：`ClassName.java:method_name:start-end`
       - 修复前后代码对比清晰
 
+      【UI-Craft】若修复触及 ai_react 可见 UI，须评估 `uiCraftMode`；U1 时在 fix-plan 含「前端 UI 界面清单」（ui-craft-standards.md）
+
       无变更项明确写"无"。
     requires:
       - bug-report
@@ -79,11 +81,14 @@ artifacts:
       - 补充修复点追溯标注（对照 fix-plan.md）
       - **不得修改用例内容、步骤、预期结果**；仅做结构对齐
 
-      ### Step 3：AUTO-UT 标记
+      ### Step 3：AUTO-UT / AUTO-AI-UT 标记
       对每条 `[C]` 判断并标注 `Automation`：
       - `AUTO-UT`：可在后端 Service 层稳定验证（规则校验/边界/异常/幂等/防重），无强环境依赖
       - `MANUAL`：页面交互/跨系统联调/强数据环境依赖；必须补 `ManualReason` 说明原因
+      - `AUTO-AI-UT`：AI 核心逻辑修复且 `aiTddMode: enabled` 时 **必须**（见 `ai-tdd-standards.md`）
       - 标记依据来自 fix-plan.md，不得擅自修改测试同学的场景意图
+
+      ### Step 3.5：AI-TDD 模式（`.openspec.yaml` → `aiTddMode`）
 
       ### Step 4：冲突标记
       对比 bug-report.md / fix-plan.md，若发现用例与修复方案存在口径冲突：
@@ -98,6 +103,9 @@ artifacts:
 
         ```
         ✅ test-cases.md 格式对齐完成，请确认以下内容：
+
+        【AUTO-AI-UT 标记清单】（AI-TDD 开启时）
+        - TC-FIX1-03：[用例名称] → AUTO-AI-UT
 
         【AUTO-UT 标记清单】（共 N 条，请确认是否可不依赖真实环境验证）
         - TC-FIX1-02：[用例名称] → AUTO-UT
@@ -147,14 +155,18 @@ apply:
 
     【强制】编码前验证：
     - 通读 bug-report.md 与 fix-plan.md 的对应章节
+    - 读取 `.openspec.yaml` 的 `aiTddMode`；AI 核心修复且 enabled 时必读 `ai-tdd-standards.md`
     - 执行前先读取 fix-plan.md 中提到的代码文件
     - 验证代码位置和代码片段是否与实际一致
     - 如果不一致，先更新 fix-plan.md，再执行
     - 不能盲目相信设计文档，必须以实际代码为准
     - 对 `AUTO-UT` 任务，先读取 `test-cases.md` 中对应 `[C]` 用例，再定位代码写单测
+    - 对 `AUTO-AI-UT` 任务：先写单测再改 L1 代码；invoke `test-driven-development` + `ai-tdd.md`
     - 后端单测 invoke obra Superpowers `test-driven-development`，并遵循 `.aetherstack/rules/superpowers.md` 与 `harness/adapters/java-maven/test-templates.md`
-    - 对 `AUTO-UT` 任务，勾选前必须执行对应测试命令并通过
+    - 对 `AUTO-UT` / `AUTO-AI-UT` 任务，勾选前必须执行对应测试命令并通过
     - 对齐 openspec/references/engineering-standards.md（分层/校验/DTO/缓存/DB）
+
+    【UI-Craft 前端】（`uiCraftMode`）：U1 读 Impeccable + ui-craft-standards；UI-CRAFT/AUDIT 验收；UI-FUNC 跳过；npm run lint/build
 
     【占位任务处理】：
     - 遇到 `待 test-cases Reviewed 后补充` 的占位任务时，先检查 test-cases.md 的 Status
@@ -170,6 +182,8 @@ apply:
     6) 任务映射（tasks）
     7) 测试用例对齐（test-cases；若 test-cases.md 尚未就绪写”待补”）
     8) 工程规范对齐（engineering-standards）
-    9) 单测执行结果（仅 `AUTO-UT`；若测试任务尚未执行写”待补”）
+    9) 单测执行结果（`AUTO-UT` / `AUTO-AI-UT`；若测试任务尚未执行写”待补”）
+    10) AI-TDD 对齐（aiTddMode；disabled 写”不适用”）
+    11) UI-Craft 对齐（uiCraftMode；disabled 写”不适用”）
 
     遇到阻塞或不明确处先停下询问。

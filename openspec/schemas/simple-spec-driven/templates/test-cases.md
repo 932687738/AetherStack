@@ -16,7 +16,7 @@
 [用例描述]
 [这里填写用例描述]
 [Automation]
-`AUTO-UT` / `MANUAL`（必填，默认 `MANUAL`）
+`AUTO-UT` / `AUTO-AI-UT` / `AUTO-AI-IT` / `MANUAL`（必填；AI-TDD 开启时 L1 用 `AUTO-AI-UT`）
 [ManualReason]
 `仅当 Automation=MANUAL 时必填；写明不可下沉单测的具体原因`
 
@@ -34,7 +34,7 @@
 [用例描述]
 [这里填写边界、异常、取消、非法或回归场景描述]
 [Automation]
-`AUTO-UT` / `MANUAL`（必填，默认 `MANUAL`）
+`AUTO-UT` / `AUTO-AI-UT` / `AUTO-AI-IT` / `MANUAL`（必填；AI-TDD 开启时 L1 用 `AUTO-AI-UT`）
 [ManualReason]
 `仅当 Automation=MANUAL 时必填；写明不可下沉单测的具体原因`
 
@@ -51,7 +51,7 @@
 [用例描述]
 [当需求涉及筛选、导出、多端、上下游或性能时，补充回归或扩展场景]
 [Automation]
-`AUTO-UT` / `MANUAL`（必填，默认 `MANUAL`）
+`AUTO-UT` / `AUTO-AI-UT` / `AUTO-AI-IT` / `MANUAL`（必填；AI-TDD 开启时 L1 用 `AUTO-AI-UT`）
 [ManualReason]
 `仅当 Automation=MANUAL 时必填；写明不可下沉单测的具体原因`
 

@@ -1,0 +1,55 @@
+# 需求交付规范（强制）
+
+> **适用范围**：用户提出的**功能需求、缺陷修复、前后端联调特性**（含非 OpenSpec 口头需求）。探索性问答、纯文档校对除外。
+
+## 默认流程（必须）
+
+```text
+OpenSpec 0.1（schema + 需求材料 + aiTddMode + uiCraftMode）
+  → proposal / spec / design / tasks（按 schema 裁剪）
+  → Superpowers：brainstorming（方案未定）→ writing-plans → executing-plans
+  → 实现：后端 AUTO-UT / AI-TDD；前端 U1 → Impeccable
+  → verification-before-completion（make verify / mvn test / npm run build）
+  → cr backend | cr frontend
+  → 归档或文档同步
+```
+
+## 开关（OpenSpec `.openspec.yaml`）
+
+| 字段 | 何时 |
+|------|------|
+| `aiTddMode: enabled` | 触及 L1（编排、Prompt、SSE 组装、Graph prep） |
+| `aiTddMode: disabled` | 纯 CRUD / 配置 |
+| `uiCraftMode: enabled` | 任何可见 UI 新增/改版 |
+| `uiCraftMode: disabled` | 仅 API / SSE 解析无视觉变更 |
+
+**禁止**：跳过 OpenSpec 直接大段改代码后声称完成（紧急 hotfix 须在 tasks 注明例外）。
+
+## Superpowers（obra 插件）
+
+未安装时提示：`/add-plugin superpowers`。
+
+| 阶段 | skill / 关键词 |
+|------|----------------|
+| 方案 | `brainstorming` |
+| 计划 | `writing-plans`、`executing-plans` |
+| 测试 | `test-driven-development`；AI 核心加 `/tdd` |
+| 调试 | `systematic-debugging` |
+| 完成前 | `verification-before-completion` |
+| 审查 | `cr backend`、`cr frontend` |
+
+## UI-Craft（Impeccable）
+
+U1 任务 **必须** 读 `.cursor/skills/impeccable/SKILL.md`，在 **ai_react** 运行 `context.mjs`，并按 tasks 标记执行：
+
+| 标记 | 命令链 |
+|------|--------|
+| `UI-CRAFT` | `shape` → `craft` |
+| `UI-AUDIT` | `audit` / `critique` → `polish` |
+| `UI-POLISH` | `polish`（收尾） |
+
+## 仓库边界
+
+- 治理 / 规范：`AetherStack`（本仓）
+- 后端：`ai`（见 `LOCALPATH.md`）
+- 前端：`ai_react`

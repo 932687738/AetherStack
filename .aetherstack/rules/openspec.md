@@ -15,11 +15,19 @@
    - `standard-spec-driven`（复杂需求）
    - `simple-spec-driven`（小需求）
    - `bugfix-spec-driven`（缺陷修复）
-3. **需求材料（必填）**：
-   - standard/simple：PRD 或需求描述（背景、目标、功能点）
-   - bugfix：缺陷描述（现象/复现/影响）
+  3. **需求材料（必填）**：PRD/需求描述，或缺陷描述
 
 无工单时，第 3 步的需求描述即为唯一输入，可直接创建变更目录。
+
+4. **AI-TDD 模式（可选，AI 相关需求必选其一）**：
+   - `enabled` / `disabled` / `auto`（默认）→ `.openspec.yaml` 的 `aiTddMode`
+   - 见 `openspec/references/ai-tdd-standards.md`
+
+5. **UI-Craft 模式（可选，前端可见 UI 变更必选其一）**：
+   - `enabled`：U1 界面 **必须** Impeccable（见 `openspec/references/ui-craft-standards.md`）
+   - `disabled`：仅功能 + lint/build（默认纯 API/后端变更）
+   - `auto`（默认）：design 列出 U1 界面时等同 `enabled`
+   - 写入 `.openspec.yaml` 的 `uiCraftMode` 字段
 
 ## 能力命名
 
@@ -34,4 +42,6 @@
 - 接口契约：`openspec/references/integration-contracts.md`
 - 工程标准：`openspec/references/engineering-standards.md`
 - 项目配置：`openspec/config.yaml`
+- AI-TDD 规范：`openspec/references/ai-tdd-standards.md`
+- UI-Craft 规范：`openspec/references/ui-craft-standards.md`
 - 框架同步记录：`openspec/OPENSPEC-SYNC.md`

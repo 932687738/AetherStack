@@ -43,7 +43,10 @@ ai_react (Nebula Desk)
 
 - Content-Type: `text/event-stream`
 - 前端解析：`ai_react/src/utils/request.js` 中 `postStream`
-- 知识库模式可含 `event: meta` JSON 元数据块
+- 知识库模式在 token 流结束后由服务端再发送一条 **JSON meta**（`event: "meta"`）；Spring 将其封装为 SSE `data:` 帧（勿手写 `event: meta`，避免双重编码）：
+  - `event`: `"meta"`
+  - `sessionId`, `knowledgeBaseNames`, `knowledgeBaseCount`
+  - `citations[]`: `chunkId`, `documentId`, `knowledgeBaseId`, `knowledgeBaseName`, `documentName`, `preview`, `vectorScore`, `score`（重排相关度）
 
 ## 5. 环境变量
 

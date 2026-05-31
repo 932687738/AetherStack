@@ -15,7 +15,7 @@
 |------|------|
 | [REPOS.md](REPOS.md) | **关联仓库说明（ai / ai_react）** |
 | [GETTING_STARTED.md](GETTING_STARTED.md) | 新人 onboarding |
-| [SUPERpower.md](SUPERpower.md) | obra Superpowers 插件 + .aetherstack 手册 |
+| [SUPERpower.md](SUPERpower.md) | obra Superpowers 插件 + AI-TDD 手册 |
 
 ## 指南
 
@@ -36,6 +36,8 @@
 | 文档 | 说明 |
 |------|------|
 | [openspec/references/aether-rules.md](../openspec/references/aether-rules.md) | 项目规则 |
+| [openspec/references/ai-tdd-standards.md](../openspec/references/ai-tdd-standards.md) | AI 阶段化 TDD |
+| [openspec/references/ui-craft-standards.md](../openspec/references/ui-craft-standards.md) | 前端 UI Craft |
 | [openspec/references/directory-examples.md](../openspec/references/directory-examples.md) | 目录示例 |
 | [openspec/references/integration-contracts.md](../openspec/references/integration-contracts.md) | API 契约 |
 | [openspec/OPENSPEC-SYNC.md](../openspec/OPENSPEC-SYNC.md) | 框架同步记录 |
@@ -50,6 +52,8 @@
 
 - obra Superpowers 插件：`/add-plugin superpowers`（Cursor）
 - 项目规则：`.aetherstack/`（`make sync-config`）
+- AI-TDD：`.aetherstack/rules/ai-tdd.md` → [ai-tdd-standards.md](../openspec/references/ai-tdd-standards.md)
+- UI-Craft：`.aetherstack/rules/ui-craft.md` → [ui-craft-standards.md](../openspec/references/ui-craft-standards.md) + Impeccable skill
 
 ## Harness
 

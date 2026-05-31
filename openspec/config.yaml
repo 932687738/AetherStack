@@ -27,7 +27,11 @@ context: |
   - `openspec/references/directory-examples.md`：目录示例与选址对照
   - `openspec/references/integration-contracts.md`：前后端接口契约基线
   - `openspec/references/aether-rules.md`：项目规则与判定标准（强约束）
+  - `openspec/references/ai-tdd-standards.md`：AI 核心模块阶段化 TDD（OpenSpec aiTddMode 开关）
+  - `openspec/references/ui-craft-standards.md`：前端 UI Craft（OpenSpec uiCraftMode + Impeccable）
   - `.aetherstack/rules/superpowers.md`：obra 插件集成与项目 AI 工作流约束
+  - `.aetherstack/rules/ai-tdd.md`：AI-TDD 触发与 L1/L3 分层
+  - `.aetherstack/rules/ui-craft.md`：UI-Craft 触发与 U1/U3 分层
 
   ## Local Paths
   - 维护 `LOCALPATH.md` 记录 Monorepo 模块路径
@@ -52,3 +56,5 @@ rules:
     - 任务必须 `- [ ]` 可勾选
     - 按 Requirement 拆分并包含可验证输出
     - 测试要求见 `openspec/references/tech-stack.md`
+    - `aiTddMode: enabled` 时 L1 AI 模块须含 TDD 先行任务，见 `openspec/references/ai-tdd-standards.md`
+    - `uiCraftMode: enabled` 时 U1 前端须含 Impeccable 任务，见 `openspec/references/ui-craft-standards.md`

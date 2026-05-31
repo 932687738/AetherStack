@@ -106,6 +106,10 @@ artifacts:
       - 明确阶段准入、批量/失败策略、关键数据落点、日志事件与外部反馈口径，避免 test-cases 补定义
       - 补充完整 DDL、接口 JSON、错误码、时序图
       - 涉及 `gwms-domain-share` / `gwms-generic` 需评估兼容性与测试覆盖；前者重点关注跨微服务共享边界与纯领域约束，后者重点关注共享基础设施/辅助能力复用影响
+
+      【UI-Craft】读取 `.openspec.yaml` 的 `uiCraftMode`（或 0.1 默认 auto）：
+      - `enabled` 或 auto 判定有 U1 界面时，design 必须含「前端 UI 界面清单」表格（路径、UI-CRAFT/UI-FUNC/UI-AUDIT、说明），见 `openspec/references/ui-craft-standards.md`
+      - 纯后端变更可声明「无 U1 界面」并设 `uiCraftMode: disabled`
     requires:
       - proposal
       - specs
@@ -136,11 +140,17 @@ artifacts:
       - 补充 Requirement 追溯标注（对照 spec.md）
       - **不得修改用例内容、步骤、预期结果**；仅做结构对齐
 
-      ### Step 3：AUTO-UT 标记
+      ### Step 3：AUTO-UT / AUTO-AI-UT 标记
       对每条 `[C]` 判断并标注 `Automation`：
       - `AUTO-UT`：可在后端 Service 层稳定验证（规则校验/边界/异常/幂等/防重），无强环境依赖；命中”校验/阻断/拒绝/默认值/分流/状态判断/数量计算/幂等/防重”时默认 `AUTO-UT`
       - `MANUAL`：页面交互/跨系统联调/强数据环境依赖；必须补 `ManualReason` 说明原因
+      - `AUTO-AI-UT`：`aiTddMode: enabled` 或 auto 命中 L1 且覆盖 AI 核心逻辑时 **必须**（见 `openspec/references/ai-tdd-standards.md`）
+      - `AUTO-AI-IT`：复杂 RAG/Graph 集成（推荐）
       - 标记依据来自 spec.md 和 design.md，不得擅自修改测试同学的场景意图
+
+      ### Step 3.5：AI-TDD 模式（`.openspec.yaml` → `aiTddMode`）
+      - `enabled` / auto 命中 L1 → L1 用例须含 `AUTO-AI-UT`
+      - `disabled` → 不强制 `AUTO-AI-UT`
 
       ### Step 4：冲突标记
       对比 spec.md / design.md，若发现用例与设计存在口径冲突：
@@ -155,6 +165,9 @@ artifacts:
 
         ```
         ✅ test-cases.md 格式对齐完成，请确认以下内容：
+
+        【AUTO-AI-UT 标记清单】（AI-TDD 开启时，共 N 条，L1 模块必须先测后码）
+        - TC-REQ1-03：[用例名称] → AUTO-AI-UT
 
         【AUTO-UT 标记清单】（共 N 条，请确认是否可不依赖真实环境验证）
         - TC-REQ1-02：[用例名称] → AUTO-UT
@@ -200,6 +213,7 @@ artifacts:
       2) 按 Requirement 分组拆分开发任务（后端 + 前端）
       3) 每个 Requirement 补充测试任务占位（1.3～1.6）
       4) 每个任务包含”可验证输出”描述
+      5) 前端任务标注 UI 类型（UI-CRAFT / UI-AUDIT / UI-FUNC）；`uiCraftMode: enabled` 时 U1 须含 `1.2a` Impeccable 任务（见 ui-craft-standards.md）
     requires:
       - specs
       - design
@@ -212,14 +226,25 @@ apply:
 
     【强制】编码前验证：
     - 通读 proposal.md、specs/ 下相关 spec.md 与 design.md 的对应章节
+    - 读取 `.openspec.yaml` 的 `aiTddMode`；`enabled` 或 auto 命中 L1 时必读 `openspec/references/ai-tdd-standards.md`
     - 对 `AUTO-UT` 任务，先读取 `test-cases.md` 中对应 `[C]` 用例，再定位代码写单测
+    - 对 `AUTO-AI-UT` 任务：**必须先写/补 `*Test.java` 再改 L1 生产代码**；invoke obra Superpowers `test-driven-development`，并遵循 `.aetherstack/rules/ai-tdd.md` 与 `harness/adapters/java-maven/ai-test-templates.md`
     - 后端单测 invoke obra Superpowers `test-driven-development`，并遵循 `.aetherstack/rules/superpowers.md` 与 `harness/adapters/java-maven/test-templates.md`
     - 执行前先读取 design.md 中提到的代码文件
     - 验证代码位置和代码片段是否与实际一致
     - 如果不一致，先更新 design.md，再执行
     - 不能盲目相信设计文档，必须以实际代码为准
     - 对齐 openspec/references/engineering-standards.md（分层/校验/DTO/缓存/DB）
-    - 对 `AUTO-UT` 任务，勾选前必须执行对应测试命令并通过
+    - 对 `AUTO-UT` / `AUTO-AI-UT` 任务，勾选前必须执行对应测试命令并通过
+    - `AUTO-AI-UT` 未完成时 **不得** 勾选对应 L1 实现任务
+
+    【UI-Craft 前端】（读取 `.openspec.yaml` 的 `uiCraftMode`）：
+    - `enabled` 或 auto 命中 U1：必读 `openspec/references/ui-craft-standards.md` 与 `.cursor/skills/impeccable/SKILL.md`
+    - `UI-CRAFT` 任务：shape → craft（或 audit → 修复 → polish）
+    - `UI-AUDIT` 任务：audit/critique → polish
+    - `UI-FUNC` 任务：仅 ai_react 逻辑/API，不要求 Impeccable
+    - U1 未完成 Impeccable 验收 **不得** 勾选对应前端实现任务
+    - 前端验收：`npm run lint` + `npm run build`（在 ai_react 仓库）
 
     【占位任务处理】：
     - 遇到 `待 test-cases Reviewed 后补充` 的占位任务时，先检查 test-cases.md 的 Status
@@ -236,6 +261,8 @@ apply:
     7) 系统/详细设计（design，如无变更写”无”）
     8) 测试用例对齐（test-cases；若 test-cases.md 尚未就绪写”待补”）
     9) 工程规范对齐（engineering-standards）
-    10) 单测执行结果（仅 `AUTO-UT`；若测试任务尚未执行写”待补”）
+    10) 单测执行结果（`AUTO-UT` / `AUTO-AI-UT`；若测试任务尚未执行写”待补”）
+    11) AI-TDD 对齐（aiTddMode 与 L1 模块；disabled 写”不适用”）
+    12) UI-Craft 对齐（uiCraftMode、U1 界面与 Impeccable 命令；disabled 写”不适用”）
 
     遇到阻塞或不明确处先停下询问。
