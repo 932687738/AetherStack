@@ -53,6 +53,39 @@ endpoints:
   - method: GET
     path: /swagger-ui.html
     description: API 文档
+  - method: GET
+    path: /springai/demo/alibaba-graph/human-loop/step1
+    description: Graph 草稿 HIL step1
+  - method: POST
+    path: /springai/demo/alibaba-graph/human-loop/step2
+    description: Graph 草稿 HIL step2
+  - method: GET
+    path: /springai/demo/alibaba-graph/human-loop/tool-feedback/invoke
+    description: 工具审批 invoke
+  - method: POST
+    path: /springai/demo/alibaba-graph/human-loop/tool-feedback/resume
+    description: 工具审批 resume
+  - method: POST
+    path: /springai/demo/alibaba-graph/human-loop/tool-feedback/resume/approve
+    description: 工具审批快捷批准
+  - method: POST
+    path: /springai/demo/alibaba-graph/human-loop/tool-feedback/resume/reject
+    description: 工具审批快捷拒绝
+  - method: POST
+    path: /springai/demo/alibaba-graph/human-loop/tool-feedback/resume/edit
+    description: 工具审批快捷改参
+  - method: GET
+    path: /springai/demo/alibaba-graph/human-loop/enterprise/contract-review
+    description: 企业工作流合同审核
+  - method: GET
+    path: /springai/demo/alibaba-graph/human-loop/enterprise/ecommerce-cs
+    description: 企业工作流电商客服
+  - method: GET
+    path: /springai/demo/alibaba-graph/human-loop/enterprise/publishing/step1
+    description: 自媒体发布 step1
+  - method: POST
+    path: /springai/demo/alibaba-graph/human-loop/enterprise/publishing/step2
+    description: 自媒体发布 step2
 
 frontend_constants: D:/cache/workspace/ai_react/src/api/index.js
 backend_repo: D:/cache/workspace/ai
