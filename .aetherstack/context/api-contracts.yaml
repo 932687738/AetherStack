@@ -15,6 +15,9 @@ endpoints:
     path: /api/agent-hub/status
     description: Agent Hub 运行时状态
   - method: POST
+    path: /api/agent-hub/cli/invoke
+    description: 同步唤起 Codex 或 Claude CLI（provider、prompt、可选 workingDirectoryRelative）
+  - method: POST
     path: /api/agent-hub/knowledge/upload
     description: 文档上传
   - method: GET
