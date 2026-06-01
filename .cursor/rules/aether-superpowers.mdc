@@ -40,14 +40,18 @@ AetherStack 仅通过 **rules + context** 叠加项目约束（多仓库、DDD�
 
 1. 读取 `LOCALPATH.md` 解析目标仓库（`scripts/resolve-repos.ps1`）
 2. `cr backend` → 关联仓库 **ai**；`cr frontend` → **ai_react**
-3. 必读：`.aetherstack/rules/core.md`、`openspec/references/engineering-standards.md`；涉及 API 时读 `integration-contracts.md`
+3. 必读：`.aetherstack/rules/core.md`、`openspec/references/engineering-standards.md`、`openspec/references/spring-ai-core-standards.md`；涉及 API 时读 `integration-contracts.md`；触及 Agent/`@Tool` 时读 `spring-ai-multi-agent-standards.md`；触及 ReactAgent/CompiledGraph 时读 `spring-ai-react-graph-standards.md`；触及 knowledgehub/RAG 时读 `spring-ai-rag-standards.md`
 4. 审查维度：
 
 | 维度 | 检查点 |
 |------|--------|
+| Spring AI 核心 | ChatClient 入口、密钥非硬编码、Prompt 外部化、异常容错、traceId/指标、Prompt 注入防护 |
 | 分层 | Controller 不直连 Repository；领域层不依赖 Spring Web |
 | 事务 | 应用层事务内不调外部 HTTP/LLM |
 | 契约 | REST/SSE 与 integration-contracts 一致 |
+| 多 Agent/Tool | RouterAgent + `transferToAgent`；`@Tool` 描述含反例/适用场景；单次 LLM ≤5 工具；路由/Tool 日志脱敏 |
+| React/Graph | `maxIterations` + `FINAL ANSWER`；Graph 单例 compile；节点无 `web.dto`；HIL 审计与补偿 |
+| 知识库 RAG | 多库分层；元数据最小集；阈值/Top-K/rerank；增量更新；来源格式化；PII/租户隔离 |
 | 测试 | AUTO-UT 有对应 `*Test.java` |
 | 安全 | 无硬编码密钥；输入校验 |
 

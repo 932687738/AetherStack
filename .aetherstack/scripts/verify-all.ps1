@@ -11,6 +11,14 @@ if (Test-Path $Backend) {
     Push-Location $Backend
     mvn -B -q test
     Pop-Location
+    foreach ($script in @(
+            'check-spring-ai-tools.ps1',
+            'check-spring-ai-rag.ps1',
+            'check-spring-ai-react-graph.ps1'
+        )) {
+        $path = Join-Path $Root ".aetherstack\scripts\$script"
+        if (Test-Path $path) { & $path }
+    }
 } else {
     Write-Warning "Backend repo not found"
 }

@@ -78,6 +78,32 @@ mvn compile -DskipTests
 mvn test
 ```
 
+#### Step 0（治理仓，变更含 Agent Hub `@Tool` 时）
+
+在 AetherStack 根目录执行 Spring AI 工具描述静态检查：
+
+```powershell
+.aetherstack/scripts/check-spring-ai-tools.ps1 -Strict
+```
+
+规范见 `openspec/references/spring-ai-multi-agent-standards.md`。非 Agent/Tool 变更可跳过。
+
+#### Step 0b（治理仓，变更含 knowledgehub RAG `@Tool` 时）
+
+```powershell
+.aetherstack/scripts/check-spring-ai-rag.ps1 -Strict
+```
+
+规范见 `openspec/references/spring-ai-rag-standards.md`。非 RAG/知识库变更可跳过。
+
+#### Step 0c（治理仓，变更含 ReactAgent / CompiledGraph 时）
+
+```powershell
+.aetherstack/scripts/check-spring-ai-react-graph.ps1 -Strict
+```
+
+规范见 `openspec/references/spring-ai-react-graph-standards.md`。非 Graph/ReactAgent 变更可跳过。
+
 ### 3. 验证通过
 
 **全部三步通过时**，输出验证通过报告：

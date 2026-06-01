@@ -2,6 +2,45 @@
 
 ## 三步验证
 
+### Step 0（可选）：Spring AI `@Tool` 描述检查
+
+在 **AetherStack 治理仓**执行（扫描关联 **ai** 仓库 `src/main/java`）：
+
+```powershell
+# 治理仓根目录
+.aetherstack/scripts/check-spring-ai-tools.ps1
+# 升级为失败门闩
+.aetherstack/scripts/check-spring-ai-tools.ps1 -Strict
+```
+
+`make verify` 在后端 `mvn test` 通过后自动执行（非 `-Strict`，仅警告）。
+
+**通过标准**：每个 `@Tool` 的 `description` 含「适用/场景」与「不适用/反例」类表述。细则见 `openspec/references/spring-ai-multi-agent-standards.md`。
+
+### Step 0b（可选）：Spring AI RAG `@Tool` 描述检查
+
+在 **AetherStack 治理仓**执行（扫描关联 **ai** 仓库 `knowledgehub/**` 内 RAG 相关 `@Tool`）：
+
+```powershell
+# 治理仓根目录
+.aetherstack/scripts/check-spring-ai-rag.ps1
+# 升级为失败门闩
+.aetherstack/scripts/check-spring-ai-rag.ps1 -Strict
+```
+
+**通过标准**：description 含知识库指称、「适用/场景」「不适用/反例」及返回说明。细则见 `openspec/references/spring-ai-rag-standards.md`。
+
+### Step 0c（可选）：ReactAgent / CompiledGraph 反模式检查
+
+在 **AetherStack 治理仓**执行（扫描 **ai** 仓库 Graph/ReactAgent 相关 Java）：
+
+```powershell
+.aetherstack/scripts/check-spring-ai-react-graph.ps1
+.aetherstack/scripts/check-spring-ai-react-graph.ps1 -Strict
+```
+
+**通过标准**：Graph 节点不 import `web.dto`；ReactAgent 配置含 `maxIterations`；agents 包无手写 while 驱动工具调用。细则见 `openspec/references/spring-ai-react-graph-standards.md`。
+
 ### Step 1: Linter 检查
 
 ```bash

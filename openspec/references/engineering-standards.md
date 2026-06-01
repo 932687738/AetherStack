@@ -60,6 +60,16 @@
 
 ## 4. AI / LLM 集成规范
 
+### 4.0 Spring AI 核心（强制基线）
+
+所有 Spring AI / Alibaba 相关实现 **默认须**满足：
+
+1. 细则见 **`openspec/references/spring-ai-core-standards.md`** 与 `.aetherstack/rules/spring-ai-core.md`
+2. Spring AI **1.0.0+** 正式版 + BOM；API Key 环境变量注入；禁止硬编码
+3. 业务调用统一 **ChatClient**；Prompt 放 `resources/prompts/`；禁止用户输入直接拼接 Prompt
+4. `@Tool` 注册为 Bean、幂等、异常友好化；LLM 调用须超时/重试与可观测（traceId、token、Micrometer）
+5. 测试禁止真实 API Key；Tool / Prompt 须有单测
+
 ### 4.1 Spring AI Alibaba 编排（优先）
 
 本仓库为 **Spring AI Alibaba** 项目。新增 AI 相关后端能力时：
@@ -75,12 +85,49 @@
 | CompiledGraph | `knowledgehub/graph/` | `springai/graph/` |
 | ReactAgent | `springai/projectpractice/recommendedpackaging/` | `springai/agent/` |
 
-### 4.2 通用约束
+### 4.3 多 Agent / Tool（强制）
 
-- 模型调用通过 Spring AI `ChatClient` / `ChatModel` / `VectorStore` 抽象；Graph/Agent 内部仍走上述抽象
+触及 Agent Hub 多智能体、`@Tool`、`transferToAgent`、工具动态注入时：
+
+1. 细则见 **`openspec/references/spring-ai-multi-agent-standards.md`** 与 `.aetherstack/rules/spring-ai-multi-agent.md`
+2. `@Tool` description 须含：功能、典型问法（≥2）、反例、前提（如有）
+3. 单次 LLM Function Calling 暴露工具 ≤5；超限须向量检索 Top 3~5 动态注入
+4. 记录 Router 选中子 Agent 与 Tool 调用（参数脱敏）
+5. REST 契约不变时 OpenSpec `paths` 不修改，仅重构内部实现
+
+本地静态检查：`.aetherstack/scripts/check-spring-ai-tools.ps1`（`make verify` 可选执行）
+
+### 4.4 知识库 RAG（强制）
+
+触及 Knowledge Hub 文档入库、向量检索、rerank、RAG `@Tool` 时：
+
+1. 细则见 **`openspec/references/spring-ai-rag-standards.md`** 与 `.aetherstack/rules/spring-ai-rag.md`
+2. 多库分层；元数据最小集（`source`、`updated_at`、`doc_type`、`status`）；禁止日常全量重建
+3. 检索须配置相似度阈值与 Top-K（注入 LLM 通常 3~5；Tool 动态注入 ≤3）
+4. 重要场景须 rerank；结果注入 LLM 前格式化为 `[来源: {source}] {content}`
+5. 生产向量路径以 **knowledgehub** 为准；禁止新增第三套 RAG 存储
+6. RAG `@Tool` 须同时满足多 Agent 四段式 + 知识库名称与返回说明
+
+本地静态检查：`.aetherstack/scripts/check-spring-ai-rag.ps1`（`make verify` 可选执行）
+
+### 4.5 ReactAgent / CompiledGraph（强制）
+
+触及 ReactAgent、StateGraph、CompiledGraph、检查点/HIL、图资源配置时：
+
+1. 细则见 **`openspec/references/spring-ai-react-graph-standards.md`** 与 `.aetherstack/rules/spring-ai-react-graph.md`
+2. ReactAgent 须显式 `maxIterations`、System Prompt 模板（含 `FINAL ANSWER:` 终止）、工具经 Function Calling 注入
+3. CompiledGraph 单例 `compile()`；节点禁止 `web.dto` 与复杂业务逻辑；条件边仅读 State
+4. Graph 内嵌 ReactAgent 时工具仍 ≤5，须超时熔断与迭代监控
+5. 与 multi-agent、RAG 规范同时满足（铁三角）
+
+本地静态检查：`.aetherstack/scripts/check-spring-ai-react-graph.ps1`（`make verify` 可选执行）
+
+### 4.6 通用约束
+
+- 模型调用通过 Spring AI `ChatClient` / `ChatModel` / `VectorStore` 抽象；Graph/Agent 内部仍走上述抽象（详见 §4.0）
 - API Key 通过环境变量注入（`DASHSCOPE_API_KEY`），禁止硬编码
 - Prompt 模板放在 `ai/src/main/resources/prompts/`
-- RAG 检索需说明 topK、相似度阈值、rerank 策略（design 文档必填）
+- RAG 检索需说明 topK、相似度阈值、rerank 策略（design 文档必填；细则见 `spring-ai-rag-standards.md`）
 - 事务内 **禁止** 调用外部 LLM HTTP 接口
 
 ## 5. 前端规范

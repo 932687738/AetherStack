@@ -200,6 +200,20 @@
 - 批量接口必须先明确执行语义：`全量原子` 或 `部分成功（逐对象隔离）`
 - 部分成功时必须返回逐对象 success/fail 明细，含 `errorCode` 与 `errorMessage`
 
+### 5.11 Spring AI / 铁三角设计约束（AI 相关需求强制）
+
+触及 LLM、Agent、Graph、RAG、`@Tool` 时，design/design-lite **须**单列「Spring AI 设计」小节（可并入技术方案章节），并同时满足以下引用（冲突取更严格者）：
+
+| 维度 | 必读 | design 必填项 |
+|------|------|---------------|
+| 编排选型 | `.aetherstack/rules/backend-ai.md`、`backend-design-guide.md` | CompiledGraph / ReactAgent / ChatClient 选型与理由；禁止扩大存量 Orchestrator 手写编排 |
+| 框架基线 | `spring-ai-core-standards.md` | ChatClient 入口、Prompt 外部化、密钥环境变量、异常降级、Micrometer/traceId |
+| 多 Agent / Tool | `spring-ai-multi-agent-standards.md` | RouterAgent + `transferToAgent`；`@Tool` 四段式；工具 ≤5 或向量动态注入方案 |
+| 知识库 RAG | `spring-ai-rag-standards.md` | 阈值、Top-K、元数据过滤、来源格式 `[来源: {source}]`、rerank（如适用） |
+| React / Graph | `spring-ai-react-graph-standards.md` | `maxIterations`、`FINAL ANSWER`、Graph 单例 compile、State/条件边/HIL/补偿 |
+
+纯 CRUD / 无 LLM 编排的需求可注明豁免依据（与 `backend-ai.md` 例外一致）。
+
 ## 6. test-cases.md（测试设计质量门禁）
 
 > 用例生成的完整执行规范以各 schema 的 test-cases instruction 为准，本章仅保留跨流程的全局约束。
@@ -241,6 +255,8 @@
 
 ## 8. 参考文档（按需加载）
 
+- `openspec/references/backend-design-guide.md`
+- `.aetherstack/rules/backend-ai.md`
 - `openspec/references/tech-stack.md`
 - `openspec/references/engineering-standards.md`
 - `openspec/references/integration-contracts.md`
@@ -250,5 +266,13 @@
 - `.aetherstack/rules/superpowers.md`
 - `.aetherstack/rules/ai-tdd.md`
 - `openspec/references/ai-tdd-standards.md`
+- `.aetherstack/rules/spring-ai-core.md`
+- `openspec/references/spring-ai-core-standards.md`
+- `.aetherstack/rules/spring-ai-multi-agent.md`
+- `openspec/references/spring-ai-multi-agent-standards.md`
+- `.aetherstack/rules/spring-ai-rag.md`
+- `openspec/references/spring-ai-rag-standards.md`
+- `.aetherstack/rules/spring-ai-react-graph.md`
+- `openspec/references/spring-ai-react-graph-standards.md`
 - `.aetherstack/rules/ui-craft.md`
 - `openspec/references/ui-craft-standards.md`

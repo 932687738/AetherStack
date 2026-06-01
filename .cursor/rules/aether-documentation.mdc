@@ -9,10 +9,22 @@ alwaysApply: true
 
 以下目录可在不启动前后端的情况下编辑：
 
-- `openspec/` — 规范与变更
-- `.aetherstack/` — AI 配置源
+- `openspec/` — 规范与变更（含 `references/*-standards.md` 完整细则）
+- `.aetherstack/` — AI 配置源（Cursor 规则真源；改后 **必须** `make sync-config`）
 - `harness/docs/` — Harness 计划与设计
 - 根目录 `AGENTS.md`、`ARCHITECTURE.md`、`STEP1-DESIGN.md`
+
+### 规范变更同步清单
+
+修改 `.aetherstack/rules/` 或 `openspec/references/` 中 Spring AI 相关规范时，须交叉检查：
+
+| 检查项 | 说明 |
+|--------|------|
+| 章节编号 | `engineering-standards.md` §4.0~§4.6 与 `spring-ai-*-standards.md` 交叉引用一致 |
+| 铁三角 | multi-agent / rag / react-graph 三份 rules 与 references 同步更新 |
+| Cursor 落地 | 运行 `make sync-config` 刷新 `.cursor/rules/*.mdc`、`.codex/`、`.cursorrules` |
+| OpenSpec | `openspec/config.yaml`、`aether-rules.md` §5.11 / §8 索引与 AGENTS.md 关键词速查 |
+| 验证脚本 | `check-spring-ai-*.ps1` 通过标准与规范描述一致 |
 
 ## 应用层文档
 

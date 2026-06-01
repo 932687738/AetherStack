@@ -1,0 +1,129 @@
+---
+description: Spring AI 核心开发规范 - 框架配置、API使用、代码组织、安全、可观测性
+globs: "**/*.java,**/*.yml,**/*.yaml,**/*.properties"
+alwaysApply: true
+---
+
+
+# Spring AI 核心开发规范
+
+> **适用范围**：关联仓库 **ai** 中所有 Spring AI / Spring AI Alibaba 相关 Java 与配置文件。  
+> **配套**：`openspec/references/spring-ai-core-standards.md`、`.aetherstack/rules/backend-ai.md`  
+> **专项延伸**：多 Agent → `spring-ai-multi-agent.md`；RAG → `spring-ai-rag.md`；Graph/ReactAgent → `spring-ai-react-graph.md`
+
+## 一、版本与依赖管理
+
+- 使用 **Spring AI 1.0.0+** 正式版（本项目 **1.1.x + Spring AI Alibaba BOM**）；禁止快照版或过时里程碑。
+- 通过 BOM 统一管理版本，避免子模块冲突。
+- 显式声明所需 starter（如 DashScope / OpenAI）；**禁止**引入未使用的模型供应商依赖。
+
+## 二、配置管理
+
+1. **模型配置**：API Key 从环境变量或配置中心读取（如 `DASHSCOPE_API_KEY`）；**禁止**硬编码。
+2. **场景化参数**：不同业务配置不同 `temperature` 等；多模型用 `@Qualifier` 或命名 Bean 区分。
+3. **超时与重试**：须配置 connect/read 超时（建议 **60s**）；关键调用用 `RetryTemplate`，最多 **3 次**指数退避。
+4. **向量存储**：连接经 `spring.ai.vectorstore` 注入；嵌入维度与向量维度须匹配，不一致时启动失败（细则见 `spring-ai-rag.md`）。
+
+**配置示例**（DashScope，占位符不得提交真实密钥）：
+
+```yaml
+spring:
+  ai:
+    dashscope:
+      api-key: ${DASHSCOPE_API_KEY}
+      chat:
+        options:
+          model: ${DASHSCOPE_CHAT_MODEL:qwen-plus}
+          temperature: 0.3
+      embedding:
+        options:
+          model: text-embedding-v3
+```
+
+## 三、ChatClient 使用规范
+
+- **统一入口**：使用 `ChatClient`，禁止直接调用底层 `*ChatModel`（Configuration 装配除外）。
+- **构建**：`ChatClient.builder(chatModel).defaultSystem(...).defaultTools(...).build()`。
+- **请求**：经 `chatClient.prompt()` 明确指定 user/system/messages/tools。
+- **同步/流式**：普通用 `.call().content()`；实时交互用 `.stream().content()` 返回 `Flux<String>`，正确处理 backpressure。
+- **模板化**：固定 System Prompt 使用 `PromptTemplate` 或 `classpath:/prompts/` 资源文件。
+
+## 四、Tool（工具）开发规范
+
+- 使用 `@Tool`（`org.springframework.ai.tool`），**禁止**自定义注解替代。
+- 工具类须为 Spring Bean；方法 **public**；参数为简单类型或 POJO，复杂参数用 `@ToolParam` 描述。
+- 工具执行须**幂等**（或多次调用安全无害）。
+- 内部异常转为业务异常，返回对用户友好的错误信息；**禁止**未捕获 `RuntimeException` 导致 Agent 中断。
+- description 四段式、≤5 工具注入等见 **`spring-ai-multi-agent.md`**。
+
+## 五、Prompt 管理规范
+
+- **外部化**：System / 复杂 User Prompt 存放 `src/main/resources/prompts/`，按领域分文件。
+- **模板引擎**：使用 StringTemplate / Mustache，**禁止**字符串拼接。
+- **变量校验**：模板变量使用前非空校验。
+- **敏感信息**：Prompt 中禁止 API Key、密码；运行时注入并脱敏日志。
+
+## 六、异常处理与容错
+
+- LLM 调用须 try-catch，捕获 `AiClientException` 及其子类。
+- 出错时优先返回友好提示（如「系统繁忙，请稍后重试」），并记录详细错误日志。
+- **429/503** 须退避重试；耗尽后降级为预设回复或转人工。
+- 工具调用异常不得直接暴露给用户，须封装为自然语言解释。
+
+## 七、可观测性
+
+集成 Micrometer，暴露（或等价自定义）指标：
+
+- `spring_ai_chat_requests_total`（tag：model、status）
+- `spring_ai_chat_duration_seconds`
+- `spring_ai_tool_calls_total`
+- `spring_ai_embedding_duration_seconds`
+
+LLM 日志须含 **traceId**，记录 prompt/completion tokens。Tool 日志须记录工具名、参数（脱敏）、结果摘要。
+
+## 八、安全规范
+
+- **禁止**将用户输入直接拼接到 Prompt；须经 `PromptTemplate` 或参数化，防 Prompt 注入。
+- 用户输入长度限制（如 **max 4000** 字符），超限截断并提示。
+- Tool 调用前须权限/租户校验。
+- **禁止** LLM 直接执行 SQL 或系统命令；须经预定义 Tool。
+- 向量查询须参数化过滤（见 `spring-ai-rag.md`）。
+
+## 九、性能优化
+
+- 简单任务（意图分类等）用小模型降本。
+- 同 Session 重复检索可缓存（如 Caffeine **5 分钟**）。
+- 流式须及时消费 `Flux`，防 OOM。
+- 嵌入批量接口，单次最多 **20** 个分段。
+
+## 十、代码组织与命名
+
+**模块分包**（存量 `com.yxy.deepseek`，新代码对齐 DDD 四层）：
+
+| 模块 | 路径 | 职责 |
+|------|------|------|
+| Agent Hub | `agents/**` | 对话、Tool、Router、MCP |
+| Knowledge Hub | `knowledgehub/**` | RAG、文档、Graph |
+| Demo | `springai/**` | 教程（`@Profile("demo")`，生产禁止依赖） |
+
+各模块内：`*.config` / `*.graph` / `*.agent` / `*.application` / `*.domain` / `*.infrastructure` / `*.web`。
+
+- 框架配置用 `spring.ai.*`；业务扩展可用 `application-*.yml` 或 `@ConfigurationProperties`（前缀经 OpenSpec 说明）。
+- Bean 命名小驼峰，如 `orderAgentChatClient`。
+
+## 十一、测试规范
+
+- 每个 Tool 须有单测（正常 + 边界）；**禁止**测试中使用真实 API Key（Mock / WireMock）。
+- 向量集成测试可用 Testcontainers；Agent 集成测试用 Mock `ChatClient` 验证路由与 Tool 选择。
+- Prompt 模板须测试渲染结果；AI L1 模块见 `ai-tdd.md`。
+
+## 十二、版本兼容与迁移
+
+- 升级 Spring AI 前须查阅 Migration Guide，弃用 API 立即替换。
+- 扩展点仅使用公共接口，**禁止**侵入 Spring AI 内部包。
+- 须有回退计划，重大回归可快速回滚上一稳定版本。
+
+## 验证与 OpenSpec
+
+- 本地：`make verify`；`@Tool` 描述见 `check-spring-ai-tools.ps1`。
+- 所有 AI 相关 OpenSpec design 须引用 `spring-ai-core-standards.md`；触及专项能力时交叉引用铁三角规范。

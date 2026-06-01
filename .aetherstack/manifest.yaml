@@ -20,6 +20,10 @@ rules:
   - rules/superpowers.md
   - rules/delivery-workflow.md
   - rules/backend-ai.md
+  - rules/spring-ai-core.md
+  - rules/spring-ai-multi-agent.md
+  - rules/spring-ai-rag.md
+  - rules/spring-ai-react-graph.md
   - rules/openspec.md
   - rules/documentation.md
   - rules/harness.md
@@ -37,7 +41,7 @@ commands: commands/commands.yaml
 tools:
   cursor:
     rules_dir: .cursor/rules
-    rules_glob: alwaysApply
+    # alwaysApply / globs 来自各 rules/*.md frontmatter；sync-config 生成 .mdc
   codex:
     config: .codex/config.toml
     agents: .codex/AGENTS.md

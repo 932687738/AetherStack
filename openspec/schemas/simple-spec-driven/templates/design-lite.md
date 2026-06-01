@@ -258,6 +258,15 @@ stateDiagram-v2
 - [可接受处理时长/超时阈值]
 - [失败重试与降级策略]
 
+### 7.10 Spring AI / 铁三角（AI 相关需求必填）
+
+触及 LLM、Agent、Graph、RAG、`@Tool` 时填写（详见 `aether-rules.md` §5.11）：
+
+- **编排选型**：[CompiledGraph / ReactAgent / ChatClient + 理由]
+- **多 Agent / Tool**：[Router / 工具数 / 动态注入]
+- **RAG**：[阈值 / Top-K / 元数据 / 来源格式]
+- **React/Graph**：[maxIterations / Graph Bean / State]
+
 ## 八. 配置影响矩阵（推荐）
 | 配置项 | 常规流程 | 本方案 |
 |---|---|---|

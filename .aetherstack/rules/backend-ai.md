@@ -1,10 +1,25 @@
+---
+description: 后端 AI 设计规则 - CompiledGraph/ReactAgent 选型、分层禁令、铁三角配套引用
+globs: "**/*.java,**/*.yml,**/*.yaml"
+alwaysApply: false
+---
+
 # 后端 AI 设计规则（Spring AI Alibaba）
 
 ## 适用范围
 
 关联仓库 **ai** 中所有与 LLM、Agent、Graph、RAG 编排、工具调用相关的**新需求设计与实现**。
 
-**必读配套**：`openspec/references/backend-design-guide.md`（现状问题、目标架构、演进路线）。
+**必读配套**：`openspec/references/backend-design-guide.md`（现状问题、目标架构、演进路线）、`openspec/references/spring-ai-core-standards.md`（框架配置、ChatClient、安全、可观测性）。
+
+## Spring AI 核心（强制基线）
+
+所有 AI 相关 Java / YAML **默认须**遵循：
+
+- `.aetherstack/rules/spring-ai-core.md`
+- `openspec/references/spring-ai-core-standards.md`
+
+要点：BOM 版本、密钥环境变量注入、ChatClient 统一入口、Prompt 外部化、异常容错、Micrometer 指标、Prompt 注入防护、禁止事务内 LLM。
 
 ## 默认选型（优先）
 
@@ -72,9 +87,40 @@
 4. 是否触及 RAG 统一、是否新增 springai 依赖
 5. 事务边界：禁止 `@Transactional` 内调 LLM
 
+## 多 Agent / Tool（强制配套）
+
+触及 Agent Hub 多智能体拆分、`@Tool` 注册、Router、`transferToAgent` 时，**必须**同时遵循：
+
+- `.aetherstack/rules/spring-ai-multi-agent.md`
+- `openspec/references/spring-ai-multi-agent-standards.md`
+
+要点：RouterAgent + 工具描述四段式、单次 LLM ≤5 工具、超限向量动态注入、路由/Tool 调用日志脱敏。
+
+## ReactAgent / CompiledGraph（强制配套）
+
+触及 ReactAgent、StateGraph、CompiledGraph、HIL、图节点配置时，**必须**同时遵循：
+
+- `.aetherstack/rules/spring-ai-react-graph.md`
+- `openspec/references/spring-ai-react-graph-standards.md`
+
+要点：System Prompt 模板与 `maxIterations`、`FINAL ANSWER` 终止、Graph 单例 compile、节点不分层违规、State 不可变、指标与超时熔断。
+
+## 知识库 RAG（强制配套）
+
+触及 Knowledge Hub 文档入库、向量检索、rerank、RAG `@Tool` 时，**必须**同时遵循：
+
+- `.aetherstack/rules/spring-ai-rag.md`
+- `openspec/references/spring-ai-rag-standards.md`
+
+要点：多库分层、元数据最小集、阈值 + Top-K、增量更新、来源格式化、PII 与租户隔离。
+
 ## 参考文档
 
+- Spring AI 核心：`openspec/references/spring-ai-core-standards.md`
 - 后端设计指南：`openspec/references/backend-design-guide.md`
+- 多 Agent / Tool：`openspec/references/spring-ai-multi-agent-standards.md`
+- ReactAgent / Graph：`openspec/references/spring-ai-react-graph-standards.md`
+- 知识库 RAG：`openspec/references/spring-ai-rag-standards.md`
 - 工程规范：`openspec/references/engineering-standards.md` §1、§4、§9
 - 架构：`openspec/references/architecture.md`
 - 领域：`openspec/references/domain-models.md`

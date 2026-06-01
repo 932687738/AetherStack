@@ -44,18 +44,39 @@ Write-Utf8NoBom (Join-Path $Root ".cursorrules") $cursorrules
 # --- .cursor/rules/*.mdc ---
 $cursorRulesDir = Join-Path $Root ".cursor\rules"
 New-Item -ItemType Directory -Force -Path $cursorRulesDir | Out-Null
+$expectedMdcNames = New-Object System.Collections.Generic.HashSet[string]
 Get-ChildItem (Join-Path $Root ".aetherstack\rules") -Filter "*.md" | ForEach-Object {
     $name = "aether-$($_.BaseName).mdc"
-    $body = Read-Utf8 $_.FullName
+    $expectedMdcNames.Add($name) | Out-Null
+    $raw = Read-Utf8 $_.FullName
+    $desc = "AetherStack $($_.BaseName) rules"
+    $alwaysApply = "true"
+    $globsLine = ""
+    $body = $raw
+    if ($raw -match '(?s)^---\r?\n(.*?)\r?\n---\r?\n(.*)$') {
+        $fm = $Matches[1]
+        $body = $Matches[2]
+        if ($fm -match '(?m)^description:\s*(.+)$') { $desc = $Matches[1].Trim() }
+        if ($fm -match '(?m)^alwaysApply:\s*(true|false)\s*$') { $alwaysApply = $Matches[1].Trim().ToLower() }
+        if ($fm -match '(?m)^globs:\s*(.+)$') { $globsLine = "globs: $($Matches[1].Trim())`n" }
+    }
+    $fmLines = "description: $desc`n"
+    if ($globsLine) { $fmLines += $globsLine }
+    $fmLines += "alwaysApply: $alwaysApply`n"
     $mdc = @"
 ---
-description: AetherStack $($_.BaseName) rules
-alwaysApply: true
----
+$fmLines---
 
 $body
 "@
     Write-Utf8NoBom (Join-Path $cursorRulesDir $name) $mdc
+}
+
+Get-ChildItem $cursorRulesDir -Filter "aether-*.mdc" -File | ForEach-Object {
+    if (-not $expectedMdcNames.Contains($_.Name)) {
+        Remove-Item $_.FullName -Force
+        Write-Host "Removed orphan cursor rule: $($_.Name)"
+    }
 }
 
 # 复制 README 到根目录（UTF-8 字节复制，避免 PowerShell 编码问题）

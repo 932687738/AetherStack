@@ -395,5 +395,16 @@ public void methodName() {
 
 
 ## 八. 开发补充要求（可选）
+
+### 8.1 Spring AI / 铁三角设计清单【AI 相关需求强制】
+
+触及 LLM、Agent、Graph、RAG、`@Tool` 时必填（细则见 `aether-rules.md` §5.11）：
+
+- [ ] 编排选型：CompiledGraph / ReactAgent / ChatClient + 理由（对照 `backend-design-guide.md`）
+- [ ] Spring AI 核心：ChatClient、Prompt 路径、密钥注入、异常降级、可观测性
+- [ ] 多 Agent：RouterAgent / `transferToAgent`；`@Tool` 四段式；工具 ≤5 或动态注入
+- [ ] RAG：阈值、Top-K、元数据过滤、来源格式、rerank（如适用）
+- [ ] React/Graph：`maxIterations`、`FINAL ANSWER`、Graph 单例 Bean、State/条件边/HIL
+
 - [补充说明 1]
 - [补充说明 2]

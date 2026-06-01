@@ -1,0 +1,145 @@
+---
+description: Spring AI ReactAgent 与 CompiledGraph 开发规范 - 推理循环、状态图编排、工具调用、错误处理
+globs: "**/*.java,**/*.yml,**/*.yaml,**/*.graph,**/*.json"
+alwaysApply: true
+---
+
+
+# Spring AI ReactAgent 与 CompiledGraph 开发规范
+
+> **适用范围**：关联仓库 **ai** 中 ReactAgent、CompiledGraph、StateGraph、节点配置及相关 YAML/JSON/`.graph` 资源。  
+> **配套**：`openspec/references/spring-ai-react-graph-standards.md`、`.aetherstack/rules/backend-ai.md`、`.aetherstack/rules/spring-ai-core.md`、`.aetherstack/rules/spring-ai-multi-agent.md`、`.aetherstack/rules/spring-ai-rag.md`  
+> **铁三角**：多 Agent/Tool + 知识库 RAG + 本规范（React/Graph 编排）须同时遵守。
+
+## 一、基本概念与选型
+
+| 能力 | 适用场景 |
+|------|----------|
+| **ReactAgent** | 多步推理、动态工具调用、需观察结果后继续思考 |
+| **CompiledGraph** | 流程固定、多步骤、分支/循环、检查点、人工确认（HIL） |
+| **组合** | Graph 节点内嵌入 ReactAgent 作「智能决策节点」 |
+
+选型优先级与分层禁令见 `backend-ai.md`（禁止手写 while 编排、禁止 per-request compile Graph）。
+
+## 二、ReactAgent 开发规范
+
+### 2.1 定义与配置
+
+通过 Spring AI Alibaba **`ReactAgent`** / **`ToolCallingAgent`**（或项目封装）创建，必须显式配置：
+
+- **System Prompt**：角色、可用工具说明、推理步骤、终止条件（模板化，禁止硬编码散落）
+- **最大迭代次数**：默认 10，按业务调整，**必须显式配置**
+- **工具列表**：单次调用 ≤5；超限须意图分流或向量检索（见 `spring-ai-multi-agent.md`）
+- **终止策略**：如获得最终答案时输出 `FINAL ANSWER:` 并停止调用工具
+
+### 2.2 System Prompt 强制模板结构
+
+```text
+你是 {角色}，负责 {任务范围}。
+你可以使用以下工具：
+{tool_descriptions}
+
+推理流程：
+1. 分析用户问题，判断可直接回答或需调用工具。
+2. 若需调用工具，只调用一个最相关工具，并等待结果。
+3. 观察工具返回，判断是否足以回答。
+4. 如不足，继续调用其他相关工具，避免重复无谓调用。
+5. 信息足够时直接给出最终答案，以 “FINAL ANSWER: ” 开头。
+
+注意：一次只能调用一个工具，调用后必须等待结果才能进行下一次思考。
+```
+
+模板须与具体 Agent 角色融合；存放于 `src/main/resources/prompts/`，禁止在业务类中写死长 Prompt。
+
+### 2.3 工具调用
+
+- `@Tool` 描述遵循 `spring-ai-multi-agent.md`；System Prompt 中补充「何时用 / 何时不用」摘要。
+- 工具经 `ChatClient.defaultTools()` 或动态 `ToolCallback` 注入；**禁止**仅在 Prompt 手写工具说明而不走 Function Calling。
+- 工具结果以 `ToolResponseMessage` **原样**写入对话历史，禁止擅自截断或改写语义。
+
+### 2.4 迭代控制与安全
+
+- 达到 `maxIterations` 时强制基于当前观察作答，并打 **WARN** 日志。
+- 实现 `onIteration`（或等价 Hook）记录 Thought / Action / Observation。
+- 禁止同一步重复相同工具与参数；Prompt 声明 + 代码层去重检测。
+
+### 2.5 可观测性
+
+每轮记录：Thought、Action（工具名与脱敏参数）、Observation（截断后）；最终答案记录总迭代次数与工具调用次数；暴露 Micrometer 指标（见 §七）。
+
+## 三、CompiledGraph 开发规范
+
+### 3.1 图结构
+
+使用 **StateGraph**（或等价构建器）定义节点与边，须含：**入口**（解析输入）、**业务**（工具/LLM/判断）、**出口**（聚合输出）。
+
+- 图为 **DAG 或有限循环**；编译为 **`CompiledGraph` Bean**，应用启动时 `compile()`，**禁止**每请求重新 compile（见 `backend-ai.md`）。
+- 状态键（State Keys）显式声明；状态对象为**可序列化** POJO / Record。
+
+### 3.2 节点
+
+- 节点实现 `NodeAction` / `StateProcessor`；**禁止**节点内复杂业务规则 → 抽取 DomainService / `@Tool`。
+- 命名：`动词_领域`（如 `check_order_status`）。
+- 工具节点复用已有 `@Tool`；LLM 节点明确 System Prompt、工具列表（可为空）、输出键。
+
+### 3.3 条件边与路由
+
+- 条件边用 `EdgeCondition`，返回**下一步节点名常量**；条件逻辑仅读 **State 字段**，禁止多行业务代码与条件内调 DB/HTTP。
+- 外部依赖须前置为独立节点；编译时注册全部跳转目标，**禁止**运行时动态加边。
+
+### 3.4 状态管理
+
+- 状态推荐 **不可变**（Record / `@Value`），节点返回新副本，禁止原地 mutate。
+- 状态键用常量定义；需暂停/恢复时实现 `StateRepository`（Redis/DB），支持审计。
+
+### 3.5 人工介入（HIL）
+
+- 使用 **Interrupt** 暂停；恢复经外部 API 注入人工决定到 State。
+- 审计：介入点 ID、时间、决定内容。
+
+### 3.6 错误处理
+
+- 每节点配置 `onError`：重试 / 补偿节点 / 终止通知。
+- 补偿节点须能安全回滚；失败时保存完整状态快照。
+
+### 3.7 编译与测试
+
+- 启动时校验：状态键完整、条件边目标存在。
+- 单测覆盖：节点正常路径、条件分支、异常重试、中断恢复；集成测试用 `TestCompiledGraph` 或项目等价物。
+
+## 四、ReactAgent 嵌入 CompiledGraph
+
+- 节点类型如 `DelegatingAgentNode`：State 字段 → Agent 输入；`FINAL ANSWER` → 写回指定 State 键。
+- 工具列表由 State 决定（可动态检索），仍 **≤5**；监控迭代次数与耗时，**超时熔断**。
+
+## 五、与多智能体、知识库衔接
+
+- 工具/Skill：`spring-ai-multi-agent.md`
+- 节点内 RAG：`spring-ai-rag.md`（阈值、元数据过滤、来源引用）
+- RouterAgent：可建模为单步 ReactAgent 或单节点 CompiledGraph
+
+## 六、代码组织（ai 仓库）
+
+| 包/路径 | 内容 |
+|---------|------|
+| `agents/**/agent/`、`springai/agent/`（Demo） | ReactAgent 与 Prompt 配置 |
+| `knowledgehub/graph/`、`agents/**/graph/` | StateGraph、节点、条件路由 |
+| `src/main/resources/graphs/` | 可选 `.graph` / JSON；**须同时保留 Java DSL** 作为硬逻辑源 |
+| `*Properties` | 每 Agent/图独立 `@ConfigurationProperties`（迭代次数、超时等） |
+
+生产参考：`knowledgehub/graph/`；教程：`springai/graph/`、`springai/agent/`（`@Profile("demo")`，禁止生产依赖）。
+
+## 七、监控与告警
+
+| 类型 | 指标示例 | 标签 |
+|------|----------|------|
+| ReactAgent | `agent_iterations_total`、`agent_tool_calls_total`、`agent_timeouts_total` | `agent_name` |
+| CompiledGraph | `graph_execution_duration_seconds`、`graph_node_errors_total`、`graph_interruptions_total` | `graph_name` |
+
+单次执行 >30s 或错误率突增须告警。
+
+## 八、验证与 OpenSpec
+
+- 本地：`make verify`；可选 `.aetherstack/scripts/check-spring-ai-react-graph.ps1`（反模式扫描）。
+- OpenSpec design 选用 ReactAgent/CompiledGraph 时须引用 `spring-ai-react-graph-standards.md`，并说明迭代上限、HIL、状态持久化、指标。
+- `cr backend` 触及 Graph/ReactAgent 时核对 §二~§四 与 `backend-ai.md` 分层禁令。

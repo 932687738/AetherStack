@@ -41,6 +41,8 @@
 - 目录示例：`openspec/references/directory-examples.md`
 - 接口契约：`openspec/references/integration-contracts.md`
 - 工程标准：`openspec/references/engineering-standards.md`
+- 后端设计指南：`openspec/references/backend-design-guide.md`
+- Spring AI 铁三角：`spring-ai-core-standards.md`、`spring-ai-multi-agent-standards.md`、`spring-ai-rag-standards.md`、`spring-ai-react-graph-standards.md`
 - 项目配置：`openspec/config.yaml`
 - AI-TDD 规范：`openspec/references/ai-tdd-standards.md`
 - UI-Craft 规范：`openspec/references/ui-craft-standards.md`

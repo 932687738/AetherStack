@@ -53,8 +53,9 @@
 
 ```text
 用户 -> ai_react -> POST /api/agent-hub/chat/agent
-  -> OrchestratorAgent -> SubAgent
-  -> Tools/MCP + LLM -> SSE
+  -> AgentChatApplicationService (CompiledGraph prep + 流式分支)
+  -> AgentHubRouter (transferToAgent 语义) -> ReactAgent 子能力 / 编排器 ChatClient
+  -> ToolCatalog Top-K @Tool -> SSE
 ```
 
 ### 3. 文档上传入库

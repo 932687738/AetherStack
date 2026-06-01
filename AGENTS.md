@@ -4,6 +4,15 @@
 
 **单一配置源**：`.aetherstack/`。修改规则后运行 `make sync-config`。
 
+## 规范层次（落地顺序）
+
+| 层级 | 路径 | 职责 |
+|------|------|------|
+| Cursor 规则（AI 编码） | `.aetherstack/rules/` → sync 至 `.cursor/rules/` | 精简约束；铁三角（multi-agent + rag + react-graph）与 core/backend-ai 同时生效 |
+| OpenSpec 参考（design/tasks） | `openspec/references/*-standards.md` | 完整细则、design 必填项、验收口径 |
+| 工程基线 | `engineering-standards.md`、`backend-design-guide.md` | 分层矩阵、存量债务、演进路线 |
+| 冲突解决 | — | 同题多规范冲突时取**更严格、更安全**条款；以 `aether-rules.md` §5.11 铁三角清单为 design 自检 |
+
 ## AI 工作流（obra Superpowers）
 
 通用工作流（TDD、代码审查、brainstorming、调试等）由 **obra Superpowers** Cursor 插件提供：
@@ -63,6 +72,10 @@ Cursor Skills：`.cursor/skills/openspec-*/SKILL.md`
 | `cr backend` / `cr frontend` | 同上 | `LOCALPATH.md` |
 | 单测 / unit test / AUTO-UT | `test-driven-development` | `rules/superpowers.md` |
 | AI-TDD / `/tdd` / AI 核心模块 | `test-driven-development` | `rules/ai-tdd.md`、`openspec/references/ai-tdd-standards.md` |
+| Spring AI / ChatClient / Prompt / 模型配置 | — | `rules/spring-ai-core.md`、`openspec/references/spring-ai-core-standards.md` |
+| 多 Agent / `@Tool` / RouterAgent | — | `rules/spring-ai-multi-agent.md`、`openspec/references/spring-ai-multi-agent-standards.md` |
+| 知识库 / RAG / 向量检索 / 文档入库 | — | `rules/spring-ai-rag.md`、`openspec/references/spring-ai-rag-standards.md` |
+| ReactAgent / CompiledGraph / StateGraph | — | `rules/spring-ai-react-graph.md`、`openspec/references/spring-ai-react-graph-standards.md` |
 | UI-Craft / `/impeccable` / 前端 UI 改版 | Impeccable skill | `rules/ui-craft.md`、`openspec/references/ui-craft-standards.md` |
 | 提交型 DDD 设计 | — | `rules/ddd-commit-design.md` |
 | 更新文档 / 同步 changelog | — | `rules/documentation.md` |
@@ -86,4 +99,8 @@ Cursor Skills：`.cursor/skills/openspec-*/SKILL.md`
 - 技术栈：`openspec/references/tech-stack.md`
 - 领域模型：`openspec/references/domain-models.md`
 - **AI 阶段化 TDD**：`openspec/references/ai-tdd-standards.md`、`.aetherstack/rules/ai-tdd.md`
+- **Spring AI 核心**：`openspec/references/spring-ai-core-standards.md`、`.aetherstack/rules/spring-ai-core.md`
+- **多 Agent / Tool**：`openspec/references/spring-ai-multi-agent-standards.md`、`.aetherstack/rules/spring-ai-multi-agent.md`
+- **知识库 RAG**：`openspec/references/spring-ai-rag-standards.md`、`.aetherstack/rules/spring-ai-rag.md`
+- **ReactAgent / CompiledGraph**：`openspec/references/spring-ai-react-graph-standards.md`、`.aetherstack/rules/spring-ai-react-graph.md`
 - **前端 UI Craft**：`openspec/references/ui-craft-standards.md`、`.aetherstack/rules/ui-craft.md`、`.cursor/skills/impeccable/`

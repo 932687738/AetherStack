@@ -5,7 +5,7 @@ context: |
 
   ## Project Summary
   - AetherStack = Spring AI Agent Hub (backend) + Nebula Desk (frontend)
-  - 规范与代码同仓 Monorepo
+  - 治理层与关联代码仓分离；路径见 `LOCALPATH.md`
 
   ## Output Language
   - 简体中文（术语可保留英文）
@@ -26,10 +26,16 @@ context: |
   - `openspec/references/tech-stack.md`：技术栈与测试策略
   - `openspec/references/directory-examples.md`：目录示例与选址对照
   - `openspec/references/integration-contracts.md`：前后端接口契约基线
+  - `openspec/references/backend-design-guide.md`：后端现状问题、目标架构与演进路线
   - `openspec/references/aether-rules.md`：项目规则与判定标准（强约束）
   - `openspec/references/ai-tdd-standards.md`：AI 核心模块阶段化 TDD（OpenSpec aiTddMode 开关）
+  - `openspec/references/spring-ai-core-standards.md`：Spring AI 框架配置、ChatClient、Tool 基础、安全与可观测性
+  - `openspec/references/spring-ai-multi-agent-standards.md`：多 Agent / Router / @Tool 描述与动态注入
+  - `openspec/references/spring-ai-rag-standards.md`：知识库 RAG 文档处理、向量检索与 Agent 集成
+  - `openspec/references/spring-ai-react-graph-standards.md`：ReactAgent / CompiledGraph 编排、HIL、状态与监控
   - `openspec/references/ui-craft-standards.md`：前端 UI Craft（OpenSpec uiCraftMode + Impeccable）
   - `.aetherstack/rules/superpowers.md`：obra 插件集成与项目 AI 工作流约束
+  - `.aetherstack/rules/backend-ai.md`：Spring AI 编排选型（CompiledGraph / ReactAgent / ChatClient）与分层禁令
   - `.aetherstack/rules/ai-tdd.md`：AI-TDD 触发与 L1/L3 分层
   - `.aetherstack/rules/ui-craft.md`：UI-Craft 触发与 U1/U3 分层
 
@@ -51,6 +57,7 @@ rules:
     - 设计文档按模板章节顺序输出（详见 aether-rules）
     - 涉及已有能力的设计需基于现有代码/接口/表结构（详见 aether-rules）
     - 设计与实现需遵循 openspec/references/engineering-standards.md
+    - AI/LLM 相关 design 须引用 backend-design-guide.md 与 Spring AI 铁三角规范（core / multi-agent / rag / react-graph）；冲突时取更严格条款
     - 前后端契约变更需对齐 integration-contracts.md
   tasks:
     - 任务必须 `- [ ]` 可勾选

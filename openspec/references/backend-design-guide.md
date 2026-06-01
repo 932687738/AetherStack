@@ -2,7 +2,7 @@
 
 > **目的**：梳理当前实现中的不合理之处，定义目标架构与演进规则。  
 > **真源代码**：`D:\cache\workspace\ai`（见 `LOCALPATH.md`）  
-> **配套**：`engineering-standards.md`、`architecture.md`、`backend-ai.md`（`.aetherstack/rules/`）
+> **配套**：`engineering-standards.md`、`architecture.md`、`backend-ai.md`、`spring-ai-core-standards.md`、`spring-ai-multi-agent-standards.md`、`spring-ai-react-graph-standards.md`、`spring-ai-rag-standards.md`（`.aetherstack/rules/`）
 
 ---
 
