@@ -1,6 +1,6 @@
 name: standard-spec-driven
 version: 1
-description: QWMS workflow - proposal → specs → (design-draft if complex) → design → test-cases → tasks → apply
+description: QWMS workflow - proposal → specs → (design-draft if complex) → design → design-review (brainstorming) → test-cases → tasks → apply
 artifacts:
   - id: proposal
     generates: proposal.md
@@ -110,9 +110,76 @@ artifacts:
       【UI-Craft】读取 `.openspec.yaml` 的 `uiCraftMode`（或 0.1 默认 auto）：
       - `enabled` 或 auto 判定有 U1 界面时，design 必须含「前端 UI 界面清单」表格（路径、UI-CRAFT/UI-FUNC/UI-AUDIT、说明），见 `openspec/references/ui-craft-standards.md`
       - 纯后端变更可声明「无 U1 界面」并设 `uiCraftMode: disabled`
+
+      design.md 初稿完成后 **不得** 直接进入 test-cases / tasks；须先完成 `design-review` 工件（见下一 artifact）。
     requires:
       - proposal
       - specs
+
+  - id: design-review
+    generates: design-review.md
+    description: 设计审查（Superpowers brainstorming）
+    template: design-review.md
+    instruction: |
+      【强制】standard-spec-driven 专属：在 design.md 完成后、进入 test-cases / tasks 前，必须对本设计进行 brainstorming 审查。
+
+      ## 触发与前置
+
+      - 依赖 `design.md` 已生成（含 design-draft 路径下的终稿）
+      - 未安装 obra Superpowers 时提示：`/add-plugin superpowers`
+      - **必须 invoke** 插件 skill `brainstorming`（非 Cursor 环境读取 GitHub 同名 skill）
+
+      ## 必读输入
+
+      - `proposal.md`
+      - `specs/**/spec.md`
+      - `design.md`
+      - `openspec/references/aether-rules.md` §5（design 约束）、§5.11（Spring AI 铁三角，如适用）
+      - `openspec/references/engineering-standards.md`
+      - AI 相关：`backend-design-guide.md` 与铁三角 standards（如 design 触及 LLM/Agent/RAG/Graph）
+
+      ## 审查方式（brainstorming）
+
+      以「设计审查」模式 invoke `brainstorming`：对现有 design.md 做批判性审视，**不是**重新头脑风暴新方案。重点：
+
+      1. **需求对齐**：design 是否覆盖全部 Requirement/Scenario；有无遗漏或擅自扩 scope
+      2. **架构分层**：四层边界、聚合入口、事务边界、跨聚合事件是否清晰
+      3. **接口契约**：与 `integration-contracts.md`、错误码、幂等/批量语义是否一致
+      4. **非功能**：可观测性清单、并发/幂等/性能口径、Assumptions 是否完整（aether-rules §5）
+      5. **Spring AI**（如适用）：选型理由、铁三角 checklist、禁止手写编排扩大
+      6. **风险与备选**：技术债务、回滚/降级、未决口径是否显式标记
+
+      ## 产出
+
+      - 生成 `design-review.md`（模板见 `openspec/schemas/standard-spec-driven/templates/design-review.md`）
+      - 每条发现标注 ID（DR-xx）、严重度（阻塞 / 建议）
+      - **阻塞项**：须修订 `design.md` 并在「design.md 修订记录」中回填；阻塞清零前 Status 保持 `Draft`
+      - **建议项**：可记录采纳/豁免理由；不阻断进入下一阶段
+
+      ## 模式评估（与 design 完成后检查点联动）
+
+      审查同时执行（并在 design-review 中简要记录结论）：
+      - `aiTddMode: auto` → 是否触及 L1；触及则更新 `.openspec.yaml` 为 `enabled`
+      - `uiCraftMode: auto` → 是否触及 U1；触及则更新 `.openspec.yaml` 为 `enabled`，并确认 design 含 UI 界面清单
+
+      ## 用户确认（强制）
+
+      完成后主动列出：总体结论、阻塞项、已修订章节、待用户确认项。话术示例：
+
+      ```
+      ✅ design-review.md 已生成（brainstorming 审查完成），请确认：
+
+      【总体结论】有条件通过 / 通过 / 需修订
+      【阻塞项】共 N 条（须清零后 Status → Reviewed）
+      【design.md 已修订章节】…
+
+      确认无误请回复「确认 design-review」，我将 Status 改为 Reviewed 并继续 test-cases / tasks。
+      ```
+
+      - 收到用户确认且阻塞项已处理后，将 `Status` 改为 `Reviewed`
+      - **Status 非 Reviewed 时**，不得生成或推进 test-cases / tasks
+    requires:
+      - design
 
   - id: test-cases
     generates: test-cases.md
@@ -190,6 +257,7 @@ artifacts:
     requires:
       - specs
       - design
+      - design-review
 
   - id: tasks
     generates: tasks.md
@@ -217,6 +285,7 @@ artifacts:
     requires:
       - specs
       - design
+      - design-review
 
 apply:
   requires: [tasks]
@@ -226,6 +295,7 @@ apply:
 
     【强制】编码前验证：
     - 通读 proposal.md、specs/ 下相关 spec.md 与 design.md 的对应章节
+    - 确认 `design-review.md` 存在且 `Status: Reviewed`（standard-spec-driven 门禁）
     - 读取 `.openspec.yaml` 的 `aiTddMode`；`enabled` 或 auto 命中 L1 时必读 `openspec/references/ai-tdd-standards.md`
     - 对 `AUTO-UT` 任务，先读取 `test-cases.md` 中对应 `[C]` 用例，再定位代码写单测
     - 对 `AUTO-AI-UT` 任务：**必须先写/补 `*Test.java` 再改 L1 生产代码**；invoke obra Superpowers `test-driven-development`，并遵循 `.aetherstack/rules/ai-tdd.md` 与 `harness/adapters/java-maven/ai-test-templates.md`

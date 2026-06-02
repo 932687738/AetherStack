@@ -27,6 +27,7 @@ AetherStack 仅通过 **rules + context** 叠加项目约束（多仓库、DDD�
 | 接收审查反馈 | `receiving-code-review` | 收到 CR 意见、review comment |
 | 单元测试 / TDD | `test-driven-development` | 单测、unit test、AUTO-UT |
 | 方案探索 | `brainstorming` | 设计新功能、方案讨论 |
+| 设计审查（standard OpenSpec） | `brainstorming` | design.md 完成后、design-review |
 | 实施计划 | `writing-plans` | 实现计划、任务拆分 |
 | 执行计划 | `executing-plans` | 按计划实现 |
 | 系统化调试 | `systematic-debugging` | 排查 bug、随机失败 |

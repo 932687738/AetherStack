@@ -72,6 +72,8 @@
   - 关键词示例：`cr`、`cr backend`、`code review`、`发起cr`、`代码审查`
 - 需求命中单测关键词：invoke 插件 `test-driven-development`，并遵循 `rules/superpowers.md` 中测试约束
   - 关键词示例：单测、unit test、UT、AUTO-UT、Service 测试
+- **standard-spec-driven 设计审查**：`design.md` 完成后、进入 test-cases / tasks 前，**必须 invoke** 插件 `brainstorming` 生成 `design-review.md`（见 §7、`standard-spec-driven/schema.yaml` 之 `design-review` artifact）
+  - 关键词示例：`design-review`、`设计审查`、`确认 design-review`
 - **AI 应用 TDD（阶段化）**：OpenSpec `aiTddMode: enabled|auto(命中L1)` 或关键词 `/tdd`、`AI-TDD` 时 invoke `test-driven-development`（见 `rules/ai-tdd.md`）
 - **前端 UI Craft**：OpenSpec `uiCraftMode: enabled|auto(命中U1)` 或关键词 `/impeccable`、`UI-Craft` 时读取 `.cursor/skills/impeccable/SKILL.md`（见 `rules/ui-craft.md`）
 - 需求涉及提交类写接口 DDD 设计：读取 `.aetherstack/rules/ddd-commit-design.md`
@@ -214,6 +216,15 @@
 
 纯 CRUD / 无 LLM 编排的需求可注明豁免依据（与 `backend-ai.md` 例外一致）。
 
+### 5.12 design-review（standard-spec-driven 强制）
+
+- **适用范围**：仅 `standard-spec-driven`；`simple-spec-driven` / `bugfix-spec-driven` 不要求本步骤
+- **时机**：`design.md` 终稿完成后、生成 `test-cases.md` 或 `tasks.md` **之前**
+- **方式**：invoke obra Superpowers `brainstorming`，以设计审查模式审视现有 design（非重新头脑风暴新方案）
+- **产出**：`design-review.md`（模板见 `openspec/schemas/standard-spec-driven/templates/design-review.md`）
+- **门禁**：阻塞项须修订 `design.md` 并回填修订记录；`design-review.md` 的 `Status` 须为 `Reviewed` 且用户确认后，方可进入 test-cases / tasks
+- **审查维度**（至少覆盖）：需求与 spec 对齐、架构分层、接口契约、非功能与可观测性、Spring AI 铁三角（如适用）、风险与假设
+
 ## 6. test-cases.md（测试设计质量门禁）
 
 > 用例生成的完整执行规范以各 schema 的 test-cases instruction 为准，本章仅保留跨流程的全局约束。
@@ -245,8 +256,9 @@
 
 - **proposal + spec 完成后**：必须进行复杂度评估
 - **复杂需求**：先 design-draft，再 design
-- **design 完成后（aiTddMode: auto）**：评估是否触及 L1 AI 模块
-- **design 完成后（uiCraftMode: auto）**：评估是否触及 U1 界面；若触及，将 `uiCraftMode` 视为 `enabled` 并更新 `.openspec.yaml`；design 须含「前端 UI 界面清单」
+- **design 完成后（standard-spec-driven）**：**必须** invoke Superpowers `brainstorming` 完成 `design-review.md`；阻塞项修订 design 后须用户确认，`Status: Reviewed` 方可进入 test-cases / tasks
+- **design 完成后（aiTddMode: auto）**：评估是否触及 L1 AI 模块（可与 design-review 同步执行并记录于 design-review.md）
+- **design 完成后（uiCraftMode: auto）**：评估是否触及 U1 界面；若触及，将 `uiCraftMode` 视为 `enabled` 并更新 `.openspec.yaml`；design 须含「前端 UI 界面清单」（可与 design-review 同步执行）
 - **test-cases.md 生成后**：等待 review（Status → Reviewed）后再推进测试任务
 - **开始实现前**：以 schema `apply.requires` 为准；`AUTO-UT` / `AUTO-AI-UT` 用例需映射到 `*Test.java`
 - **AI-TDD enabled 时**：L1 模块 apply 必须 invoke Superpowers `test-driven-development`，先测后码

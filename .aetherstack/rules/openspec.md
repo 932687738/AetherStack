@@ -47,3 +47,13 @@
 - AI-TDD 规范：`openspec/references/ai-tdd-standards.md`
 - UI-Craft 规范：`openspec/references/ui-craft-standards.md`
 - 框架同步记录：`openspec/OPENSPEC-SYNC.md`
+
+## standard-spec-driven 设计审查（强制）
+
+`design.md` 完成后、进入 test-cases / tasks **之前**：
+
+1. **invoke** obra Superpowers `brainstorming`（设计审查模式，非重新头脑风暴）
+2. 生成 `design-review.md`（模板：`openspec/schemas/standard-spec-driven/templates/design-review.md`）
+3. 阻塞项须修订 `design.md`；用户确认且 `Status: Reviewed` 后方可继续
+
+`simple-spec-driven` / `bugfix-spec-driven` **不要求**本步骤。细则见 `aether-rules.md` §5.12、§7。

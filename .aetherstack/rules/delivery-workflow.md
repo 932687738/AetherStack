@@ -6,13 +6,15 @@
 
 ```text
 OpenSpec 0.1（schema + 需求材料 + aiTddMode + uiCraftMode）
-  → proposal / spec / design / tasks（按 schema 裁剪）
-  → Superpowers：brainstorming（方案未定）→ writing-plans → executing-plans
+  → proposal / spec / design / design-review（standard 模式：brainstorming 审查）/ tasks（按 schema 裁剪）
+  → Superpowers：writing-plans → executing-plans
   → 实现：后端 AUTO-UT / AI-TDD；前端 U1 → Impeccable
   → verification-before-completion（make verify / mvn test / npm run build）
   → cr backend | cr frontend
   → 归档或文档同步
 ```
+
+> **standard-spec-driven**：`design.md` 完成后须 invoke `brainstorming` 生成 `design-review.md`，用户确认（Status: Reviewed）后再进入 test-cases / tasks。方案探索阶段的 brainstorming 与本步骤职责不同。
 
 ## 开关（OpenSpec `.openspec.yaml`）
 
@@ -31,7 +33,8 @@ OpenSpec 0.1（schema + 需求材料 + aiTddMode + uiCraftMode）
 
 | 阶段 | skill / 关键词 |
 |------|----------------|
-| 方案 | `brainstorming` |
+| 设计审查（standard 模式，design 后） | `brainstorming` |
+| 方案探索（方案未定，非 OpenSpec design-review） | `brainstorming` |
 | 计划 | `writing-plans`、`executing-plans` |
 | 测试 | `test-driven-development`；AI 核心加 `/tdd` |
 | 调试 | `systematic-debugging` |

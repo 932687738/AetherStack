@@ -16,6 +16,7 @@ context: |
   - 遵循 schema 流程（standard-spec-driven / simple-spec-driven / bugfix-spec-driven；选择规则见 aether-rules）
   - spec 必须双层结构；Requirement 关键字必须英文，Scenario 写法以所选 schema/template 为准（当前兼容「#### 场景 + 前提/操作/结果」）
   - 复杂需求先 design-draft（判定见 aether-rules）
+  - standard-spec-driven：design.md 完成后须 brainstorming 设计审查（design-review.md，见 aether-rules §5.12）
   - **启动边界**：治理层（openspec/.aetherstack）可离线；前后端开发必须启动应用
 
   ## References Index
@@ -59,6 +60,10 @@ rules:
     - 设计与实现需遵循 openspec/references/engineering-standards.md
     - AI/LLM 相关 design 须引用 backend-design-guide.md 与 Spring AI 铁三角规范（core / multi-agent / rag / react-graph）；冲突时取更严格条款
     - 前后端契约变更需对齐 integration-contracts.md
+  design-review:
+    - 仅 standard-spec-driven：design.md 完成后 invoke Superpowers brainstorming 生成 design-review.md
+    - 阻塞项须修订 design.md；Status Reviewed 且用户确认后方可进入 test-cases / tasks
+    - 细则见 openspec/references/aether-rules.md §5.12 与 standard-spec-driven/schema.yaml
   tasks:
     - 任务必须 `- [ ]` 可勾选
     - 按 Requirement 拆分并包含可验证输出
