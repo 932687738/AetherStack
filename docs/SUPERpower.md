@@ -8,7 +8,7 @@ AetherStack 的 AI 增强能力由 **obra Superpowers** Cursor 插件 + **`.aeth
 
 | 能力 | 组件 | 触发方式 |
 |------|------|----------|
-| 智能代码生成 | Harness `hev-coder` + OpenSpec apply | `/opsx-apply`、Harness 执行阶段 |
+| 智能代码生成 | Harness `hev-coder` + **harness-apply** + OpenSpec apply | `/opsx-apply`（三阶段 Analyze/Code/Verify） |
 | 代码审查 | obra `requesting-code-review` | 关键词：`cr`、`code review` |
 | 单元测试 / TDD | obra `test-driven-development` | 关键词：单测、unit test、AUTO-UT |
 | **AI 阶段化 TDD** | obra `test-driven-development` + `rules/ai-tdd.md` | OpenSpec `aiTddMode: enabled`；或 `/tdd`、`AI-TDD` |

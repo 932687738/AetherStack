@@ -7,9 +7,8 @@
 ```text
 OpenSpec 0.1（schema + 需求材料 + aiTddMode + uiCraftMode）
   → proposal / spec / design / design-review（standard 模式：brainstorming 审查）/ tasks（按 schema 裁剪）
-  → Superpowers：writing-plans → executing-plans
-  → 实现：后端 AUTO-UT / AI-TDD；前端 U1 → Impeccable
-  → verification-before-completion（make verify / mvn test / npm run build）
+  → /opsx-apply + Harness（hev-analyzer → hev-coder → hev-verifier，见 harness-apply skill）
+  → Superpowers：verification-before-completion
   → cr backend | cr frontend
   → 归档或文档同步
 ```
@@ -33,6 +32,7 @@ OpenSpec 0.1（schema + 需求材料 + aiTddMode + uiCraftMode）
 
 | 阶段 | skill / 关键词 |
 |------|----------------|
+| **Apply 实现（OpenSpec tasks）** | **harness-apply** + hev-* | `/opsx-apply`；必读 `.cursor/skills/harness-apply/SKILL.md` |
 | 设计审查（standard 模式，design 后） | `brainstorming` |
 | 方案探索（方案未定，非 OpenSpec design-review） | `brainstorming` |
 | 计划 | `writing-plans`、`executing-plans` |

@@ -153,6 +153,8 @@ apply:
   instruction: |
     逐项执行 tasks.md，完成后勾选 `- [x]`。
 
+    【强制】Harness 接线：必读 `.cursor/skills/harness-apply/SKILL.md`；每 task Analyze → Code → Verify；结束前 `make verify`。
+
     【强制】编码前验证：
     - 通读 bug-report.md 与 fix-plan.md 的对应章节
     - 读取 `.openspec.yaml` 的 `aiTddMode`；AI 核心修复且 enabled 时必读 `ai-tdd-standards.md`

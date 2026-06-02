@@ -78,6 +78,7 @@ Cursor Skills：`.cursor/skills/openspec-*/SKILL.md`
 | ReactAgent / CompiledGraph / StateGraph | — | `rules/spring-ai-react-graph.md`、`openspec/references/spring-ai-react-graph-standards.md` |
 | UI-Craft / `/impeccable` / 前端 UI 改版 | Impeccable skill | `rules/ui-craft.md`、`openspec/references/ui-craft-standards.md` |
 | design-review / 设计审查（standard 模式） | `brainstorming` | `rules/openspec.md`、`aether-rules.md` §5.12 |
+| `/opsx-apply` / OpenSpec 实现 | **harness-apply** + hev-* | `.cursor/skills/harness-apply/SKILL.md` |
 | 提交型 DDD 设计 | — | `rules/ddd-commit-design.md` |
 | 更新文档 / 同步 changelog | — | `rules/documentation.md` |
 

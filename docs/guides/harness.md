@@ -12,6 +12,7 @@ Harness 是 **AI 驱动开发操作系统**（项目内 vendoring），与 GitHu
 | `harness/agents/hev-verifier.md` | 验证修复 |
 | `harness/references/phases/` | 六阶段细则 |
 | `harness/docs/PLANS.md` | 当前计划 |
+| `.cursor/skills/harness-apply/SKILL.md` | `/opsx-apply` 三 Agent 接线 |
 
 ## 2. 六阶段
 
@@ -46,22 +47,30 @@ verify:
 
 本地一键：`make verify`
 
-## 4. Claude Code 示例
+## 4. Claude Code / Cursor 示例
 
 ```
 1. 读 CLAUDE.md → AGENTS.md → harness/harness.config.yaml
 2. 读 openspec/changes/xxx/tasks.md
-3. 按 hev-analyzer 分析 backend 影响范围
-4. 按 hev-coder 实现
-5. 按 hev-verifier 运行 make verify
-6. 更新 harness/docs/PLANS.md 勾选状态
+3. /opsx-apply → 读 harness-apply/SKILL.md
+4. 每 task：hev-analyzer → hev-coder → hev-verifier（显式输出三阶段）
+5. 全部完成：make verify + verification-before-completion
+6. 更新 harness/docs/plans/<change-id>.md（可选）
 ```
 
 ## 5. 与 OpenSpec 协作
 
 - OpenSpec 提供 **tasks.md**（做什么）
 - Harness 提供 **怎么做 + 怎么验**
-- apply 阶段：先满足 OpenSpec 准入，再跑 Harness verify
+- apply 阶段：**必读** `.cursor/skills/harness-apply/SKILL.md`；每 task 走 hev-analyzer → hev-coder → hev-verifier；结束前 `make verify`
+
+### Apply 时你会看到的输出
+
+```text
+### Harness Analyze（hev-analyzer）
+### Harness Code（hev-coder）
+### Harness Verify（hev-verifier）
+```
 
 ## 6. 适配器
 

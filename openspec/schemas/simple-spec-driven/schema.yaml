@@ -212,6 +212,8 @@ apply:
     逐项执行 tasks.md，完成后勾选 `- [x]`。
     准入说明：本 schema 进入 apply 仅要求 `tasks`；`test-cases.md` 未就绪时，按占位任务规则跳过测试占位项并在结果中显式列出待补项。
 
+    【强制】Harness 接线：必读 `.cursor/skills/harness-apply/SKILL.md`；每 task Analyze → Code → Verify；结束前 `make verify`。
+
     【强制】编码前验证：
     - 通读 proposal.md、specs/ 下相关 spec.md 与 design-lite.md 的对应章节
     - 读取 `.openspec.yaml` 的 `aiTddMode`；enabled 或 auto 命中 L1 时必读 `openspec/references/ai-tdd-standards.md`

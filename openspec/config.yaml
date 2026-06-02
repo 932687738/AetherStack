@@ -36,6 +36,7 @@ context: |
   - `openspec/references/spring-ai-react-graph-standards.md`：ReactAgent / CompiledGraph 编排、HIL、状态与监控
   - `openspec/references/ui-craft-standards.md`：前端 UI Craft（OpenSpec uiCraftMode + Impeccable）
   - `.aetherstack/rules/superpowers.md`：obra 插件集成与项目 AI 工作流约束
+  - `.cursor/skills/harness-apply/SKILL.md`：OpenSpec apply × Harness 三 Agent 接线
   - `.aetherstack/rules/backend-ai.md`：Spring AI 编排选型（CompiledGraph / ReactAgent / ChatClient）与分层禁令
   - `.aetherstack/rules/ai-tdd.md`：AI-TDD 触发与 L1/L3 分层
   - `.aetherstack/rules/ui-craft.md`：UI-Craft 触发与 U1/U3 分层

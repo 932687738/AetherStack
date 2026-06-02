@@ -56,6 +56,8 @@ Implement tasks from an OpenSpec change.
    - **spec-driven**: proposal, specs, design, tasks
    - Other schemas: follow the contextFiles from CLI output
 
+   **【强制】Harness 接线**：读取 `.cursor/skills/harness-apply/SKILL.md` 并遵循单任务微循环（Analyze → Code → Verify）。
+
 5. **Show current progress**
 
    Display:
@@ -66,12 +68,13 @@ Implement tasks from an OpenSpec change.
 
 6. **Implement tasks (loop until done or blocked)**
 
-   For each pending task:
-   - Show which task is being worked on
-   - Make the code changes required
-   - Keep changes minimal and focused
-   - Mark task complete in the tasks file: `- [ ]` → `- [x]`
-   - Continue to next task
+   For each pending task, follow **harness-apply** 三阶段（须在回复中显式输出标题）：
+
+   1. **Harness Analyze（hev-analyzer）** — 读 `harness/agents/hev-analyzer.md`；Grep/Read 验证 design 中的类与路径
+   2. **Harness Code（hev-coder）** — 在正确仓库（ai / ai_react）实现；遵守 AI-TDD / UI-Craft
+   3. **Harness Verify（hev-verifier）** — scoped 验证通过后再勾选 `- [x]`
+
+   细则见 `.cursor/skills/harness-apply/SKILL.md`。
 
    **Pause if:**
    - Task is unclear → ask for clarification
@@ -80,6 +83,11 @@ Implement tasks from an OpenSpec change.
    - User interrupts
 
 7. **On completion or pause, show status**
+
+   Before claiming all tasks complete:
+   - Run **`make verify`** in AetherStack governance repo
+   - invoke Superpowers **`verification-before-completion`**
+   - Include **Harness Session Verify** in output (see harness-apply skill)
 
    Display:
    - Tasks completed this session
@@ -93,11 +101,15 @@ Implement tasks from an OpenSpec change.
 ## Implementing: <change-name> (schema: <schema-name>)
 
 Working on task 3/7: <task description>
-[...implementation happening...]
-✓ Task complete
 
-Working on task 4/7: <task description>
-[...implementation happening...]
+### Harness Analyze（hev-analyzer）
+…
+
+### Harness Code（hev-coder）
+…
+
+### Harness Verify（hev-verifier）
+…
 ✓ Task complete
 ```
 
@@ -109,6 +121,9 @@ Working on task 4/7: <task description>
 **Change:** <change-name>
 **Schema:** <schema-name>
 **Progress:** 7/7 tasks complete ✓
+
+### Harness Session Verify
+- make verify: passed
 
 ### Completed This Session
 - [x] Task 1
@@ -147,6 +162,7 @@ What would you like to do?
 - Update task checkbox immediately after completing each task
 - Pause on errors, blockers, or unclear requirements - don't guess
 - Use contextFiles from CLI output, don't assume specific file names
+- **Harness（强制）**：实现类任务必须走 Analyze → Code → Verify；见 `.cursor/skills/harness-apply/SKILL.md`
 
 **Fluid Workflow Integration**
 

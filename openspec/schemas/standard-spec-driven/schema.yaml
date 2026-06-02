@@ -293,6 +293,11 @@ apply:
   instruction: |
     逐项执行 tasks.md，完成后勾选 `- [x]`。
 
+    【强制】Harness 接线（/opsx-apply 同源）：
+    - 必读 `.cursor/skills/harness-apply/SKILL.md`
+    - 每个实现类 task：hev-analyzer → hev-coder → hev-verifier（scoped 验证通过后再勾选）
+    - 全部 task 完成或会话结束前：`make verify` + Superpowers `verification-before-completion`
+
     【强制】编码前验证：
     - 通读 proposal.md、specs/ 下相关 spec.md 与 design.md 的对应章节
     - 确认 `design-review.md` 存在且 `Status: Reviewed`（standard-spec-driven 门禁）

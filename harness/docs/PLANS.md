@@ -6,7 +6,8 @@
 
 - [x] 骨架搭建（Step 2）
 - [x] 集成与文档（Step 3）
-- [ ] 首个 OpenSpec 变更 apply
+- [x] `/opsx-apply` × Harness 接线（harness-apply skill）
+- [ ] 首个 OpenSpec 变更 apply（端到端跑通）
 - [ ] 验证通过（make verify）
 - [ ] 归档
 

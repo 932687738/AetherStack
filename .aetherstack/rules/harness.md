@@ -4,12 +4,26 @@
 
 Harness 是 **AI 驱动开发流程**（项目内 `harness/`），不是 CI 替代品。CI 由 `.github/workflows/` 提供（Step 3，可配置开关）。
 
+## 与 OpenSpec apply 接线（强制）
+
+`/opsx-apply` 或 openspec-apply-change 执行实现任务时：
+
+1. **必读** `.cursor/skills/harness-apply/SKILL.md`
+2. 每个实现类 task 按序：**hev-analyzer → hev-coder → hev-verifier**（回复中须显式三阶段标题）
+3. 会话结束前 **`make verify`** + Superpowers `verification-before-completion`
+
+| 阶段 | Agent 定义 | apply 中的职责 |
+|------|------------|----------------|
+| Analyze | `harness/agents/hev-analyzer.md` | 验证 design 中的类/路径；输出影响范围 |
+| Code | `harness/agents/hev-coder.md` | 在 ai / ai_react 实现 |
+| Verify | `harness/agents/hev-verifier.md` | scoped mvn/npm；loop ≤ `verify.loop_max` |
+
 ## 六阶段（概要）
 
 1. 索引 — 读 `CLAUDE.md` / `AGENTS.md` / `harness/harness.config.yaml`
-2. 计划 — `harness/docs/PLANS.md` 或 `docs/plans/`
-3. 执行 — hev-coder 或人工实现
-4. 验证 — linter → compile → test（见 `harness/adapters/`）
+2. 计划 — OpenSpec `tasks.md` + `harness/docs/PLANS.md` 或 `harness/docs/plans/<change-id>.md`
+3. 执行 — hev-coder（经 harness-apply 嵌入 `/opsx-apply`）
+4. 验证 — hev-verifier + `make verify`
 5. 完成 — 摘要与文档更新
 6. 归档 — `docs/archive/`
 
@@ -33,3 +47,4 @@ make verify
 - 项目配置：`harness/harness.config.yaml`
 - Java 适配器：`harness/adapters/java-maven/`
 - 前端适配器：`harness/adapters/frontend-npm/`
+- Apply 接线 Skill：`.cursor/skills/harness-apply/SKILL.md`
