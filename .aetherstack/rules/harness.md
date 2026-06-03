@@ -42,6 +42,14 @@ make verify
 # 或 .aetherstack/scripts/verify-all.sh
 ```
 
+## 完成门禁（归档前）
+
+```bash
+make completion-gate CHANGE=<change-id>
+```
+
+合并 Harness `verify`、OpenSpec `verification-report.md`、追溯与 UI-Craft 检查。详见 `openspec/references/completion-gate.md`。
+
 ## 配置
 
 - 项目配置：`harness/harness.config.yaml`

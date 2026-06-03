@@ -296,7 +296,8 @@ apply:
     【强制】Harness 接线（/opsx-apply 同源）：
     - 必读 `.cursor/skills/harness-apply/SKILL.md`
     - 每个实现类 task：hev-analyzer → hev-coder → hev-verifier（scoped 验证通过后再勾选）
-    - 全部 task 完成或会话结束前：`make verify` + Superpowers `verification-before-completion`
+    - 全部 task 完成或会话结束前：Superpowers `verification-before-completion` → `/opsx-verify`（`verification-report.md`）→ `cr` → `make completion-gate CHANGE=<id>`（见 `openspec/references/completion-gate.md`）
+    - AUTO-UT/AUTO-AI-UT 勾选任务须含 `trace: TC-REQ…`；U1 勾选须含 `impeccable:`
 
     【强制】编码前验证：
     - 通读 proposal.md、specs/ 下相关 spec.md 与 design.md 的对应章节

@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "hooks": {
+    "beforeSubmitPrompt": [
+      {
+        "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .cursor/hooks/openspec-prompt-guard.ps1"
+      }
+    ],
+    "beforeShellExecution": [
+      {
+        "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .cursor/hooks/block-archive-without-gate.ps1",
+        "matcher": "openspec[\\\\/]changes[\\\\/]archive|mv\\s+.*openspec"
+      }
+    ]
+  }
+}

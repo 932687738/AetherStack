@@ -154,6 +154,20 @@ Verify that an implementation matches the change artifacts (specs, tasks, design
 - If full artifacts: verify all three dimensions
 - Always note which checks were skipped and why
 
+9. **【强制】Persist report**
+
+   Write the full verification report to:
+
+   `openspec/changes/<name>/verification-report.md`
+
+   Then run (or instruct user):
+
+   ```powershell
+   .aetherstack/scripts/record-completion-step.ps1 -Change "<name>" -Step openspecVerify -Status pass -ReportPath verification-report.md
+   ```
+
+   Archive is blocked until this file exists and Final Assessment indicates ready for archive.
+
 **Output Format**
 
 Use clear markdown with:

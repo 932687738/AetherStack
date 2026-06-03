@@ -80,10 +80,12 @@ Implement tasks from an OpenSpec change.
 
 7. **On completion or pause, show status**
 
-   Before claiming all tasks complete:
-   - Run **`make verify`** in AetherStack governance repo
-   - invoke Superpowers **`verification-before-completion`**
-   - Include **Harness Session Verify** in output (see harness-apply skill)
+   Before claiming all tasks complete (see `openspec/references/completion-gate.md`):
+   - Superpowers **`verification-before-completion`** + `record-completion-step` (superpowersVerification)
+   - **`/opsx-verify`** → `verification-report.md` + record openspecVerify
+   - **`cr backend` / `cr frontend`** + `record-code-review.ps1`
+   - **`make completion-gate CHANGE=<name>`** (includes `make verify`)
+   - Include **Harness Session Verify** and gate `overall` in output
 
    Display:
    - Tasks completed this session

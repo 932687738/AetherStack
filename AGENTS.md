@@ -79,6 +79,8 @@ Cursor Skills：`.cursor/skills/openspec-*/SKILL.md`
 | UI-Craft / `/impeccable` / 前端 UI 改版 | Impeccable skill | `rules/ui-craft.md`、`openspec/references/ui-craft-standards.md` |
 | design-review / 设计审查（standard 模式） | `brainstorming` | `rules/openspec.md`、`aether-rules.md` §5.12 |
 | `/opsx-apply` / OpenSpec 实现 | **harness-apply** + hev-* | `.cursor/skills/harness-apply/SKILL.md` |
+| 归档前门禁 | `make completion-gate` + `/opsx-verify` | `openspec/references/completion-gate.md` |
+| 计划 skill 路由 | 有 tasks 用 `/opsx-apply` | `workflow-planning-routing.md` |
 | 提交型 DDD 设计 | — | `rules/ddd-commit-design.md` |
 | 更新文档 / 同步 changelog | — | `rules/documentation.md` |
 

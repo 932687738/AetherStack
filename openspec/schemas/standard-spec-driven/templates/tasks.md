@@ -8,11 +8,11 @@
 
 - [ ] 1.1 <后端：功能实现 + 可验证输出>
 - [ ] 1.2 <前端：交互/页面 + 可验证输出>（标注 UI-CRAFT / UI-AUDIT / UI-FUNC）
-- [ ] 1.2a <若 UI-CRAFT/UI-AUDIT 且 uiCraftMode enabled：Impeccable shape/craft 或 audit→polish + 可验证输出>
+- [ ] 1.2a <若 UI-CRAFT/UI-AUDIT 且 uiCraftMode enabled：Impeccable shape/craft 或 audit→polish + impeccable: <命令链> + 可验证输出>
 - [ ] 1.3 <测试标记：Automation（AUTO-UT / AUTO-AI-UT / MANUAL）>
 - [ ] 1.4a <若 AUTO-AI-UT（AI-TDD）：**先**编写 L1 模块单测（Mock LLM）+ 可验证输出（`*Test.java`）>
 - [ ] 1.4 <若 AUTO-UT / AUTO-AI-UT：根据 test-cases 完成单测 + 可验证输出>
-- [ ] 1.5 <若 AUTO-UT / AUTO-AI-UT：执行 `mvn -Dtest=XxxTest test` + 可验证输出>
+- [ ] 1.5 <若 AUTO-UT / AUTO-AI-UT：执行 `mvn -Dtest=XxxTest test` + trace: TC-REQx-yy → XxxTest#method + 可验证输出>
 - [ ] 1.6 <若 MANUAL：人工验证 + 可验证输出>
 
 ## 2. <需求/模块名称（SPEC_ID-REQ_NO）>

@@ -41,7 +41,14 @@ design 必须含「前端 UI 界面清单」；tasks 含 `1.2a` Impeccable 任�
 
 可同时开启。
 
+## 完成门禁（U1）
+
+- 已勾选 `- [x]` 的 `UI-CRAFT` / `UI-AUDIT` 任务行须含验收标记：`impeccable: shape+craft`（或 `audit+polish` 等）
+- `make completion-gate` 调用 `check-ui-craft-gate.ps1`；失败则 **不可归档**
+- 与 Impeccable 命令链一致：先 shape/craft 或 audit，再 `npm run lint` + `npm run build`（Harness Verify）
+
 ## 禁止
 
 - U1 任务在 uiCraft enabled 时未走 Impeccable 即勾选完成
+- U1 勾选无 `impeccable:` 标记（门禁阻断）
 - 在 AetherStack 治理仓复制 Impeccable skill 正文（仅引用 `.cursor/skills/impeccable/`）

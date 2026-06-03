@@ -260,9 +260,11 @@
 - **design 完成后（aiTddMode: auto）**：评估是否触及 L1 AI 模块（可与 design-review 同步执行并记录于 design-review.md）
 - **design 完成后（uiCraftMode: auto）**：评估是否触及 U1 界面；若触及，将 `uiCraftMode` 视为 `enabled` 并更新 `.openspec.yaml`；design 须含「前端 UI 界面清单」（可与 design-review 同步执行）
 - **test-cases.md 生成后**：等待 review（Status → Reviewed）后再推进测试任务
-- **开始实现前**：以 schema `apply.requires` 为准；**`/opsx-apply` 须遵循 harness-apply**（hev-analyzer → hev-coder → hev-verifier）；`AUTO-UT` / `AUTO-AI-UT` 用例需映射到 `*Test.java`
+- **开始实现前**：以 schema `apply.requires` 为准；**`/opsx-apply` 须遵循 harness-apply**（hev-analyzer → hev-coder → hev-verifier）；`AUTO-UT` / `AUTO-AI-UT` 用例需映射到 `*Test.java`（追溯见 `traceability-standards.md`）
 - **AI-TDD enabled 时**：L1 模块 apply 必须 invoke Superpowers `test-driven-development`，先测后码
-- **UI-Craft enabled 时**：U1（UI-CRAFT/UI-AUDIT）任务必须走 Impeccable；U3（UI-FUNC）可跳过
+- **UI-Craft enabled 时**：U1（UI-CRAFT/UI-AUDIT）任务必须走 Impeccable；勾选须含 `impeccable:` 标记；U3（UI-FUNC）可跳过
+- **归档前（强制）**：`/opsx-verify` → `verification-report.md` → `cr` 记录 → `make completion-gate CHANGE=<id>` → `/opsx-archive`（见 `completion-gate.md`）
+- **计划类 Superpowers**：有 `tasks.md` 时禁止 parallel `executing-plans`（见 `workflow-planning-routing.md`）
 - **simple-spec-driven 特例**：是否可进入实现以 `simple-spec-driven/schema.yaml` 的 `apply.requires` 为准
 
 ## 8. 参考文档（按需加载）

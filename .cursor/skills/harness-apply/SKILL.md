@@ -76,11 +76,20 @@ description: OpenSpec apply 阶段的 Harness 三 Agent 接线。/opsx-apply 或
 
 ## 会话完成门禁（全部任务或用户暂停前）
 
-1. 在 AetherStack 治理仓运行 **`make verify`**（或 `.aetherstack/scripts/verify-all.ps1`）
-2. invoke Superpowers **`verification-before-completion`**
-3. 可选：在 `harness/docs/PLANS.md` 或 `harness/docs/plans/<change-id>.md` 记录本次 apply 进度
+1. invoke Superpowers **`verification-before-completion`**
+2. `record-completion-step.ps1 -Change <id> -Step superpowersVerification -Status done`
+3. **`/opsx-verify`** → 将报告保存为 `openspec/changes/<id>/verification-report.md`
+4. `record-completion-step.ps1 -Change <id> -Step openspecVerify -Status pass`
+5. **`cr backend` / `cr frontend`** → `record-code-review.ps1`（`-Status approved` 或 `waived`）
+6. **`make completion-gate CHANGE=<id>`**（含 `make verify`；见 `openspec/references/completion-gate.md`）
+7. 可选：`harness/docs/plans/<change-id>.md` 记录 apply 进度
 
-**不得**在未跑 `make verify` 的情况下声称「Implementation Complete」。
+**不得**在未跑 completion-gate 的情况下声称「Implementation Complete」或执行 `/opsx-archive`。
+
+### UI-Craft（uiCraftMode enabled，U1 任务）
+
+- Code 阶段走 Impeccable；Verify 阶段在 **ai_react** 跑 `npm run lint` + `npm run build`
+- 勾选 U1 任务时，任务行须含 `impeccable: <已执行命令链>`（门禁 `check-ui-craft-gate.ps1`）
 
 ## 与 OpenSpec apply 输出格式
 

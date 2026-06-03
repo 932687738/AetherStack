@@ -25,7 +25,8 @@ ai_react (Nebula Desk)
 | 方法 | 路径 | 说明 | 前端引用 |
 |------|------|------|----------|
 | POST | `/api/agent-hub/chat/knowledge` | 知识库模式 SSE 对话 | `ai_react/src/api/chat.js` |
-| POST | `/api/agent-hub/chat/agent` | 智能体模式 SSE 对话 | `ai_react/src/api/chat.js` |
+| POST | `/api/agent-hub/chat/agent` | 智能体模式 SSE 对话（存量 Agent Hub） | `ai_react/src/api/chat.js` |
+| POST | `/api/super-agents/chat` | **SuperAgents 平台** SSE 对话（新接口） | 待 `ai_react` 对接 |
 | POST | `/api/agent-hub/requirement-dev` | 需求开发模式 SSE | `ai_react/src/api/chat.js` |
 | GET | `/api/agent-hub/status` | 运行时状态 | `ai_react/src/api/agentHub.js` |
 | POST | `/api/agent-hub/knowledge/upload` | 文档上传 | `ai_react/src/api/knowledge.js` |
@@ -38,6 +39,9 @@ ai_react (Nebula Desk)
 | POST | `/api/agent-hub/conversations/{conversationId}/messages` | 追加历史消息 | `ai_react/src/api/conversationHistory.js` |
 | PATCH | `/api/agent-hub/conversations/{conversationId}` | 重命名会话 | `ai_react/src/api/conversationHistory.js` |
 | DELETE | `/api/agent-hub/conversations/{conversationId}` | 删除会话及消息 | `ai_react/src/api/conversationHistory.js` |
+| GET | `/api/super-agents/agents` | SuperAgents 注册表列表（可选 `X-Tenant-Id`） | P1 管理/运维 |
+| POST | `/api/super-agents/agents` | 注册子 Agent（`X-Admin-Api-Key` + 可选 `X-Tenant-Id`） | P1 管理/运维 |
+| POST | `/api/super-agents/agents/{name}/health` | 主动探测 Agent 健康 | P1 管理/运维 |
 
 ## 4. SSE 契约要点
 

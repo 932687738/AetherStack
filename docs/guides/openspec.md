@@ -27,8 +27,9 @@
 | `/opsx-new` | 新建变更 |
 | `/opsx-continue` | 继续变更 |
 | `/opsx-apply` | 按 tasks 实现 |
-| `/opsx-archive` | 归档到 specs |
-| `/opsx-verify` | 校验变更 |
+| `/opsx-archive` | 归档（须先 `make completion-gate`） |
+| `/opsx-verify` | 校验变更并写入 `verification-report.md` |
+| `make completion-gate CHANGE=<id>` | 统一完成门禁 |
 | `/opsx-sync` | 同步 spec |
 
 ## 4. 工件链（standard）
@@ -74,6 +75,12 @@ openspec show <change-id>
 
 CI 可选工作流：`.github/workflows/openspec-validate.yml`（需 `OPENSPEC_VALIDATE_ENABLED=true`）。
 
-## 8. 与代码仓关系
+## 8. 完成门禁与追溯
+
+归档前推荐链：见 [completion-gate.md](../openspec/references/completion-gate.md)、[traceability-standards.md](../openspec/references/traceability-standards.md)、[workflow-planning-routing.md](../openspec/references/workflow-planning-routing.md)。
+
+Cursor 项目 hooks：`.cursor/hooks.json`（归档提醒、阻断未 gate 的 `mv`）。
+
+## 9. 与代码仓关系
 
 AetherStack 为 **治理层仓库**：规范在本仓，实现改关联仓库 **ai** / **ai_react**（见 `LOCALPATH.md`），追溯读 `openspec/changes/`。

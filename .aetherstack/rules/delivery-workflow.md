@@ -8,10 +8,14 @@
 OpenSpec 0.1（schema + 需求材料 + aiTddMode + uiCraftMode）
   → proposal / spec / design / design-review（standard 模式：brainstorming 审查）/ tasks（按 schema 裁剪）
   → /opsx-apply + Harness（hev-analyzer → hev-coder → hev-verifier，见 harness-apply skill）
-  → Superpowers：verification-before-completion
-  → cr backend | cr frontend
-  → 归档或文档同步
+  → Superpowers：verification-before-completion → record-completion-step（superpowersVerification）
+  → /opsx-verify → verification-report.md → record-completion-step（openspecVerify）
+  → cr backend | cr frontend → record-code-review.ps1
+  → make completion-gate CHANGE=<id>（统一门禁，见 openspec/references/completion-gate.md）
+  → /opsx-archive 或文档同步
 ```
+
+**计划类 Superpowers**：有 `tasks.md` 时只用 `/opsx-apply`，不用 `executing-plans`；路由见 `openspec/references/workflow-planning-routing.md`。
 
 > **standard-spec-driven**：`design.md` 完成后须 invoke `brainstorming` 生成 `design-review.md`，用户确认（Status: Reviewed）后再进入 test-cases / tasks。方案探索阶段的 brainstorming 与本步骤职责不同。
 
@@ -35,7 +39,7 @@ OpenSpec 0.1（schema + 需求材料 + aiTddMode + uiCraftMode）
 | **Apply 实现（OpenSpec tasks）** | **harness-apply** + hev-* | `/opsx-apply`；必读 `.cursor/skills/harness-apply/SKILL.md` |
 | 设计审查（standard 模式，design 后） | `brainstorming` |
 | 方案探索（方案未定，非 OpenSpec design-review） | `brainstorming` |
-| 计划 | `writing-plans`、`executing-plans` |
+| 计划（无 OpenSpec tasks 时） | `writing-plans`；**禁止**与 tasks 并行 `executing-plans` |
 | 测试 | `test-driven-development`；AI 核心加 `/tdd` |
 | 调试 | `systematic-debugging` |
 | 完成前 | `verification-before-completion` |

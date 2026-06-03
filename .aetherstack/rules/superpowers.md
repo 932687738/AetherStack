@@ -23,8 +23,8 @@ AetherStack 仅通过 **rules + context** 叠加项目约束（多仓库、DDD�
 | 单元测试 / TDD | `test-driven-development` | 单测、unit test、AUTO-UT |
 | 方案探索 | `brainstorming` | 设计新功能、方案讨论 |
 | 设计审查（standard OpenSpec） | `brainstorming` | design.md 完成后、design-review |
-| 实施计划 | `writing-plans` | 实现计划、任务拆分 |
-| 执行计划 | `executing-plans` | 按计划实现 |
+| 实施计划（**无** OpenSpec tasks） | `writing-plans` | 口头需求草案；确认后须落入 OpenSpec tasks |
+| 执行计划（**非** OpenSpec 会话） | `executing-plans` | 无 `tasks.md` 的批量实现；**禁止**与 `/opsx-apply` 并行 |
 | 系统化调试 | `systematic-debugging` | 排查 bug、随机失败 |
 | 完成前验证 | `verification-before-completion` | 声称完成前 |
 
@@ -83,3 +83,12 @@ AetherStack 仅通过 **rules + context** 叠加项目约束（多仓库、DDD�
 | `.aetherstack/rules/` | 项目 DDD、OpenSpec、文档、Harness 约束 |
 | OpenSpec | 需求追溯（spec/tasks） |
 | Harness | 实现编排与 verify |
+| **Completion Gate** | 归档前统一：`/opsx-verify` + `make verify` + CR 记录（见 `completion-gate.md`） |
+
+计划类 skill 路由：**`openspec/references/workflow-planning-routing.md`**。
+
+归档前 **必须** invoke `verification-before-completion`，并执行：
+
+```powershell
+.aetherstack/scripts/record-completion-step.ps1 -Change <id> -Step superpowersVerification -Status done
+```

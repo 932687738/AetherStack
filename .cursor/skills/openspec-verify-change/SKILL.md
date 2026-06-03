@@ -158,6 +158,11 @@ Verify that an implementation matches the change artifacts (specs, tasks, design
 - If full artifacts: verify all three dimensions
 - Always note which checks were skipped and why
 
+9. **【强制】Persist report**
+
+   Write the full report to `openspec/changes/<name>/verification-report.md`.
+   Run `record-completion-step.ps1 -Change "<name>" -Step openspecVerify -Status pass -ReportPath verification-report.md`.
+
 **Output Format**
 
 Use clear markdown with:

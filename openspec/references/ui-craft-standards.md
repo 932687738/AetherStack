@@ -119,6 +119,7 @@ design 须包含 **「前端 UI 界面清单」** 小节：
 - [ ] design 含 UI 界面清单
 - [ ] tasks 含 `1.2a` Impeccable 任务（shape/craft 或 audit）
 - [ ] apply 读取 Impeccable skill 并按 reference 执行
+- [ ] 已勾选 U1 任务含 `impeccable: <命令链>`（`check-ui-craft-gate.ps1` / `make completion-gate`）
 - [ ] `npm run lint` + `npm run build` 通过
 
 ### 6.2 推荐
@@ -154,3 +155,4 @@ OpenSpec **不会自动** invoke Impeccable；仅 `uiCraftMode` 命中或用户�
 | 项目规则 | `.aetherstack/rules/ui-craft.md` |
 | 前端工程标准 | `openspec/references/engineering-standards.md` |
 | 契约 | `openspec/references/integration-contracts.md` |
+| 完成门禁 | `openspec/references/completion-gate.md` |

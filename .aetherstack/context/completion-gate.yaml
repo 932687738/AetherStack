@@ -1,0 +1,59 @@
+# OpenSpec 变更完成门禁配置（AetherStack 治理层）
+# 脚本：.aetherstack/scripts/completion-gate.ps1
+
+version: 1
+
+# 归档前 overall 必须为 ready（无 CRITICAL）；ready_with_warnings 仅允许显式 -AllowWarnings
+overall:
+  ready: "所有强制检查通过，可执行 /opsx-archive"
+  ready_with_warnings: "存在 WARNING，须人工确认后 -AllowWarnings 归档"
+  not_ready: "存在 CRITICAL 或未记录的手动步骤"
+
+checks:
+  tasks:
+    required: true
+    description: "tasks.md 全部 - [x]"
+
+  design_review:
+    required_for_schema: [standard-spec-driven]
+    description: "design-review.md Status: Reviewed"
+
+  traceability:
+    required: true
+    script: check-traceability.ps1
+    description: "AUTO-UT/AUTO-AI-UT 任务含 trace: 或 TC-REQ 映射"
+
+  ui_craft:
+    required_when: "uiCraftMode enabled|auto 且存在 UI-CRAFT/UI-AUDIT"
+    script: check-ui-craft-gate.ps1
+    description: "U1 任务勾选须含 impeccable: 验收标记"
+
+  harness_verify:
+    required: true
+    command: "make verify"
+    description: "关联仓 mvn test + npm lint/build"
+
+  openspec_verify:
+    required: true
+    artifact: "verification-report.md"
+    pass_markers:
+      - "All checks passed. Ready for archive."
+      - "Ready for archive (with noted improvements)."
+    description: "须先 /opsx-verify 并写入变更目录报告"
+
+  code_review:
+    required: true
+    scopes: [backend, frontend]
+    statuses: [approved, waived]
+    record_script: record-code-review.ps1
+    description: "归档前 cr backend|frontend，并记录到 .completion-gate.json"
+
+  superpowers_verification:
+    required: true
+    record_script: record-completion-step.ps1
+    step: superpowersVerification
+    description: "apply 结束后 invoke verification-before-completion 并记录"
+
+archive:
+  block_shell_mv_without_gate: true
+  gate_file: ".completion-gate.json"
