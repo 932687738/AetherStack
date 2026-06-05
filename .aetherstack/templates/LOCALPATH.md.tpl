@@ -6,8 +6,8 @@
 
 | 键 | 仓库 | 本地路径 |
 |----|------|----------|
-| **backend** | `ai` | `D:\cache\workspace\ai` |
-| **frontend** | `ai_react` | `D:\cache\workspace\ai_react` |
+| **backend** | `{{BACKEND_NAME}}` | `{{BACKEND_PATH_WIN}}` |
+| **frontend** | `{{FRONTEND_NAME}}` | `{{FRONTEND_PATH_WIN}}` |
 
 机器级覆盖（可选，优先于 repos.yaml）：
 
@@ -28,8 +28,8 @@ $env:AETHER_FRONTEND_REPO = "D:\path\to\ai_react"
 
 | 命令 | 审查目录 |
 |------|----------|
-| `cr backend` | `D:\cache\workspace\ai` |
-| `cr frontend` | `D:\cache\workspace\ai_react` |
+| `cr backend` | `{{BACKEND_PATH_WIN}}` |
+| `cr frontend` | `{{FRONTEND_PATH_WIN}}` |
 
 OpenSpec 变更目录：`openspec/changes/`（本仓）。
 

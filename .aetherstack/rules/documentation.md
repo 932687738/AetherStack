@@ -38,7 +38,8 @@
 |----------|--------|
 | 后端 API/模块 | `ai/docs/`、`ARCHITECTURE.md` 相关章节（在 ai 仓库） |
 | 前端页面/交互 | `ai_react/CHANGELOG.md`、`ai_react/ARCHITECTURE.md` |
-| 前后端契约 | `.aetherstack/context/api-contracts.yaml`（本仓） |
+| 前后端契约 | `.aetherstack/context/api-contracts.yaml`（本仓；仓库路径段由 sync 从 repos.yaml 生成） |
+| 关联仓库路径 | **仅** `.aetherstack/context/repos.yaml` → `make sync-config` |
 
 ## 文档同步流程
 

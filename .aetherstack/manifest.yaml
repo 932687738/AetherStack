@@ -7,10 +7,10 @@ project:
   modules:
     backend:
       repo: ai
-      local: D:/cache/workspace/ai
+      # local 路径见 .aetherstack/context/repos.yaml → repositories.backend.local
     frontend:
       repo: ai_react
-      local: D:/cache/workspace/ai_react
+      # local 路径见 .aetherstack/context/repos.yaml → repositories.frontend.local
     openspec: openspec/
     harness: harness/
 

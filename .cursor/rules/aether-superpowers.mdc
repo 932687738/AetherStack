@@ -39,7 +39,7 @@ AetherStack 仅通过 **rules + context** 叠加项目约束（多仓库、DDD�
 
 ### 代码审查（`cr` / `cr backend` / `cr frontend`）
 
-1. 读取 `LOCALPATH.md` 解析目标仓库（`scripts/resolve-repos.ps1`）
+1. 解析目标仓库路径：`.aetherstack/context/repos.yaml`（`scripts/resolve-repos.ps1`）；`LOCALPATH.md` 为 sync 生成摘要
 2. `cr backend` → 关联仓库 **ai**；`cr frontend` → **ai_react**
 3. 必读：`.aetherstack/rules/core.md`、`openspec/references/engineering-standards.md`；`cr backend` 另读 `spring-ai-core-standards.md` 及铁三角专项；`cr frontend` 另读 `.aetherstack/rules/frontend-umi.md`、`openspec/references/frontend-umi-standards.md`；涉及 API 时读 `integration-contracts.md`；触及 Agent/`@Tool` 时读 `spring-ai-multi-agent-standards.md`；触及 ReactAgent/CompiledGraph 时读 `spring-ai-react-graph-standards.md`；触及 knowledgehub/RAG 时读 `spring-ai-rag-standards.md`
 4. 审查维度：

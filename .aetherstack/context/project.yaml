@@ -4,12 +4,12 @@ tagline: 全栈 AI Agent Hub — 规范驱动 + obra Superpowers 增强开发
 modules:
   backend:
     repo: ai
-    path: D:/cache/workspace/ai
+    # path: .aetherstack/context/repos.yaml → repositories.backend.local
     stack: Spring Boot 3.4, Spring AI, pgvector
     main_class: com.yxy.deepseek.DeepseekApplication
   frontend:
     repo: ai_react
-    path: D:/cache/workspace/ai_react
+    # path: .aetherstack/context/repos.yaml → repositories.frontend.local
     stack: React 19, Vite 8
     dev_url: http://localhost:5173
   openspec:

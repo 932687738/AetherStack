@@ -1,0 +1,25 @@
+{
+  "//": "AUTO-GENERATED from repos.yaml 鈥?run: make sync-config",
+  "terminalAllowlist": [
+    "git",
+    "mvn",
+    "npm",
+    "pnpm",
+    "yarn",
+    "make",
+    "harness",
+    "powershell",
+    "pwsh"
+  ],
+  "autoRun": {
+    "allow_instructions": [
+      "Read-only git status, diff, log, and file inspection under D:/cache/workspace/ai and D:/cache/workspace/ai_react are fine without asking.",
+      "Build, lint, and test commands for backend (mvn) and frontend (npm) in linked repos are fine without asking.",
+      "Harness verify and OpenSpec read-only commands in AetherStack are fine without asking."
+    ],
+    "block_instructions": [
+      "Any command that deletes databases, pushes to remote, or writes secrets to .env must ask for approval.",
+      "Any command outside linked repos (D:/cache/workspace/ai, D:/cache/workspace/ai_react) and AetherStack should ask for approval."
+    ]
+  }
+}

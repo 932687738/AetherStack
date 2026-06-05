@@ -1,0 +1,9 @@
+{
+    "enableSharedBuildCache":  true,
+    "additionalReadwritePaths":  [
+                                     "D:/cache/workspace/ai",
+                                     "D:/cache/workspace/ai_react"
+                                 ],
+    "//":  "AUTO-GENERATED from repos.yaml 鈥?run: make sync-config",
+    "type":  "workspace_readwrite"
+}

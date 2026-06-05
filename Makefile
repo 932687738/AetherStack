@@ -6,7 +6,7 @@ help:
 	@echo "  make verify       - test/lint in associated ai + ai_react repos"
 	@echo "  make completion-gate CHANGE=<id> - unified pre-archive gate"
 	@echo "  make dev          - hint: start docker/backend/frontend in linked repos"
-	@echo "  Repos: see LOCALPATH.md and docs/REPOS.md"
+	@echo "  Repos: edit .aetherstack/context/repos.yaml then make sync-config"
 
 sync-config:
 	powershell -ExecutionPolicy Bypass -File .aetherstack/scripts/sync-config.ps1

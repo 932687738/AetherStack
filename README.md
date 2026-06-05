@@ -116,9 +116,68 @@ Java 17 · Spring Boot 3.4 · Spring AI · React 19 · Vite 8 · PostgreSQL 16 �
 
 ---
 
+## 关联仓库路径配置
+
+前后端代码不在本仓内，路径**只在一处维护**，避免 `LOCALPATH.md`、Cursor 工作区、契约文件等多处手改不一致。
+
+### 配置入口（唯一真源）
+
+[`.aetherstack/context/repos.yaml`](.aetherstack/context/repos.yaml)
+
+```yaml
+repositories:
+  backend:
+    name: ai
+    local: D:/cache/workspace/ai          # 后端仓库本地路径
+  frontend:
+    name: ai_react
+    local: D:/cache/workspace/ai_react    # 前端仓库本地路径
+```
+
+### 配置方式
+
+1. **编辑** `repos.yaml` 中 `repositories.backend.local` / `repositories.frontend.local`（建议用正斜杠路径，如 `D:/cache/workspace/ai`）。
+2. **同步** 衍生配置：
+
+   ```powershell
+   make sync-config
+   ```
+
+3. **（可选）环境变量覆盖**（优先级高于 yaml，适合 CI 或多机器）：
+
+   ```powershell
+   $env:AETHER_BACKEND_REPO = "D:\path\to\ai"
+   $env:AETHER_FRONTEND_REPO = "D:\path\to\ai_react"
+   ```
+
+`make sync-config` 会根据 `repos.yaml` 自动生成或更新：
+
+| 产出文件 | 用途 |
+|----------|------|
+| [`LOCALPATH.md`](LOCALPATH.md) | 路径摘要（勿手改） |
+| [`aether-dev.code-workspace`](aether-dev.code-workspace) | Cursor 多根工作区（治理 + 后端 + 前端） |
+| [`.cursor/sandbox.json`](.cursor/sandbox.json) | Agent 沙箱额外读写路径 |
+| [`.cursor/permissions.json`](.cursor/permissions.json) | 终端 / Auto-review 策略 |
+| `api-contracts.yaml` 底部 `REPO PATHS` 段 | 契约中的前后端绝对路径 |
+
+解析脚本（供 `dev.ps1`、`verify`、规则引用）：
+
+```powershell
+.\scripts\resolve-repos.ps1 -Repo backend
+.\scripts\resolve-repos.ps1 -Repo frontend
+```
+
+**Cursor 推荐**：`文件 → 从文件打开工作区 → aether-dev.code-workspace`，减少跨仓编辑时的权限确认。
+
+更多说明：[docs/REPOS.md](docs/REPOS.md) · 生成模板：[`.aetherstack/templates/LOCALPATH.md.tpl`](.aetherstack/templates/LOCALPATH.md.tpl)
+
+---
+
 ## 快速启动
 
-### 1. 同步 AI 配置
+### 1. 配置路径并同步 AI 配置
+
+先按上一节改好 [repos.yaml](.aetherstack/context/repos.yaml)，再执行：
 
 ```powershell
 make sync-config
@@ -130,9 +189,14 @@ make sync-config
 
 ### 3. 全栈联调（在关联仓库中启动）
 
+路径以 `repos.yaml` 为准；下面用变量示例（PowerShell）：
+
 ```powershell
-# 后端仓库 ai
-cd D:\cache\workspace\ai
+$Backend = .\scripts\resolve-repos.ps1 -Repo backend
+$Frontend = .\scripts\resolve-repos.ps1 -Repo frontend
+
+# 后端
+cd $Backend
 docker compose up -d
 $env:DASHSCOPE_API_KEY="your-key"
 $env:POSTGRES_JDBC_URL="jdbc:postgresql://127.0.0.1:5432/agenthub"
@@ -141,15 +205,15 @@ $env:POSTGRES_PASSWORD="secret"
 mvn spring-boot:run
 ```
 
-新终端 — **前端仓库 ai_react**：
+新终端 — **前端**：
 
 ```powershell
-cd D:\cache\workspace\ai_react
+cd (.\scripts\resolve-repos.ps1 -Repo frontend)
 npm install
 npm run dev
 ```
 
-或使用 AetherStack 脚本（自动解析 [repos.yaml](.aetherstack/context/repos.yaml)）：
+或在 AetherStack 根目录一键提示启动（同样解析 `repos.yaml`）：
 
 ```powershell
 cd D:\cache\workspace\AetherStack

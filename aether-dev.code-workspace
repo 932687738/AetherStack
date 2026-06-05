@@ -1,0 +1,14 @@
+{
+  "//": "AUTO-GENERATED from .aetherstack/context/repos.yaml - run: make sync-config",
+  "folders": [
+    { "name": "AetherStack (governance)", "path": "." },
+    { "name": "ai (backend)", "path": "../ai" },
+    { "name": "ai_react (frontend)", "path": "../ai_react" }
+  ],
+  "settings": {
+    "files.exclude": {
+      "**/node_modules": true,
+      "**/target": true
+    }
+  }
+}

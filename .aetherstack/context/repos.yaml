@@ -1,7 +1,10 @@
-# 关联代码仓库（真源不在 AetherStack 内）
-
-# AetherStack 仅保留治理层（openspec / .aetherstack / harness）。
-# 前后端代码在独立仓库中开发，通过本文件与 LOCALPATH.md 关联。
+# 关联代码仓库（路径唯一真源）
+#
+# 修改 repositories.*.local 后执行: make sync-config
+# 将同步: LOCALPATH.md、aether-dev.code-workspace、.cursor/sandbox.json、
+#         .cursor/permissions.json、api-contracts.yaml（REPO PATHS 段）
+#
+# AetherStack 仅保留治理层；前后端在独立仓库开发。
 
 repositories:
   backend:

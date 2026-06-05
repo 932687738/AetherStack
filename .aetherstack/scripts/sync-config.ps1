@@ -134,4 +134,6 @@ $settings = @{
 } | ConvertTo-Json -Depth 5
 Write-Utf8NoBom (Join-Path $claudeDir "settings.json") $settings
 
+& (Join-Path $PSScriptRoot 'sync-repo-paths.ps1')
+
 Write-Host "sync-config completed (UTF-8 no BOM)"

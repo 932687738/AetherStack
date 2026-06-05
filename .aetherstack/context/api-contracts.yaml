@@ -120,6 +120,7 @@ endpoints:
     path: /springai/demo/alibaba-graph/human-loop/enterprise/publishing/step2
     description: 自媒体发布 step2
 
+# --- REPO PATHS (AUTO-GENERATED from repos.yaml; make sync-config) ---
 frontend_repo: D:/cache/workspace/ai_react
 frontend_api_paths: D:/cache/workspace/ai_react/src/constants/ApiPaths.ts
 frontend_services:

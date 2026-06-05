@@ -29,7 +29,7 @@ flowchart TB
 | `D:\cache\workspace\ai` | Agent Hub、KnowledgeHub |
 | `D:\cache\workspace\ai_react` | Nebula Desk UI |
 
-配置：`.aetherstack/context/repos.yaml`、`LOCALPATH.md`
+配置：`.aetherstack/context/repos.yaml`（路径唯一真源；`make sync-config` 同步 LOCALPATH / Cursor 工作区等）
 
 ## API 契约
 
