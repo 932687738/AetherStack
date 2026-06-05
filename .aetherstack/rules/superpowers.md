@@ -36,7 +36,7 @@ AetherStack 仅通过 **rules + context** 叠加项目约束（多仓库、DDD�
 
 1. 读取 `LOCALPATH.md` 解析目标仓库（`scripts/resolve-repos.ps1`）
 2. `cr backend` → 关联仓库 **ai**；`cr frontend` → **ai_react**
-3. 必读：`.aetherstack/rules/core.md`、`openspec/references/engineering-standards.md`、`openspec/references/spring-ai-core-standards.md`；涉及 API 时读 `integration-contracts.md`；触及 Agent/`@Tool` 时读 `spring-ai-multi-agent-standards.md`；触及 ReactAgent/CompiledGraph 时读 `spring-ai-react-graph-standards.md`；触及 knowledgehub/RAG 时读 `spring-ai-rag-standards.md`
+3. 必读：`.aetherstack/rules/core.md`、`openspec/references/engineering-standards.md`；`cr backend` 另读 `spring-ai-core-standards.md` 及铁三角专项；`cr frontend` 另读 `.aetherstack/rules/frontend-umi.md`、`openspec/references/frontend-umi-standards.md`；涉及 API 时读 `integration-contracts.md`；触及 Agent/`@Tool` 时读 `spring-ai-multi-agent-standards.md`；触及 ReactAgent/CompiledGraph 时读 `spring-ai-react-graph-standards.md`；触及 knowledgehub/RAG 时读 `spring-ai-rag-standards.md`
 4. 审查维度：
 
 | 维度 | 检查点 |
@@ -50,6 +50,16 @@ AetherStack 仅通过 **rules + context** 叠加项目约束（多仓库、DDD�
 | 知识库 RAG | 多库分层；元数据最小集；阈值/Top-K/rerank；增量更新；来源格式化；PII/租户隔离 |
 | 测试 | AUTO-UT 有对应 `*Test.java` |
 | 安全 | 无硬编码密钥；输入校验 |
+
+**`cr frontend` 追加维度**：
+
+| 维度 | 检查点 |
+|------|--------|
+| Harness | 工程操作走 `harness` CLI；Umi 配置单一来源 `.umirc.ts` |
+| OpenSpec API | 类型来自 `src/openapi/typings.d.ts`；`services/` 分层；禁止 fetch/axios 直连 |
+| 状态 | Zustand 在 `models/`；服务端数据用 Query/Umi hook；按需 select |
+| 组件 | Ant Design 5；TS Props；pages/components 不直连 API |
+| 质量 | 无 `any`/debugger；工具文件大驼峰；ES7+ 语法 |
 
 ### 单元测试 / TDD
 

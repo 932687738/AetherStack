@@ -24,11 +24,16 @@ spring_ai_alibaba:
     ddd_template: springai/projectpractice/recommendedpackaging
 
 frontend:
-  language: JavaScript (JSX)
-  build: Vite 8
-  framework: React 19
-  lint: ESLint 10 flat config
-  http: native fetch + SSE
+  language: TypeScript
+  build: Umi 4 (harness CLI)
+  framework: React 18
+  ui: Ant Design 5
+  state: Zustand
+  server_cache: TanStack Query
+  openapi: src/openapi/ (generated)
+  lint: ESLint + Stylelint + Prettier
+  legacy_note: "部分模块仍为 Vite 8 + JS，见 frontend-umi-standards.md §8"
+  standards: openspec/references/frontend-umi-standards.md
 
 infrastructure:
   compose: docker-compose.yml
@@ -43,4 +48,4 @@ env_required:
     - POSTGRES_USERNAME
     - POSTGRES_PASSWORD
   frontend:
-    - VITE_API_PROXY_TARGET
+    - UMI_APP_* 或项目 .env 约定（禁止硬编码 API 基址）

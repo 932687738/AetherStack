@@ -153,6 +153,6 @@ OpenSpec **不会自动** invoke Impeccable；仅 `uiCraftMode` 命中或用户�
 |------|------|
 | Impeccable skill | `.cursor/skills/impeccable/SKILL.md` |
 | 项目规则 | `.aetherstack/rules/ui-craft.md` |
-| 前端工程标准 | `openspec/references/engineering-standards.md` |
+| 前端工程标准 | `openspec/references/frontend-umi-standards.md`、`engineering-standards.md` §5 |
 | 契约 | `openspec/references/integration-contracts.md` |
 | 完成门禁 | `openspec/references/completion-gate.md` |

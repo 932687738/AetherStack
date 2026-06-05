@@ -38,15 +38,22 @@
 
 ## 前端技术栈
 
-- React 19.2 + Vite 8
-- ESLint 10（flat config）
-- 原生 fetch + SSE（无 axios/react-router）
-- i18n：`ai_react/src/i18n/messages.js`
+**目标栈（新开发与迁移对齐）**：
 
-**环境变量：**
+- React 18 + Umi 4 + TypeScript
+- Ant Design 5 + Zustand
+- OpenAPI 自动生成类型（`src/openapi/`）
+- TanStack Query（服务端数据缓存）
+- ESLint + Stylelint + Prettier；工程入口 **`harness` CLI**
 
-- `VITE_API_PROXY_TARGET`（默认 `http://localhost:8080`）
-- `VITE_API_BASE_URL`（留空则走开发代理）
+**存量（迁移中）**：部分模块仍为 React 19 + Vite 8 + JavaScript，见 `frontend-umi-standards.md` §8。
+
+**规范文档**：`openspec/references/frontend-umi-standards.md`
+
+**环境变量（Umi）**：
+
+- 统一 `.env`；经 `process.env` 或 Umi `define` 注入
+- 禁止硬编码 API 基址；开发代理在 `.umirc.ts` 配置
 
 ## 基础设施
 
@@ -73,8 +80,10 @@
 
 ### 前端
 
-- 组件 PascalCase；API 常量集中在 `ai_react/src/api/index.js`
-- 样式：`ai_react/src/styles/index.css`
+- 组件 PascalCase；API 经 `src/services/` + OpenAPI 类型
+- Zustand Store：`src/models/useXxxStore.ts`
+- 样式：Ant Design 主题 + CSS Modules（`*.less`）
+- 细则：`frontend-umi-standards.md`
 
 ## 测试策略
 
@@ -86,9 +95,9 @@
 
 ### 前端
 
-- Lint：`npm run lint`
-- 构建：`npm run build`
-- 开发：`npm run dev`（必须联调已启动的后端）
+- Lint：`harness lint`（或存量 `npm run lint` 至迁移完成）
+- 构建：`harness build`
+- 开发：`harness dev`（须联调已启动的后端）
 
 ## 测试要求（规则）
 

@@ -132,10 +132,15 @@
 
 ## 5. 前端规范
 
-- React 19 + Vite 8；JavaScript（JSX），后续可升级 TypeScript
-- API 调用统一走 `ai_react/src/api/` + `ai_react/src/utils/request.js`
-- 流式对话使用 SSE（`postStream`）；不得在各组件重复解析协议
-- 环境变量：`.env.example` 为模板；`.env` 不入库
+> **目标栈（强制）**：React 18 + Umi 4 + TypeScript + Ant Design 5 + Zustand + ES7+。完整细则见 **`openspec/references/frontend-umi-standards.md`**、Cursor 规则 **`.aetherstack/rules/frontend-umi.md`**。
+
+- 目录：`src/pages/`、`components/`、`hooks/`、`models/`（Zustand）、`services/`、`types/`、`utils/`
+- API：OpenAPI 生成 `src/openapi/typings.d.ts`；业务调用经 `services/`；禁止 pages/components 直连 API
+- 工程命令：`harness install|dev|build|lint`（禁止直接 npm/yarn/pnpm）
+- Umi 配置单一来源：`.umirc.ts`；约定式路由
+- 流式对话使用 SSE；协议解析集中在请求层，不得在各组件重复实现
+- 环境变量：`.env` / `.env.example`；禁止硬编码后端地址；`.env` 含密钥不入库
+- **存量**：仍为 Vite + JS 的模块在迁移前可维护，新功能须对齐 Umi 规范（PR 注明范围）
 
 ## 6. 测试策略
 

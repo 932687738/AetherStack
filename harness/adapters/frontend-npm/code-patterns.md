@@ -1,5 +1,7 @@
 # 前端代码规范
 
+> **AetherStack ai_react 目标栈**以 `openspec/references/frontend-umi-standards.md` 为准（Umi 4 + TS + Ant Design 5 + Zustand）。下文为 Harness 适配器通用补充。
+
 本文档定义前端项目（React/Vue/TypeScript）的通用代码规范。
 
 ---

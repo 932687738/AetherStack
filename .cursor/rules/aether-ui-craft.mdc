@@ -25,7 +25,7 @@ alwaysApply: true
 1. 读 `.cursor/skills/impeccable/SKILL.md`
 2. 读 `openspec/references/ui-craft-standards.md`
 3. 按任务标记：`UI-CRAFT` → shape/craft；`UI-AUDIT` → audit/critique → polish
-4. 在 **ai_react** 仓库实现；验收 `npm run lint` + `npm run build`
+4. 在 **ai_react** 仓库实现；验收 `harness lint` + `harness build`（存量 Vite 模块可用 `npm run lint` + `npm run build` 至迁移完成）
 
 ## OpenSpec 衔接
 
@@ -50,7 +50,7 @@ design 必须含「前端 UI 界面清单」；tasks 含 `1.2a` Impeccable 任�
 
 - 已勾选 `- [x]` 的 `UI-CRAFT` / `UI-AUDIT` 任务行须含验收标记：`impeccable: shape+craft`（或 `audit+polish` 等）
 - `make completion-gate` 调用 `check-ui-craft-gate.ps1`；失败则 **不可归档**
-- 与 Impeccable 命令链一致：先 shape/craft 或 audit，再 `npm run lint` + `npm run build`（Harness Verify）
+- 与 Impeccable 命令链一致：先 shape/craft 或 audit，再 `harness lint` + `harness build`（Harness Verify；存量 Vite 见 `frontend-umi-standards.md` §8）
 
 ## 禁止
 

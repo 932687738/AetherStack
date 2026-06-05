@@ -223,7 +223,20 @@
 - **方式**：invoke obra Superpowers `brainstorming`，以设计审查模式审视现有 design（非重新头脑风暴新方案）
 - **产出**：`design-review.md`（模板见 `openspec/schemas/standard-spec-driven/templates/design-review.md`）
 - **门禁**：阻塞项须修订 `design.md` 并回填修订记录；`design-review.md` 的 `Status` 须为 `Reviewed` 且用户确认后，方可进入 test-cases / tasks
-- **审查维度**（至少覆盖）：需求与 spec 对齐、架构分层、接口契约、非功能与可观测性、Spring AI 铁三角（如适用）、风险与假设
+- **审查维度**（至少覆盖）：需求与 spec 对齐、架构分层、接口契约、非功能与可观测性、Spring AI 铁三角（如适用）、前端 Umi 规范（如适用）、风险与假设
+
+### 5.13 前端 Umi 设计约束（ai_react 相关需求强制）
+
+触及 **ai_react** 页面、组件、API 客户端、状态管理时，design/design-lite **须**引用 `frontend-umi-standards.md`，并说明：
+
+| 维度 | design 必填项 |
+|------|---------------|
+| Harness | 目录分层（pages/components/services/models）；`.umirc.ts` 配置要点 |
+| OpenSpec API | OpenAPI 类型生成；`services/` 文件与 `integration-contracts.md` 映射 |
+| 状态 | Zustand（客户端）vs TanStack Query / Umi hook（服务端） |
+| 组件 | Ant Design 5 组件选型；U1 界面清单（若 `uiCraftMode` 命中） |
+
+纯后端 / 无前端变更可注明豁免。
 
 ## 6. test-cases.md（测试设计质量门禁）
 

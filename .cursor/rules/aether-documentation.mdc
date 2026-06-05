@@ -23,7 +23,7 @@ alwaysApply: true
 | 章节编号 | `engineering-standards.md` §4.0~§4.6 与 `spring-ai-*-standards.md` 交叉引用一致 |
 | 铁三角 | multi-agent / rag / react-graph 三份 rules 与 references 同步更新 |
 | Cursor 落地 | 运行 `make sync-config` 刷新 `.cursor/rules/*.mdc`、`.codex/`、`.cursorrules` |
-| OpenSpec | `openspec/config.yaml`、`aether-rules.md` §5.11 / §8 索引与 AGENTS.md 关键词速查 |
+| OpenSpec | `openspec/config.yaml`、`aether-rules.md` §5.11~§5.13 / §8 索引与 AGENTS.md 关键词速查 |
 | 验证脚本 | `check-spring-ai-*.ps1` 通过标准与规范描述一致 |
 
 ## 应用层文档

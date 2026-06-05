@@ -77,6 +77,7 @@ Cursor Skills：`.cursor/skills/openspec-*/SKILL.md`
 | 知识库 / RAG / 向量检索 / 文档入库 | — | `rules/spring-ai-rag.md`、`openspec/references/spring-ai-rag-standards.md` |
 | ReactAgent / CompiledGraph / StateGraph | — | `rules/spring-ai-react-graph.md`、`openspec/references/spring-ai-react-graph-standards.md` |
 | UI-Craft / `/impeccable` / 前端 UI 改版 | Impeccable skill | `rules/ui-craft.md`、`openspec/references/ui-craft-standards.md` |
+| 前端 Umi / Ant Design / Zustand / OpenAPI 类型 | — | `rules/frontend-umi.md`、`openspec/references/frontend-umi-standards.md` |
 | design-review / 设计审查（standard 模式） | `brainstorming` | `rules/openspec.md`、`aether-rules.md` §5.12 |
 | `/opsx-apply` / OpenSpec 实现 | **harness-apply** + hev-* | `.cursor/skills/harness-apply/SKILL.md` |
 | 归档前门禁 | `make completion-gate` + `/opsx-verify` | `openspec/references/completion-gate.md` |
@@ -108,3 +109,4 @@ Cursor Skills：`.cursor/skills/openspec-*/SKILL.md`
 - **知识库 RAG**：`openspec/references/spring-ai-rag-standards.md`、`.aetherstack/rules/spring-ai-rag.md`
 - **ReactAgent / CompiledGraph**：`openspec/references/spring-ai-react-graph-standards.md`、`.aetherstack/rules/spring-ai-react-graph.md`
 - **前端 UI Craft**：`openspec/references/ui-craft-standards.md`、`.aetherstack/rules/ui-craft.md`、`.cursor/skills/impeccable/`
+- **前端 Umi 工程规范**：`openspec/references/frontend-umi-standards.md`、`.aetherstack/rules/frontend-umi.md`

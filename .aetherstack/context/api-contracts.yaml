@@ -11,6 +11,13 @@ endpoints:
   - method: POST
     path: /api/super-agents/chat
     description: SuperAgents 平台智能体 SSE 对话（新）
+    headers:
+      - X-Tenant-Id
+      - X-User-Id
+      - X-User-Roles
+    sse_events:
+      plain: 默认纯文本 token 分片
+      structured: '{"type":"token","text":"..."}' 或 '{"type":"progress","step","status",...}'（aether.platform.sse.structured-events=true）
   - method: POST
     path: /api/agent-hub/requirement-dev
     description: 需求开发模式 (SSE)
@@ -66,6 +73,17 @@ endpoints:
     path: /api/super-agents/agents/{name}/health
     description: 探测 Agent 健康并更新状态
   - method: GET
+    path: /api/super-agents/skills
+    description: 列出租户 active Skill（Header X-Tenant-Id 可选）
+  - method: POST
+    path: /api/super-agents/skills
+    description: 发布 Skill 新版本（Header X-Admin-Api-Key）
+  - note: super-agents-code-skills
+    description: |
+      代码 Skill（CompiledGraph）经 ReAct Tool 暴露，非独立 REST：
+      executeCodeSkill(skillName, query, knowledgeBaseId, tenantId)、listCodeSkills()。
+      内置 refund-policy-lookup（rag_retrieve → finalize_output）、order-insight（客服→分析串行）。
+  - method: GET
     path: /swagger-ui.html
     description: API 文档
   - method: GET
@@ -102,6 +120,16 @@ endpoints:
     path: /springai/demo/alibaba-graph/human-loop/enterprise/publishing/step2
     description: 自媒体发布 step2
 
-frontend_constants: D:/cache/workspace/ai_react/src/api/index.js
-backend_repo: D:/cache/workspace/ai
 frontend_repo: D:/cache/workspace/ai_react
+frontend_api_paths: D:/cache/workspace/ai_react/src/constants/ApiPaths.ts
+frontend_services:
+  chat: D:/cache/workspace/ai_react/src/services/chatService.ts
+  conversation: D:/cache/workspace/ai_react/src/services/conversationService.ts
+  conversation_persist: D:/cache/workspace/ai_react/src/services/conversationPersist.ts
+  knowledge: D:/cache/workspace/ai_react/src/services/knowledgeService.ts
+  agent_hub: D:/cache/workspace/ai_react/src/services/agentHubService.ts
+  conversation_config: D:/cache/workspace/ai_react/src/services/conversationConfigService.ts
+  human_loop: D:/cache/workspace/ai_react/src/services/humanLoopService.ts
+  sse: D:/cache/workspace/ai_react/src/utils/StreamSse.ts
+legacy_frontend_reference: D:/cache/workspace/ai_react/legacy-vite
+backend_repo: D:/cache/workspace/ai

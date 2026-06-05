@@ -18,8 +18,17 @@
 | 章节编号 | `engineering-standards.md` §4.0~§4.6 与 `spring-ai-*-standards.md` 交叉引用一致 |
 | 铁三角 | multi-agent / rag / react-graph 三份 rules 与 references 同步更新 |
 | Cursor 落地 | 运行 `make sync-config` 刷新 `.cursor/rules/*.mdc`、`.codex/`、`.cursorrules` |
-| OpenSpec | `openspec/config.yaml`、`aether-rules.md` §5.11 / §8 索引与 AGENTS.md 关键词速查 |
+| OpenSpec | `openspec/config.yaml`、`aether-rules.md` §5.11~§5.13 / §8 索引与 AGENTS.md 关键词速查 |
 | 验证脚本 | `check-spring-ai-*.ps1` 通过标准与规范描述一致 |
+
+修改前端 Umi 相关规范时，须交叉检查：
+
+| 检查项 | 说明 |
+|--------|------|
+| 工程基线 | `engineering-standards.md` §5 与 `frontend-umi-standards.md` 一致 |
+| 技术栈 | `tech-stack.md`、`context/tech-stack.yaml` 同步 |
+| CR 入口 | `superpowers.md` 中 `cr frontend` 维度与必读清单 |
+| UI Craft | `ui-craft.md` 验收命令（harness vs 存量 npm） |
 
 ## 应用层文档
 

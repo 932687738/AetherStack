@@ -1,0 +1,39 @@
+﻿{
+  "version": 1,
+  "change": "frontend-umi-refactor",
+  "updatedAt": "2026-06-03T22:35:00+08:00",
+  "overall": "ready_with_warnings",
+  "checks": {
+    "tasks": { "status": "pass", "incomplete": 0 },
+    "designReview": { "status": "pass", "schema": "standard-spec-driven" },
+    "traceability": { "status": "pass", "issues": [] },
+    "uiCraft": { "status": "pass", "issues": [] },
+    "harnessVerify": { "status": "skip", "skipped": true },
+    "openspecVerify": {
+      "status": "pass",
+      "reportPath": "verification-report.md"
+    },
+    "codeReview": {
+      "frontend": {
+        "status": "approved",
+        "note": "verification-report CR summary",
+        "at": "2026-06-03T22:31:20+08:00"
+      },
+      "backend": {
+        "status": "waived",
+        "note": "pure frontend refactor, no ai repo changes",
+        "at": "2026-06-03T22:31:21+08:00"
+      }
+    },
+    "superpowersVerification": {
+      "status": "done",
+      "note": "lint+harness build+e2e verified",
+      "at": "2026-06-03T22:31:19+08:00"
+    }
+  },
+  "critical": [],
+  "warnings": [
+    "make verify skipped (no mvn on host; pure frontend change)",
+    "Post-archive MANUAL: HIL demo backend, real SSE citations, upload progress"
+  ]
+}

@@ -30,6 +30,7 @@ rules:
   - rules/ddd-commit-design.md
   - rules/ai-tdd.md
   - rules/ui-craft.md
+  - rules/frontend-umi.md
 
 context:
   - context/project.yaml

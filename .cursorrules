@@ -24,7 +24,7 @@
 | 模块 | 关联 | 说明 |
 |------|------|------|
 | 后端 | `ai` 仓库（见 LOCALPATH.md） | Spring Boot + Spring AI |
-| 前端 | `ai_react` 仓库（见 LOCALPATH.md） | React + Vite |
+| 前端 | `ai_react` 仓库（见 LOCALPATH.md） | React 18 + Umi 4 + Ant Design 5 |
 | 规范 | `openspec/`（本仓） | OpenSpec |
 | AI 配置 | `.aetherstack/`（本仓） | 单一配置源 |
 | obra Superpowers | Cursor 插件 `/add-plugin superpowers` | TDD、代码审查、brainstorming 等 |

@@ -13,6 +13,7 @@ rules = [
   ".aetherstack/rules/ddd-commit-design.md",
   ".aetherstack/rules/delivery-workflow.md",
   ".aetherstack/rules/documentation.md",
+  ".aetherstack/rules/frontend-umi.md",
   ".aetherstack/rules/harness.md",
   ".aetherstack/rules/openspec.md",
   ".aetherstack/rules/spring-ai-core.md",
