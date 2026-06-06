@@ -9,5 +9,8 @@
 ### Generated AI config (regenerate with make sync-config) ###
 # Optionally track generated files; CI checks consistency
 
+### CodeGraph (local index; regenerate with make codegraph-init) ###
+.codegraph/
+
 ### OS ###
 Thumbs.db

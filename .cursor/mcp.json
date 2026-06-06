@@ -1,0 +1,35 @@
+{
+  "//": "AUTO-GENERATED from repos.yaml - run: make sync-config; init indexes: make codegraph-init",
+  "mcpServers": {
+    "codegraph": {
+      "type": "stdio",
+      "command": "codegraph",
+      "args": [
+        "serve",
+        "--mcp",
+        "--path",
+        "D:\cache\workspace\AetherStack"
+      ]
+    },
+    "codegraph-backend": {
+      "type": "stdio",
+      "command": "codegraph",
+      "args": [
+        "serve",
+        "--mcp",
+        "--path",
+        "D:\cache\workspace\ai"
+      ]
+    },
+    "codegraph-frontend": {
+      "type": "stdio",
+      "command": "codegraph",
+      "args": [
+        "serve",
+        "--mcp",
+        "--path",
+        "D:\cache\workspace\ai_react"
+      ]
+    }
+  }
+}

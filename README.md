@@ -388,6 +388,8 @@ GitHub Actions，仓库 Variable `CI_ENABLED=false` 可关闭。
 | [docs/INDEX.md](docs/INDEX.md) | 全索引 |
 | [AGENTS.md](AGENTS.md) | AI 入口 |
 | [ARCHITECTURE.md](ARCHITECTURE.md) | 架构 |
+| [LOCALPATH.md](LOCALPATH.md) | 关联路径摘要（由 sync-config 生成） |
+| [.aetherstack/context/repos.yaml](.aetherstack/context/repos.yaml) | 关联路径唯一真源 |
 
 ---
 
@@ -397,7 +399,7 @@ GitHub Actions，仓库 Variable `CI_ENABLED=false` 可关闭。
 |------|----------|
 | qwmsspec | 框架复制 → `openspec/` |
 | harness-engineering-open | 框架复制 → `harness/` |
-| **ai** | **路径关联** → `D:\cache\workspace\ai` |
-| **ai_react** | **路径关联** → `D:\cache\workspace\ai_react` |
+| **ai**（后端） | **路径关联** → `repos.yaml` → `repositories.backend.local` |
+| **ai_react**（前端） | **路径关联** → `repos.yaml` → `repositories.frontend.local` |
 
-详见 [docs/REPOS.md](docs/REPOS.md)。
+路径配置入口与同步方式见上文 **[关联仓库路径配置](#关联仓库路径配置)**。详见 [docs/REPOS.md](docs/REPOS.md)。

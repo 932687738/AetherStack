@@ -1,8 +1,10 @@
-.PHONY: sync-config verify verify-ps completion-gate dev docker-up help
+.PHONY: sync-config verify verify-ps completion-gate dev docker-up codegraph-init codegraph-status help
 
 help:
 	@echo "AetherStack (governance repo - backend/frontend are external)"
 	@echo "  make sync-config  - sync .aetherstack -> Cursor/Codex/Claude"
+	@echo "  make codegraph-init   - build CodeGraph indexes (governance + linked repos)"
+	@echo "  make codegraph-status - show CodeGraph index status for all repos"
 	@echo "  make verify       - test/lint in associated ai + ai_react repos"
 	@echo "  make completion-gate CHANGE=<id> - unified pre-archive gate"
 	@echo "  make dev          - hint: start docker/backend/frontend in linked repos"
@@ -10,6 +12,12 @@ help:
 
 sync-config:
 	powershell -ExecutionPolicy Bypass -File .aetherstack/scripts/sync-config.ps1
+
+codegraph-init:
+	powershell -ExecutionPolicy Bypass -File .aetherstack/scripts/codegraph-init.ps1
+
+codegraph-status:
+	powershell -ExecutionPolicy Bypass -File .aetherstack/scripts/codegraph-init.ps1 -StatusOnly
 
 verify:
 	powershell -ExecutionPolicy Bypass -File .aetherstack/scripts/verify-all.ps1

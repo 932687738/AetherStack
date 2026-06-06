@@ -67,6 +67,7 @@ $permissions = @"
     "yarn",
     "make",
     "harness",
+    "codegraph",
     "powershell",
     "pwsh"
   ],
@@ -84,6 +85,49 @@ $permissions = @"
 }
 "@
 Write-Utf8NoBom (Join-Path $Root '.cursor\permissions.json') $permissions.Trim()
+
+# --- .cursor/mcp.json (CodeGraph multi-repo) ---
+$cursorDir = Join-Path $Root '.cursor'
+New-Item -ItemType Directory -Force -Path $cursorDir | Out-Null
+$governanceWin = $Root -replace '/', '\'
+$mcpJson = @"
+{
+  "//": "AUTO-GENERATED from repos.yaml - run: make sync-config; init indexes: make codegraph-init",
+  "mcpServers": {
+    "codegraph": {
+      "type": "stdio",
+      "command": "codegraph",
+      "args": [
+        "serve",
+        "--mcp",
+        "--path",
+        "$governanceWin"
+      ]
+    },
+    "codegraph-backend": {
+      "type": "stdio",
+      "command": "codegraph",
+      "args": [
+        "serve",
+        "--mcp",
+        "--path",
+        "$backendWin"
+      ]
+    },
+    "codegraph-frontend": {
+      "type": "stdio",
+      "command": "codegraph",
+      "args": [
+        "serve",
+        "--mcp",
+        "--path",
+        "$frontendWin"
+      ]
+    }
+  }
+}
+"@
+Write-Utf8NoBom (Join-Path $cursorDir 'mcp.json') $mcpJson.Trim()
 
 # --- LOCALPATH.md ---
 $localpathTpl = Join-Path $Root '.aetherstack\templates\LOCALPATH.md.tpl'
@@ -135,4 +179,4 @@ $repoBlock = @(
 $merged = $head + $repoBlock
 Write-Utf8NoBom $apiContractsPath (($merged -join "`n") + "`n")
 
-Write-Host "sync-repo-paths: workspace, sandbox, permissions, LOCALPATH, api-contracts (repo section)"
+Write-Host "sync-repo-paths: workspace, sandbox, permissions, mcp.json, LOCALPATH, api-contracts (repo section)"

@@ -8,6 +8,7 @@
     "yarn",
     "make",
     "harness",
+    "codegraph",
     "powershell",
     "pwsh"
   ],

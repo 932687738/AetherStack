@@ -84,6 +84,7 @@ Cursor Skills：`.cursor/skills/openspec-*/SKILL.md`
 | 计划 skill 路由 | 有 tasks 用 `/opsx-apply` | `workflow-planning-routing.md` |
 | 提交型 DDD 设计 | — | `rules/ddd-commit-design.md` |
 | 更新文档 / 同步 changelog | — | `rules/documentation.md` |
+| CodeGraph / 代码智能索引 | MCP：`codegraph` / `codegraph-backend` / `codegraph-frontend` | `LOCALPATH.md` §CodeGraph；`make codegraph-init` |
 
 ## Harness
 

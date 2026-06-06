@@ -39,7 +39,27 @@ OpenSpec 变更目录：`openspec/changes/`（本仓）。
 文件 → 从文件打开工作区 → aether-dev.code-workspace
 ```
 
-`aether-dev.code-workspace`、`.cursor/sandbox.json`、`.cursor/permissions.json` 由 `sync-config` 根据 `repos.yaml` 生成。
+`aether-dev.code-workspace`、`.cursor/sandbox.json`、`.cursor/permissions.json`、`.cursor/mcp.json` 由 `sync-config` 根据 `repos.yaml` 生成。
+
+## CodeGraph（代码智能索引）
+
+三仓各自独立索引，路径与 `repos.yaml` 对齐：
+
+| 键 | 索引目录 | MCP Server |
+|----|----------|------------|
+| governance | AetherStack 本仓 | `codegraph` |
+| backend | `D:\cache\workspace\ai` | `codegraph-backend` |
+| frontend | `D:\cache\workspace\ai_react` | `codegraph-frontend` |
+
+```powershell
+# 首次或克隆后重建索引
+make codegraph-init
+
+# 查看三仓索引状态
+make codegraph-status
+```
+
+索引数据在各自仓库的 `.codegraph/`（本地生成，不入库）。修改 `repos.yaml` 后须 `make sync-config` 刷新 MCP 路径，再 `make codegraph-init` 重建关联仓索引。
 
 ## 解析路径
 
