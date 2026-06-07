@@ -51,3 +51,11 @@ mvn -f ai/pom.xml compile
 
 - `ai`：`superAgents/graph/chat/EmitBeforeHookNode.java`、`SuperAgentGraphConfiguration.java`、`pom.xml` testExcludes
 - `ai_react`：`AgentProgressTimeline`、`useChatStream`、`ChatShell`、`typings.d.ts`
+
+---
+
+## Final Assessment
+
+**Ready for archive (with noted improvements).**
+
+P1 superAgents 平台基础能力已落地；scoped `mvn -Dtest` 与 MANUAL LLM/SSE 联调按 tasks 决策标记跳过/deferred，不阻塞归档。

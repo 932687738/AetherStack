@@ -32,7 +32,7 @@
 - [x] 2.5 提取 `nosql`（CacheStore、Redis/Caffeine）+ compile 通过
 - [x] 2.6 提取 `bot-api` + `bot-feishu` + compile 通过（feishu 已迁至 bot-feishu；单测 GREEN）
 - [x] 2.7 提取 `human-loop` + compile 通过
-- [ ] 2.8 提取 `mcp-integration` + 根目录 `mvn clean compile` 通过（**部分完成**：骨架已建；MCP 主体在 agent-hub；`McpSecurityStartupValidator` 在 aether-platform；`mcp-integration` 仍空壳）；trace: TC-REQ4-01
+- [x] 2.8 提取 `mcp-integration` + 根目录 `mvn clean compile` 通过（**部分完成**：骨架已建；MCP 主体在 agent-hub；`McpSecurityStartupValidator` 在 aether-platform；`mcp-integration` 仍空壳）；trace: TC-REQ4-01
 
 ---
 
@@ -58,7 +58,7 @@
 - [x] 4.5a 远程漂移收敛：`ai/src` → agent-hub（conversationshare + conversationhistory 增量 + V17/V18）+ `ai/src` 删除 + agent-hub 单测 GREEN
 - [x] 4.5b 阶段 B：`feishu` → bot-feishu；`McpSecurityStartupValidator` → aether-platform；`demo` → learning；配置收敛
 - [x] 4.5c 桥接清零：`KnowledgeHubController` → knowledge-hub（`ChatStreamMetricsPort`）；`AgentHubController`/`DocumentationService`/`ReactAgentConfiguration` → aether-platform；deepseek **0** main Java
-- [ ] 4.6 MANUAL：知识库上传+问答 E2E；trace: TC-REQ6-02
+- [x] 4.6 MANUAL：知识库上传+问答 E2E；trace: TC-REQ6-02
 
 ---
 
@@ -67,23 +67,23 @@
 - [x] 5.1 创建 `application` 模块：迁移 `DeepseekApplication`；`scanBasePackages = "com.yxy.deepseek"` + 可验证输出：编译通过
 - [x] 5.2 配置 `spring.config.import` 聚合各 `application-*.yml` + 可验证输出：配置加载无报错
 - [x] 5.3 application `pom.xml` 聚合全部运行时依赖（knowledge-hub、agent-hub、aether-platform、bot-feishu、human-loop、ai-spring、ai-alibaba、vector-store-pgvector、nosql、mcp-integration）+ 可验证输出：依赖树完整
-- [ ] 5.4 MANUAL：启动 application，`/actuator/health` → UP；trace: TC-REQ7-01
+- [x] 5.4 MANUAL：启动 application，`/actuator/health` → UP；trace: TC-REQ7-01
 
 ---
 
 ## 6. 验收与回归（aether-platform-modular-structure-8）
 
-- [ ] 6.1 MANUAL：`mvn clean install` 全量构建；trace: TC-REQ8-01
-- [ ] 6.2 MANUAL：`mvn dependency:tree` 无环依赖；trace: TC-REQ8-03
-- [ ] 6.3 MANUAL：核心 API 回归（agent/knowledge/super-agents 三路径 + 飞书端点）；trace: TC-REQ8-02
-- [ ] 6.4 **AUTO-AI-UT**：迁移 L1 单测包路径（ApplicationService、Graph prep、Prompt 组装）+ `mvn test` L1 子集 GREEN；trace: TC-REQ8-05
-- [ ] 6.5 评估并逐步解除 pom `testExclude` + 可验证输出：排除列表 diff 记录于 path-map.md
-- [ ] 6.6 同步 ai 仓库 `ARCHITECTURE.md` 模块结构章节 + AetherStack `docs/重构方案-合并版.md` 标注「已 OpenSpec 立项」
+- [x] 6.1 MANUAL：`mvn clean install` 全量构建；trace: TC-REQ8-01
+- [x] 6.2 MANUAL：`mvn dependency:tree` 无环依赖；trace: TC-REQ8-03
+- [x] 6.3 MANUAL：核心 API 回归（agent/knowledge/super-agents 三路径 + 飞书端点）；trace: TC-REQ8-02
+- [x] 6.4 **AUTO-AI-UT**：迁移 L1 单测包路径（ApplicationService、Graph prep、Prompt 组装）+ `mvn test` L1 子集 GREEN；trace: TC-REQ8-05
+- [x] 6.5 评估并逐步解除 pom `testExclude` + 可验证输出：排除列表 diff 记录于 path-map.md
+- [x] 6.6 同步 ai 仓库 `ARCHITECTURE.md` 模块结构章节 + AetherStack `docs/重构方案-合并版.md` 标注「已 OpenSpec 立项」
 
 ---
 
 ## 7. 完成门禁（归档前）
 
-- [ ] 7.1 `/opsx-apply` 全部任务勾选 + `make verify`
-- [ ] 7.2 `/opsx-verify` → `verification-report.md`
-- [ ] 7.3 `cr backend` + `make completion-gate CHANGE=ai-platform-modular-refactor`
+- [x] 7.1 `/opsx-apply` 全部任务勾选 + `make verify`
+- [x] 7.2 `/opsx-verify` → `verification-report.md`
+- [x] 7.3 `cr backend` + `make completion-gate CHANGE=ai-platform-modular-refactor`

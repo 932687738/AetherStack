@@ -1,42 +1,46 @@
-# SuperAgents 异步挂起恢复（管理面扩展）
+﻿# 异步挂起与唤醒
 
-## SuperAgents / 异步工作流 需求说明（前提/操作/结果）
-> 在既有「挂起 → resumeToken → Webhook 恢复」闭环上，补充可观测状态与管理操作，使挂起记录除恢复外还可被查询、关闭与清理。本 spec 为 `aether-agent/async-resume` 能力的需求层增量；完整管理界面见 `aether-agent-suspended-workflow-mgmt`。
+## Agent Hub / EventBus 与 Webhook 需求说明（前提/操作/结果）
+> 长时间 Skill 挂起写库；外部 Webhook/消息到达后通过 sessionId 唤醒 Agent 继续执行。
+> 交付阶段：**P3**。详见 proposal `aether-agent/async-resume`。
 
 ---
 
 ## Requirements
 
 <a name="req-1"></a>
-### Requirement: 1. 挂起记录全生命周期状态可识别
+### Requirement: 1. 长时间 Skill 挂起 [P3]
 
-<a name="openspec-req-1"></a>系统应当（SHALL）为每条工作流挂起记录维护可区分的生命周期状态，至少包含：挂起中、已恢复、已关闭；状态变更须持久化并可被列表与详情查询。
+<a name="openspec-req-1"></a>系统 shall 支持长时间运行 Skill 在安全点挂起，将执行状态写入 PostgreSQL，释放计算资源。
 
-#### 场景: 挂起后状态为挂起中
-- **前提**：Graph 人工审批节点触发工作流挂起。
-- **操作**：挂起流程完成。
-- **结果**：新记录状态为挂起中；生成唯一恢复令牌；会话标记为挂起。
-
-#### 场景: 恢复后状态变更
-- **前提**：存在挂起中记录。
-- **操作**：通过 Webhook 恢复接口成功恢复。
-- **结果**：记录状态变为已恢复；记录恢复时间；会话挂起标记解除。
-
-#### 场景: 关闭后状态变更
-- **前提**：存在挂起中记录。
-- **操作**：通过管理接口执行关闭。
-- **结果**：记录状态变为已关闭；不可再恢复；会话挂起标记解除。
+#### 场景: 等待外部审批
+- **前提**：CompileGraph 到达审批节点。
+- **操作**：流程挂起。
+- **结果**：DB 存 checkpoint；HTTP 响应告知用户「等待审批」；无 busy-wait。
 
 ---
 
 <a name="req-2"></a>
-### Requirement: 2. 挂起事件与恢复事件可审计
+### Requirement: 2. Webhook 唤醒 [P3]
 
-<a name="openspec-req-2"></a>系统应当（SHALL）在挂起、恢复、关闭操作时保留时间戳与关键业务标识（租户、会话、Skill、恢复令牌），供管理面查询与运维审计。
+<a name="openspec-req-2"></a>系统 shall 提供 Webhook 或内部 EventBus 入口，外部系统审批完成后携带 sessionId/traceId 唤醒对应 Agent 从挂起点继续。
 
-#### 场景: 查询历史已恢复记录
-- **前提**：存在已恢复的挂起记录。
-- **操作**：在管理列表按「已恢复」筛选。
-- **结果**：可查到该记录及其恢复时间；详情展示挂起与恢复时间线。
+#### 场景: 审批通过回调
+- **前提**：流程在审批节点挂起。
+- **操作**：外部系统 POST 审批结果 Webhook。
+- **结果**：Agent 恢复执行后续节点；用户收到最终结果通知（SSE 或异步推送）。
 
 ---
+
+<a name="req-3"></a>
+### Requirement: 3. 挂起状态可查询 [P3]
+
+<a name="openspec-req-3"></a>系统 shall 允许授权用户按 sessionId 查询当前挂起状态与等待原因。
+
+#### 场景: 用户查询进度
+- **前提**：用户流程挂起在「人工审核」。
+- **操作**：查询 session 状态 API。
+- **结果**：返回 pending、当前步骤名、预计等待说明。
+
+---
+

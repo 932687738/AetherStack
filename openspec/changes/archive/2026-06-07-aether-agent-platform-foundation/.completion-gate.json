@@ -1,0 +1,59 @@
+﻿{
+    "version":  1,
+    "critical":  [
+
+                 ],
+    "checks":  {
+                   "traceability":  {
+                                        "status":  "pass",
+                                        "issues":  [
+
+                                                   ]
+                                    },
+                   "uiCraft":  {
+                                   "status":  "skip",
+                                   "issues":  [
+                                                  "no U1 tasks"
+                                              ]
+                               },
+                   "codeReview":  {
+                                      "backend":  {
+                                                      "status":  "approved",
+                                                      "prUrl":  "",
+                                                      "note":  "Archive approval: implementation delivered; MANUAL/deferred items noted in verification-report",
+                                                      "at":  "2026-06-07T17:59:02.3102372+08:00"
+                                                  },
+                                      "frontend":  {
+                                                       "status":  "waived",
+                                                       "prUrl":  "",
+                                                       "note":  "Backend-only or N/A frontend scope",
+                                                       "at":  "2026-06-07T17:59:02.6731367+08:00"
+                                                   }
+                                  },
+                   "openspecVerify":  {
+                                          "status":  "pass",
+                                          "reportPath":  "D:\\cache\\workspace\\AetherStack\\openspec\\changes\\aether-agent-platform-foundation\\verification-report.md"
+                                      },
+                   "designReview":  {
+                                        "status":  "pass",
+                                        "schema":  "standard-spec-driven"
+                                    },
+                   "superpowersVerification":  {
+                                                   "status":  "done"
+                                               },
+                   "harnessVerify":  {
+                                         "skipped":  true,
+                                         "status":  "skip"
+                                     },
+                   "tasks":  {
+                                 "status":  "pass",
+                                 "incomplete":  0
+                             }
+               },
+    "change":  "aether-agent-platform-foundation",
+    "overall":  "ready_with_warnings",
+    "warnings":  [
+                     "UI-Craft: no U1 tasks"
+                 ],
+    "updatedAt":  "2026-06-07T17:59:28.5264009+08:00"
+}

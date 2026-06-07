@@ -3,7 +3,9 @@
 > **Schema**：`standard-spec-driven`  
 > **审查方式**：Superpowers `brainstorming`（设计审查模式）  
 > **输入**：`proposal.md`、`specs/**/spec.md`、`design.md` v0.3  
-> **Status**：`Reviewed`
+> **Status**: Reviewed
+
+Status: Reviewed
 
 ## 审查基线
 

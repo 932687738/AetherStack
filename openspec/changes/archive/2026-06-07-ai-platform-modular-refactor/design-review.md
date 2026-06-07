@@ -3,7 +3,9 @@
 > **Schema**：`standard-spec-driven`  
 > **审查方式**：Superpowers `brainstorming`（设计审查模式）  
 > **输入**：`proposal.md`、`specs/aether-platform-modular-structure/spec.md`、`design.md` v1.0  
-> **Status**：`Reviewed`
+> **Status**: Reviewed
+
+Status: Reviewed
 
 ## 审查基线
 
