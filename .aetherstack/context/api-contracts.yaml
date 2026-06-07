@@ -99,6 +99,21 @@ endpoints:
   - method: POST
     path: /api/super-agents/mcp/refresh
     description: 刷新 MCP 外部工具缓存（Header X-Admin-Api-Key）
+  - method: GET
+    path: /api/super-agents/hooks/suspended
+    description: 挂起工作流分页列表（query page/pageSize/keyword/status/skillName；Header X-Tenant-Id 可选）
+  - method: GET
+    path: /api/super-agents/hooks/suspended/{resumeToken}
+    description: 挂起工作流详情（Header X-Tenant-Id 可选）
+  - method: POST
+    path: /api/super-agents/hooks/suspended/{resumeToken}/close
+    description: 关闭挂起工作流（Header X-Admin-Api-Key；X-Tenant-Id 可选）
+  - method: DELETE
+    path: /api/super-agents/hooks/suspended/{resumeToken}
+    description: 删除 RESUMED/CLOSED 记录（Header X-Admin-Api-Key；X-Tenant-Id 可选）
+  - method: POST
+    path: /api/super-agents/hooks/resume
+    description: SSE 恢复挂起工作流（body resumeToken）
   - note: super-agents-code-skills
     description: |
       代码 Skill（CompiledGraph）经 ReAct Tool 暴露，非独立 REST：
