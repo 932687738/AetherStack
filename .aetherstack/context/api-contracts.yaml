@@ -78,6 +78,27 @@ endpoints:
   - method: POST
     path: /api/super-agents/skills
     description: 发布 Skill 新版本（Header X-Admin-Api-Key）
+  - method: PATCH
+    path: /api/super-agents/skills/{name}/versions/{version}/status
+    description: Skill 生命周期状态变更（Header X-Admin-Api-Key）
+  - method: GET
+    path: /api/super-agents/tools
+    description: 平台与 Agent Hub Tool 描述摘要
+  - method: GET
+    path: /api/super-agents/model-providers
+    description: ModelProvider 开关列表
+  - method: PATCH
+    path: /api/super-agents/model-providers/{providerId}
+    description: 切换 ModelProvider 开关（Header X-Admin-Api-Key）
+  - method: POST
+    path: /api/super-agents/model-providers/refresh
+    description: 重建 ModelProvider Port 绑定（Header X-Admin-Api-Key）
+  - method: GET
+    path: /api/super-agents/uncovered-intents
+    description: 未覆盖意图列表（query limit，Header X-Tenant-Id 可选）
+  - method: POST
+    path: /api/super-agents/mcp/refresh
+    description: 刷新 MCP 外部工具缓存（Header X-Admin-Api-Key）
   - note: super-agents-code-skills
     description: |
       代码 Skill（CompiledGraph）经 ReAct Tool 暴露，非独立 REST：
@@ -131,6 +152,13 @@ frontend_services:
   agent_hub: D:/cache/workspace/ai_react/src/services/agentHubService.ts
   conversation_config: D:/cache/workspace/ai_react/src/services/conversationConfigService.ts
   human_loop: D:/cache/workspace/ai_react/src/services/humanLoopService.ts
+  platform_skill: D:/cache/workspace/ai_react/src/services/platformSkillService.ts
+  platform_agent_registry: D:/cache/workspace/ai_react/src/services/platformAgentRegistryService.ts
+  platform_tool_catalog: D:/cache/workspace/ai_react/src/services/platformToolCatalogService.ts
+  platform_model_provider: D:/cache/workspace/ai_react/src/services/platformModelProviderService.ts
+  platform_uncovered_intent: D:/cache/workspace/ai_react/src/services/platformUncoveredIntentService.ts
+  platform_mcp_admin: D:/cache/workspace/ai_react/src/services/platformMcpAdminService.ts
+  platform_admin_common: D:/cache/workspace/ai_react/src/services/platformAdminCommon.ts
   sse: D:/cache/workspace/ai_react/src/utils/StreamSse.ts
 legacy_frontend_reference: D:/cache/workspace/ai_react/legacy-vite
 backend_repo: D:/cache/workspace/ai
