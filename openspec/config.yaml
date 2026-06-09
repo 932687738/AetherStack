@@ -27,6 +27,10 @@ context: |
   - `openspec/references/tech-stack.md`：技术栈与测试策略
   - `openspec/references/directory-examples.md`：目录示例与选址对照
   - `openspec/references/integration-contracts.md`：前后端接口契约基线
+  - `openspec/references/api-conventions.md`：API 横切约定（认证/错误/分页/限流/幂等/废弃）
+  - `openspec/references/api-deprecations.md`：活跃 API 废弃登记
+  - `openspec/references/api-changelog.md`：API 变更历史
+  - `docs/ROADMAP.md`：P1–P4 能力成熟度与闭环状态
   - `openspec/references/backend-design-guide.md`：后端现状问题、目标架构与演进路线
   - `openspec/references/aether-rules.md`：项目规则与判定标准（强约束）
   - `openspec/references/ai-tdd-standards.md`：AI 核心模块阶段化 TDD（OpenSpec aiTddMode 开关）
@@ -65,14 +69,14 @@ rules:
     - 涉及已有能力的设计需基于现有代码/接口/表结构（详见 aether-rules）
     - 设计与实现需遵循 openspec/references/engineering-standards.md
     - AI/LLM 相关 design 须引用 backend-design-guide.md 与 Spring AI 铁三角规范（core / multi-agent / rag / react-graph）；冲突时取更严格条款
-    - 前后端契约变更需对齐 integration-contracts.md
+    - 前后端契约变更需对齐 integration-contracts.md 与 api-conventions.md；废弃/API 变更须更新 api-changelog.md（及 api-deprecations.md 若适用）
   design-review:
     - 仅 standard-spec-driven：design.md 完成后 invoke Superpowers brainstorming 生成 design-review.md
     - 阻塞项须修订 design.md；Status Reviewed 且用户确认后方可进入 test-cases / tasks
     - 细则见 openspec/references/aether-rules.md §5.12 与 standard-spec-driven/schema.yaml
   tasks:
-    - 任务必须 `- [ ]` 可勾选
+    - "任务必须 - [ ] 可勾选"
     - 按 Requirement 拆分并包含可验证输出
-    - 测试要求见 `openspec/references/tech-stack.md`
-    - `aiTddMode: enabled` 时 L1 AI 模块须含 TDD 先行任务，见 `openspec/references/ai-tdd-standards.md`
-    - `uiCraftMode: enabled` 时 U1 前端须含 Impeccable 任务，见 `openspec/references/ui-craft-standards.md`
+    - 测试要求见 openspec/references/tech-stack.md
+    - "aiTddMode: enabled 时 L1 AI 模块须含 TDD 先行任务，见 openspec/references/ai-tdd-standards.md"
+    - "uiCraftMode: enabled 时 U1 前端须含 Impeccable 任务，见 openspec/references/ui-craft-standards.md"

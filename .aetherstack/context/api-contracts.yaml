@@ -8,6 +8,9 @@ endpoints:
   - method: POST
     path: /api/agent-hub/chat/agent
     description: 存量 Agent Hub 智能体模式流式对话 (SSE)
+    deprecated: true
+    successor: POST /api/super-agents/chat
+    sunset: "2026-12-31"
   - method: POST
     path: /api/super-agents/chat
     description: SuperAgents 平台智能体 SSE 对话（新）
@@ -17,7 +20,8 @@ endpoints:
       - X-User-Roles
     sse_events:
       plain: 默认纯文本 token 分片
-      structured: '{"type":"token","text":"..."}' 或 '{"type":"progress","step","status",...}'（aether.platform.sse.structured-events=true）
+      structured: '{"type":"token","text":"..."}' 或 '{"type":"progress",...}' 或 '{"type":"artifact","artifact":{...}}'（aether.platform.sse.structured-events=true）
+      artifact_kinds: sql-review | table | code
   - method: POST
     path: /api/agent-hub/requirement-dev
     description: 需求开发模式 (SSE)
@@ -174,6 +178,7 @@ frontend_services:
   platform_uncovered_intent: D:/cache/workspace/ai_react/src/services/platformUncoveredIntentService.ts
   platform_mcp_admin: D:/cache/workspace/ai_react/src/services/platformMcpAdminService.ts
   platform_admin_common: D:/cache/workspace/ai_react/src/services/platformAdminCommon.ts
+  platform_suspended_workflow: D:/cache/workspace/ai_react/src/services/platformSuspendedWorkflowService.ts
   sse: D:/cache/workspace/ai_react/src/utils/StreamSse.ts
 legacy_frontend_reference: D:/cache/workspace/ai_react/legacy-vite
 backend_repo: D:/cache/workspace/ai

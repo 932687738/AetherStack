@@ -11,7 +11,12 @@
 <a name="req-1"></a>
 ### Requirement: 1. 全链路 Trace [P3]
 
-<a name="openspec-req-1"></a>系统应当（SHALL）为每次用户请求生成唯一 trace_id，并记录路由、子 Agent、Skill、Tool 各层 span（含耗时、错误、token）。
+<a name="openspec-req-1"></a>系统应当（SHALL）为每次用户请求生成唯一 trace_id，并记录路由、子 Agent、Skill、Tool 各层 span（含耗时、错误、token）；验收须包含 `TraceSpanRecorder` 落库 parent-child 关系，且具备 AUTO-UT。
+
+#### 场景: Span 父子关系落库
+- **前提**：一次对话产生 ROUTER 与 SUB_AGENT 两层 span。
+- **操作**：按 trace_id 查询 trace_spans（或 mock 捕获 `TraceSpanRecord`）。
+- **结果**：SUB_AGENT span 的 parent 指向 ROUTER span；字段含耗时与 token 摘要。
 
 #### 场景: 单次对话 Trace
 - **前提**：用户发起一轮含 Tool 调用的对话。
@@ -59,7 +64,12 @@
 <a name="req-5"></a>
 ### Requirement: 5. Prometheus 指标 [P3]
 
-<a name="openspec-req-5"></a>系统 shall 暴露 Prometheus 指标（如请求量、延迟、Tool 调用次数、Agent 迭代次数、RAG 命中率）。
+<a name="openspec-req-5"></a>系统 SHALL 暴露 Prometheus 指标（如请求量、延迟、Tool 调用次数、Agent 迭代次数、RAG 命中率）；验收须包含 `spring_ai_platform_chat_requests_total` 与 `spring_ai_platform_chat_duration_seconds` 可通过 `/actuator/prometheus` 抓取，且具备 AUTO-UT 覆盖 MeterRegistry 注册。
+
+#### 场景: Actuator 指标可抓取
+- **前提**：应用启动且 SuperAgents 对话路径已执行至少一次。
+- **操作**：`GET /actuator/prometheus` 过滤 `spring_ai_platform_chat_requests_total`。
+- **结果**：指标存在且 `tenant` 或等价标签可过滤。
 
 #### 场景: 监控大盘
 - **前提**：Prometheus 抓取应用 metrics 端点。

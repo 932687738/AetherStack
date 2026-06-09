@@ -56,7 +56,8 @@
 - 项目配置：`openspec/config.yaml`
 - 项目规则：`openspec/references/aether-rules.md`
 - 目录示例：`openspec/references/directory-examples.md`
-- 接口契约：`openspec/references/integration-contracts.md`
+- 接口契约：`openspec/references/integration-contracts.md`、`api-conventions.md`、`api-changelog.md`
+- 能力成熟度：`docs/ROADMAP.md`
 - **关联仓库路径（唯一真源）**：`.aetherstack/context/repos.yaml`（改后 `make sync-config`）；`LOCALPATH.md` 为生成摘要
 
 变更生命周期：`openspec/changes/` → 归档 → `openspec/specs/`

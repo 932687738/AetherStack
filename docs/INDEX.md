@@ -16,6 +16,7 @@
 | [REPOS.md](REPOS.md) | **关联仓库说明（ai / ai_react）** |
 | [GETTING_STARTED.md](GETTING_STARTED.md) | 新人 onboarding |
 | [SUPERpower.md](SUPERpower.md) | obra Superpowers 插件 + AI-TDD 手册 |
+| [ROADMAP.md](ROADMAP.md) | P1–P4 能力成熟度与闭环状态 |
 
 ## 指南
 
@@ -39,7 +40,10 @@
 | [openspec/references/ai-tdd-standards.md](../openspec/references/ai-tdd-standards.md) | AI 阶段化 TDD |
 | [openspec/references/ui-craft-standards.md](../openspec/references/ui-craft-standards.md) | 前端 UI Craft |
 | [openspec/references/directory-examples.md](../openspec/references/directory-examples.md) | 目录示例 |
-| [openspec/references/integration-contracts.md](../openspec/references/integration-contracts.md) | API 契约 |
+| [openspec/references/integration-contracts.md](../openspec/references/integration-contracts.md) | API 契约白名单 |
+| [openspec/references/api-conventions.md](../openspec/references/api-conventions.md) | API 横切约定 |
+| [openspec/references/api-deprecations.md](../openspec/references/api-deprecations.md) | API 废弃登记 |
+| [openspec/references/api-changelog.md](../openspec/references/api-changelog.md) | API 变更历史 |
 | [openspec/OPENSPEC-SYNC.md](../openspec/OPENSPEC-SYNC.md) | 框架同步记录 |
 
 ## CI/CD

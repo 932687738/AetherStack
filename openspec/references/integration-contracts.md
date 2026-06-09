@@ -2,7 +2,9 @@
 
 本文件作为 AetherStack **前后端接口契约**的事实基线，面向 OpenSpec 方案设计、联调与验收。
 
-> 详细路径见 `.aetherstack/context/api-contracts.yaml`。
+> 详细路径见 `.aetherstack/context/api-contracts.yaml`。  
+> **横切约定**（认证 Header、错误码、分页、限流 429、幂等、废弃策略）：[`api-conventions.md`](api-conventions.md)。  
+> **废弃登记**：[`api-deprecations.md`](api-deprecations.md)。**变更历史**：[`api-changelog.md`](api-changelog.md)。
 
 ## 1. 目标与边界
 
@@ -52,6 +54,14 @@ ai_react (Nebula Desk, Umi 4)
 
 - Content-Type: `text/event-stream`
 - 前端解析：`ai_react/src/utils/StreamSse.ts` 中 `postStream`（chat 专用；其余 REST 走 `src/openapi/request.ts`）
+- **SuperAgents structured 模式**（`aether.platform.sse.structured-events=true`）JSON 行类型：
+  - `type=token` — `{ "type":"token", "text":"..." }`
+  - `type=progress` — `{ "type":"progress", "step","status", ... }`
+  - **`type=artifact`**（`add-text2sql-schema-artifacts`）— `{ "type":"artifact", "artifact": { "id","kind","title", ... } }`
+    - `kind=sql-review`：`content`（SQL 文本）、`displayDialect`（展示 mysql）、`executionDialect`（执行 postgresql）、`actions`、`status=awaiting_confirm`
+    - `kind=table`：`columns[]`、`rows[]`、`page.truncated`
+    - `kind=code`：`language`、`content`
+- 非 structured 模式：artifact 降级为 plain text 摘要行
 - 知识库模式在 token 流结束后由服务端再发送一条 **JSON meta**（`event: "meta"`）；Spring 将其封装为 SSE `data:` 帧（勿手写 `event: meta`，避免双重编码）：
   - `event`: `"meta"`
   - `sessionId`, `knowledgeBaseNames`, `knowledgeBaseCount`
@@ -71,6 +81,7 @@ ai_react (Nebula Desk, Umi 4)
 
 ## 6. 设计要求（OpenSpec design 引用）
 
-- 新增/修改 API 时必须同步更新本文件与 `api-contracts.yaml`
+- 新增/修改 API 时必须同步更新：本文件、`api-contracts.yaml`、[`api-changelog.md`](api-changelog.md)
+- 废弃接口须登记 [`api-deprecations.md`](api-deprecations.md)，并遵循 [`api-conventions.md`](api-conventions.md) §8
 - SSE 接口需说明事件类型、结束条件、错误传播方式
 - 破坏性变更需在 proposal 中标注并给出前端兼容策略

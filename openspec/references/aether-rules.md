@@ -151,7 +151,8 @@
 - design/design-lite 的「非功能性需求设计」章节必须包含：
   - 并发与幂等验收口径
   - 性能与容量验收口径（含 embedding/检索延迟）
-- 前后端 API 变更必须引用并对齐 `integration-contracts.md`
+- 前后端 API 变更必须引用并对齐 `integration-contracts.md` 与 `api-conventions.md`
+- API 废弃须登记 `api-deprecations.md`；每次 API 变更须在 `api-changelog.md` 追加条目（apply 勾选 API 相关 task 前）
 
 ### 5.1 查询与导出条件设计约束（强制）
 

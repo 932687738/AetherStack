@@ -1,0 +1,59 @@
+﻿{
+    "version":  1,
+    "critical":  [
+
+                 ],
+    "checks":  {
+                   "traceability":  {
+                                        "status":  "pass",
+                                        "issues":  [
+
+                                                   ]
+                                    },
+                   "uiCraft":  {
+                                   "status":  "pass",
+                                   "issues":  [
+
+                                              ]
+                               },
+                   "codeReview":  {
+                                      "backend":  {
+                                                      "status":  "approved",
+                                                      "prUrl":  "",
+                                                      "note":  "Text2SQL orchestration bridge, SqlGuard, persist meta, SSE meta event; layered OK",
+                                                      "at":  "2026-06-09T23:17:10.5738014+08:00"
+                                                  },
+                                      "frontend":  {
+                                                       "status":  "approved",
+                                                       "prUrl":  "",
+                                                       "note":  "Artifact SSE/meta parsing, history normalize, build pass",
+                                                       "at":  "2026-06-09T23:17:10.5827531+08:00"
+                                                   }
+                                  },
+                   "openspecVerify":  {
+                                          "status":  "pass",
+                                          "reportPath":  "D:\\cache\\workspace\\AetherStack\\openspec\\changes\\add-text2sql-schema-artifacts\\verification-report.md"
+                                      },
+                   "designReview":  {
+                                        "status":  "pass",
+                                        "schema":  "standard-spec-driven"
+                                    },
+                   "superpowersVerification":  {
+                                                   "status":  "done"
+                                               },
+                   "harnessVerify":  {
+                                         "skipped":  true,
+                                         "status":  "skip"
+                                     },
+                   "tasks":  {
+                                 "status":  "pass",
+                                 "incomplete":  0
+                             }
+               },
+    "change":  "add-text2sql-schema-artifacts",
+    "overall":  "ready",
+    "warnings":  [
+
+                 ],
+    "updatedAt":  "2026-06-09T23:24:09.0956775+08:00"
+}

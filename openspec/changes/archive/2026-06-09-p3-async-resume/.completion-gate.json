@@ -1,0 +1,56 @@
+﻿{
+    "version":  1,
+    "critical":  [
+
+                 ],
+    "checks":  {
+                   "traceability":  {
+                                        "status":  "pass",
+                                        "issues":  [
+
+                                                   ]
+                                    },
+                   "uiCraft":  {
+                                   "status":  "skip",
+                                   "issues":  [
+
+                                              ]
+                               },
+                   "codeReview":  {
+                                      "backend":  {
+                                                      "status":  "approved",
+                                                      "prUrl":  "",
+                                                      "note":  "Suspend/resume bridge layered; 7 AUTO-UT pass",
+                                                      "at":  "2026-06-09T20:21:18.2480415+08:00"
+                                                  },
+                                      "frontend":  {
+                                                       "status":  "pending"
+                                                   }
+                                  },
+                   "openspecVerify":  {
+                                          "status":  "pass",
+                                          "reportPath":  "D:\\cache\\workspace\\AetherStack\\openspec\\changes\\p3-async-resume\\verification-report.md"
+                                      },
+                   "designReview":  {
+                                        "status":  "pass",
+                                        "schema":  "standard-spec-driven"
+                                    },
+                   "superpowersVerification":  {
+                                                   "status":  "done"
+                                               },
+                   "harnessVerify":  {
+                                         "skipped":  false,
+                                         "status":  "pass"
+                                     },
+                   "tasks":  {
+                                 "status":  "pass",
+                                 "incomplete":  0
+                             }
+               },
+    "change":  "p3-async-resume",
+    "overall":  "ready",
+    "warnings":  [
+
+                 ],
+    "updatedAt":  "2026-06-09T20:24:08.9795825+08:00"
+}
