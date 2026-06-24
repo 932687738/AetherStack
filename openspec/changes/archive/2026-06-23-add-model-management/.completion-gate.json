@@ -1,0 +1,60 @@
+﻿{
+    "version":  1,
+    "critical":  [
+                     "tasks.md 仍有 5 项未完成",
+                     "design-review.md 须 Status: Reviewed"
+                 ],
+    "checks":  {
+                   "traceability":  {
+                                        "status":  "pass",
+                                        "issues":  [
+
+                                                   ]
+                                    },
+                   "uiCraft":  {
+                                   "status":  "pass",
+                                   "issues":  [
+
+                                              ]
+                               },
+                   "codeReview":  {
+                                      "backend":  {
+                                                      "status":  "approved",
+                                                      "prUrl":  "",
+                                                      "note":  "",
+                                                      "at":  "2026-06-24T11:36:05.5699274+08:00"
+                                                  },
+                                      "frontend":  {
+                                                       "status":  "approved",
+                                                       "prUrl":  "",
+                                                       "note":  "",
+                                                       "at":  "2026-06-24T11:36:10.3809508+08:00"
+                                                   }
+                                  },
+                   "openspecVerify":  {
+                                          "status":  "pass",
+                                          "reportPath":  "D:\\cache\\workspace\\AetherStack\\openspec\\changes\\add-model-management\\verification-report.md"
+                                      },
+                   "designReview":  {
+                                        "status":  "fail",
+                                        "schema":  "standard-spec-driven"
+                                    },
+                   "superpowersVerification":  {
+                                                   "status":  "done"
+                                               },
+                   "harnessVerify":  {
+                                         "skipped":  true,
+                                         "status":  "skip"
+                                     },
+                   "tasks":  {
+                                 "status":  "fail",
+                                 "incomplete":  5
+                             }
+               },
+    "change":  "add-model-management",
+    "overall":  "not_ready",
+    "warnings":  [
+
+                 ],
+    "updatedAt":  "2026-06-24T11:36:16.4300783+08:00"
+}

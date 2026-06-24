@@ -3,7 +3,7 @@
 > **Schema**：`standard-spec-driven`  
 > **审查方式**：invoke obra Superpowers `brainstorming`  
 > **输入**：`proposal.md`、`specs/**/spec.md`、`design.md`  
-> **Status**：`Draft`
+> **Status**：`Reviewed`
 
 ## 审查基线
 
@@ -64,8 +64,8 @@
 
 ## 阻塞项清单（须清零后方可进入 test-cases / tasks）
 
-- [ ] DR-03：`DynamicModelRouter` 放置位置违反 DDD 分层，需移至 infrastructure 层
-- [ ] DR-04：`DynamicChatClientFactory` 需适配器模式隔离 Spring AI 内部类型
+- [x] DR-03：`DynamicModelRouter` 放置位置违反 DDD 分层，需移至 infrastructure 层（已修订）
+- [x] DR-04：`DynamicChatClientFactory` 需适配器模式隔离 Spring AI 内部类型（已修订）
 
 ## design.md 修订记录
 
@@ -76,4 +76,4 @@
 
 ## 用户确认
 
-- [ ] 审查结论已阅读，同意进入 test-cases / tasks 阶段
+- [x] 审查结论已阅读，同意进入 test-cases / tasks 阶段
