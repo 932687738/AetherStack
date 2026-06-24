@@ -1,0 +1,5 @@
+schema: simple-spec-driven
+aiTddMode: disabled
+uiCraftMode: enabled
+createdAt: "2026-06-23"
+description: "Prompt 市场 / 快捷指令"

@@ -1,0 +1,5 @@
+schema: standard-spec-driven
+aiTddMode: auto
+uiCraftMode: enabled
+createdAt: "2026-06-23"
+description: "多模态 AI 应用（视频/语音/OCR/写作/绘画）"

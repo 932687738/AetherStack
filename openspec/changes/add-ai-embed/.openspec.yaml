@@ -1,0 +1,5 @@
+schema: simple-spec-driven
+aiTddMode: disabled
+uiCraftMode: enabled
+createdAt: "2026-06-23"
+description: "AI 应用嵌入（iframe 第三方集成）"

@@ -1,0 +1,5 @@
+schema: standard-spec-driven
+aiTddMode: auto
+uiCraftMode: enabled
+createdAt: "2026-06-23"
+description: "AI 模型管理（可视化配置+激活状态）"
