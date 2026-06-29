@@ -6,7 +6,7 @@
 > 主 spec 文件头 `交付阶段：P3/P4` **不等于已交付**；以本表 `闭环` 列为准。  
 > API 横切约定见 [`openspec/references/api-conventions.md`](../openspec/references/api-conventions.md)。
 
-**最后更新**：2026-06-09
+**最后更新**：2026-06-29
 
 ---
 
@@ -44,6 +44,7 @@
 | MCP 安全 | `aether-integration-mcp-security` | 🟡 partial | — | P2 基础认证；P3 传输加密 |
 | 前端 Umi Desk | `aether-frontend-umi-desk` | ✅ done | `frontend-umi-refactor` | |
 | SuperAgents 管理 UI | `aether-agent-superagents-*-ui` | ✅ done | `superagents-frontend-page-completion` | |
+| 应用变量 | `aether-agent/app-variables` | ✅ done | `2026-06-29-add-app-variables` | 管理端配置 + 会话填写 + Prompt 注入 |
 
 ---
 

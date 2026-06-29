@@ -9,6 +9,15 @@
 ## [Unreleased]
 
 ### Added
+- Prompt 模板管理（`add-prompt-management`）：
+  - `GET/POST /api/super-agents/prompts/templates` — 管理端分页列表 / 创建模板
+  - `PUT/DELETE /api/super-agents/prompts/templates/{name}` — 保存新版本 / 软删除（custom only）
+  - `GET /api/super-agents/prompts/templates/{name}/versions` — 版本历史
+  - `POST /api/super-agents/prompts/templates/{name}/rollback` — 版本回滚
+  - `GET/PUT /api/super-agents/prompts/experiments/{sceneKey}` — A/B 实验配置
+  - `GET /api/super-agents/prompts/templates/{name}/invokes` — 调用记录分页
+  - `POST /api/super-agents/prompts/marketplace/use` 可选 body 字段 `sceneKey` — 实验分流选用
+  - Flyway `V27__prompt_management.sql`：`prompt_experiments`、`prompt_invoke_logs`
 - Prompt 市场 / 快捷指令（`add-prompt-marketplace`）：
   - `GET /api/super-agents/prompts/marketplace` — 分类/关键词浏览模板
   - `POST/GET /api/super-agents/prompts/marketplace/favorites` — 收藏 toggle / 列表

@@ -12,7 +12,7 @@
 
 ## 阶段 A：OpenSpec 制品（变更目录就绪）
 
-路径：`openspec/changes/add-app-variables/`
+路径：`openspec/changes/archive/2026-06-29-add-app-variables/`（已归档）
 
 | 制品 | 状态 | 说明 |
 |------|------|------|
@@ -22,7 +22,7 @@
 | `design-lite.md` | ✅ | 含 U1 界面清单 |
 | `tasks.md` | ✅ | 5 组任务 + UI-CRAFT |
 | `test-cases.md` | ⬜ 可选 | 测试同学提供；apply 不阻塞 |
-| `verification-report.md` | ⬜ apply 后 | `/opsx-verify` |
+| `verification-report.md` | ✅ | `/opsx-verify` → Ready for archive |
 
 **阶段 A 结论**：apply 准入已满足（`tasks` 就绪）。
 
@@ -78,14 +78,14 @@ make completion-gate CHANGE=add-app-variables
 | 时间 | 命令 | 结果 | 执行人/会话 |
 |------|------|------|-------------|
 | 2026-06-29 | `verify-all.ps1` | ✅ 通过 | mvn test + harness lint + E2E 3/3；约 90s |
-| | `make completion-gate CHANGE=add-app-variables` | | |
+| 2026-06-29 | `make completion-gate CHANGE=add-app-variables` | ✅ ready | overall=ready；harnessVerify skipped（verify-all 已跑） |
 
 ## 完成标准（勾选 PLANS.md）
 
-- [ ] 全部 tasks `[x]`
-- [ ] `make verify` 通过（含 frontend harness build E2E）
-- [ ] `.completion-gate.json` overall = `ready` 或 `ready_with_warnings`
-- [ ] 变更已移入 `openspec/changes/archive/`
+- [x] 全部 tasks `[x]`
+- [x] `make verify` 通过（含 frontend harness build E2E）
+- [x] `.completion-gate.json` overall = `ready` 或 `ready_with_warnings`
+- [x] 变更已移入 `openspec/changes/archive/2026-06-29-add-app-variables/`
 
 ## 备选试点
 
