@@ -46,6 +46,7 @@ description: OpenSpec apply 阶段的 Harness 三 Agent 接线。/opsx-apply 或
 ### 2. Harness Code（hev-coder）
 
 - **必读** `harness/agents/hev-coder.md`（分层与变更范围）
+- **必读** `.aetherstack/rules/implementation-discipline.md`（读 task → 阶梯 → diff）
 - 在 **正确仓库** 实现；变更范围对齐 Analyze 清单
 - OpenSpec 约束仍优先：AI-TDD 先测后码、UI-Craft 走 Impeccable、禁止扩大 scope
 - `AUTO-UT` / `AUTO-AI-UT`：invoke Superpowers `test-driven-development` + 对应 harness 测试模板

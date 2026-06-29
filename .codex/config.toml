@@ -15,6 +15,7 @@ rules = [
   ".aetherstack/rules/documentation.md",
   ".aetherstack/rules/frontend-umi.md",
   ".aetherstack/rules/harness.md",
+  ".aetherstack/rules/implementation-discipline.md",
   ".aetherstack/rules/openspec.md",
   ".aetherstack/rules/spring-ai-core.md",
   ".aetherstack/rules/spring-ai-multi-agent.md",

@@ -40,6 +40,7 @@
 - 进入 OpenSpec 流程前，先读根目录 `AGENTS.md`；通用 AI 工作流依赖 obra Superpowers 插件（见 `rules/superpowers.md`）。
 - 修改代码前，按需读 `ARCHITECTURE.md`、`LOCALPATH.md`、`openspec/references/backend-design-guide.md`。
 - **AI 相关后端需求**：优先读 `rules/backend-ai.md`（CompiledGraph / ReactAgent 选型）。
+- **写生产代码前**：遵循 `rules/implementation-discipline.md`（实现阶梯、根因修复、`aether-debt:`）。
 
 
 ## See also

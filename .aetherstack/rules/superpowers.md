@@ -36,7 +36,7 @@ AetherStack 仅通过 **rules + context** 叠加项目约束（多仓库、DDD�
 
 1. 解析目标仓库路径：`.aetherstack/context/repos.yaml`（`scripts/resolve-repos.ps1`）；`LOCALPATH.md` 为 sync 生成摘要
 2. `cr backend` → 关联仓库 **ai**；`cr frontend` → **ai_react**
-3. 必读：`.aetherstack/rules/core.md`、`openspec/references/engineering-standards.md`；`cr backend` 另读 `spring-ai-core-standards.md` 及铁三角专项；`cr frontend` 另读 `.aetherstack/rules/frontend-umi.md`、`openspec/references/frontend-umi-standards.md`；涉及 API 时读 `integration-contracts.md`；触及 Agent/`@Tool` 时读 `spring-ai-multi-agent-standards.md`；触及 ReactAgent/CompiledGraph 时读 `spring-ai-react-graph-standards.md`；触及 knowledgehub/RAG 时读 `spring-ai-rag-standards.md`
+3. 必读：`.aetherstack/rules/core.md`、`.aetherstack/rules/implementation-discipline.md`、`openspec/references/engineering-standards.md`；`cr backend` 另读 `spring-ai-core-standards.md` 及铁三角专项；`cr frontend` 另读 `.aetherstack/rules/frontend-umi.md`、`openspec/references/frontend-umi-standards.md`；涉及 API 时读 `integration-contracts.md`；触及 Agent/`@Tool` 时读 `spring-ai-multi-agent-standards.md`；触及 ReactAgent/CompiledGraph 时读 `spring-ai-react-graph-standards.md`；触及 knowledgehub/RAG 时读 `spring-ai-rag-standards.md`
 4. 审查维度：
 
 | 维度 | 检查点 |
@@ -50,6 +50,7 @@ AetherStack 仅通过 **rules + context** 叠加项目约束（多仓库、DDD�
 | 知识库 RAG | 多库分层；元数据最小集；阈值/Top-K/rerank；增量更新；来源格式化；PII/租户隔离 |
 | 测试 | AUTO-UT 有对应 `*Test.java` |
 | 安全 | 无硬编码密钥；输入校验 |
+| 过度实现 | 未请求抽象/Factory；重复 util；caller 级 patch 而 shared 可修根因；可删 legacy 未评估；新依赖未论证；grep `aether-debt:` 是否有对应 task |
 
 **`cr frontend` 追加维度**：
 
@@ -60,6 +61,7 @@ AetherStack 仅通过 **rules + context** 叠加项目约束（多仓库、DDD�
 | 状态 | Zustand 在 `models/`；服务端数据用 Query/Umi hook；按需 select |
 | 组件 | Ant Design 5；TS Props；pages/components 不直连 API |
 | 质量 | 无 `any`/debugger；工具文件大驼峰；ES7+ 语法 |
+| 过度实现 | pages 直连 API 外的冗余 wrapper；新 npm 包未论证；重复 utils；`aether-debt:` 无追溯 |
 
 ### 单元测试 / TDD
 

@@ -274,6 +274,8 @@ private void saveOrder(Order order) {
 
 ## 架构原则
 
+> 完整阶梯与白名单见 **`.aetherstack/rules/implementation-discipline.md`**、`engineering-standards.md` §1.1。
+
 ### 复用现有方案
 
 - 检查项目是否已有类似实现
@@ -283,8 +285,26 @@ private void saveOrder(Order order) {
 ### 避免过度设计
 
 - 不添加用户未明确要求的功能
-- 不创建不确定会用到的抽象
+- 不创建不确定会用到的抽象（**Repository/DomainService 等架构强制抽象除外**）
 - 优先使用简单直接的方式实现
+
+### Bugfix 根因
+
+- 改 symptom 前 grep 所有 caller 与共享入口
+- 优先在 domain / 共享 Service 修一次，禁止只在单路径打补丁
+
+### 依赖新增
+
+- 新 Maven 依赖须 OpenSpec design 说明；优先现有 starter
+- 禁止为少量逻辑引入第三方库
+
+### 删优于加
+
+- 重构时先评估删除 legacy 分支；必须兼容时在 design 注明
+
+### `aether-debt:` 标记
+
+- 有意简化或已知性能上限时留 `// aether-debt: …` 注释
 
 ### 分布式场景
 

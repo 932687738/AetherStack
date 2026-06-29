@@ -17,6 +17,7 @@ project:
 # 规则源（按顺序合并；人工只编辑 .aetherstack/rules/）
 rules:
   - rules/core.md
+  - rules/implementation-discipline.md
   - rules/superpowers.md
   - rules/delivery-workflow.md
   - rules/backend-ai.md

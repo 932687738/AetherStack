@@ -118,6 +118,36 @@ endpoints:
   - method: POST
     path: /api/super-agents/hooks/resume
     description: SSE 恢复挂起工作流（body resumeToken）
+  - method: GET
+    path: /api/super-agents/prompts/marketplace
+    description: Prompt 市场列表（query category/keyword；Header X-Tenant-Id 可选）
+  - method: POST
+    path: /api/super-agents/prompts/marketplace/favorites
+    description: 收藏/取消收藏 Prompt 模板（body userId/templateId）
+  - method: GET
+    path: /api/super-agents/prompts/marketplace/favorites
+    description: 用户收藏列表（query userId）
+  - method: POST
+    path: /api/super-agents/prompts/marketplace/use
+    description: 选用模板写入 Agent system_prompt（body templateId/agentName）
+  - method: POST
+    path: /api/super-agents/prompts/marketplace/save-generated
+    description: 保存 AI 生成 Prompt 为模板（body name/content/createdBy）
+  - method: POST
+    path: /api/super-agents/prompts/generate
+    description: AI 辅助生成 Prompt（SSE；body description）
+  - method: GET
+    path: /api/super-agents/agents/{agentName}/quick-commands
+    description: 列出 Agent 快捷指令（Header X-Tenant-Id 可选）
+  - method: POST
+    path: /api/super-agents/agents/{agentName}/quick-commands
+    description: 创建快捷指令（body name/content/icon）
+  - method: PUT
+    path: /api/super-agents/agents/{agentName}/quick-commands/{id}
+    description: 更新快捷指令（body name/content/icon/version 乐观锁）
+  - method: DELETE
+    path: /api/super-agents/agents/{agentName}/quick-commands/{id}
+    description: 删除快捷指令
   - note: super-agents-code-skills
     description: |
       代码 Skill（CompiledGraph）经 ReAct Tool 暴露，非独立 REST：

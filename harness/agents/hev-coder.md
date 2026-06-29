@@ -79,6 +79,28 @@ tags: [coding, implementation, harness]
 
 **预校验失败则立即停止编码，报告 Harness。**
 
+### 2.3【强制】实现阶梯检查
+
+编码前 **必读** `.aetherstack/rules/implementation-discipline.md`，按序完成：
+
+1. 读 task + design/spec 锚点，列出待改文件与调用链
+2. 跑实现阶梯 0→6（库内复用 → 标准库 → 框架 → 已有依赖 → 根因一处 → 最小 diff）
+3. Bugfix：grep 所有 caller，优先 domain / 共享 application 修根因
+4. 有意简化处加 `aether-debt:` 注释（含升级路径或 task 引用）
+
+输出块（可与预校验合并）：
+
+```markdown
+## 实现阶梯（implementation-discipline）
+
+| 阶 | 结论 |
+|----|------|
+| 1 库内复用 | … |
+| 3–4 框架/依赖 | 无新增依赖 | 已论证：… |
+| 5 根因（bugfix） | 共享入口：… |
+| 删优于加 | 可删 legacy：是/否 |
+```
+
 ### 3. 按步骤编码
 
 #### 3.1 编码约束
@@ -267,6 +289,7 @@ public class XxxDTO {
 ### ✅ 必须遵守
 
 - **方案驱动编码**：严格按 exec-plan 步骤实现
+- **实现纪律**：`.aetherstack/rules/implementation-discipline.md`（读 → 阶梯 → 写）
 - **代码规范**：遵循 domain-knowledge 中的规范
 - **熵预防**：编码后检查重复逻辑
 - **变更记录**：输出完整的变更摘要

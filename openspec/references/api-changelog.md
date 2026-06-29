@@ -9,6 +9,14 @@
 ## [Unreleased]
 
 ### Added
+- Prompt 市场 / 快捷指令（`add-prompt-marketplace`）：
+  - `GET /api/super-agents/prompts/marketplace` — 分类/关键词浏览模板
+  - `POST/GET /api/super-agents/prompts/marketplace/favorites` — 收藏 toggle / 列表
+  - `POST /api/super-agents/prompts/marketplace/use` — 选用模板到 Agent `system_prompt`
+  - `POST /api/super-agents/prompts/marketplace/save-generated` — 保存 AI 生成模板
+  - `POST /api/super-agents/prompts/generate` — AI 辅助生成 Prompt（SSE）
+  - `GET/POST/PUT/DELETE /api/super-agents/agents/{agentName}/quick-commands[/{id}]` — 快捷指令 CRUD
+  - Flyway `V25__prompt_marketplace.sql`：`prompt_templates`、`quick_commands`、`prompt_favorites`；`agent_registry.system_prompt`
 - `POST /api/super-agents/chat` SSE **`type=artifact`** 事件（非 BREAKING；`sql-review` / `table` / `code`），见 `integration-contracts.md` §4（`add-text2sql-schema-artifacts`）
 - Text2SQL：`Text2SqlPlatformTool` + `text2sql-readonly` CompiledGraph Skill；Schema Catalog 表 `text2sql_schema_*`、`text2sql_query_session`
 - 会话消息 `meta.artifacts[]`、`meta.text2sqlSessionId`（assistant 持久化扩展字段，可选）

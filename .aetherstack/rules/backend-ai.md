@@ -46,6 +46,17 @@ alwaysApply: false
 - 存量 Orchestrator **小范围补丁**（须在 PR 注明；不得扩大手写编排范围）
 - design 中已说明的轻量/性能理由
 
+> **「轻量」指编排层选型**，不是 domain 层可省略。ChatClient 路径仍须 DDD 分层、Repository 接口与 `implementation-discipline.md` 阶梯。
+
+## 框架内极简（阶梯 3–4，AI 模块）
+
+| 优先 | 禁止 |
+|------|------|
+| 已有 Spring AI starter / 项目 `@Tool` / Graph Bean | 为单次调用新引第三方 Agent 框架 |
+| 已有 `resources/prompts/` 模板 | Prompt 硬编码在业务类 |
+| 复用 `knowledgehub/graph/` 或 `recommendedpackaging/` 模式 | 手写 while 编排、per-request compile Graph |
+| 新 Maven 依赖须在 design 论证 | 少量逻辑可写时用新库替代 |
+
 ## 分层与依赖（强制）
 
 ### Bean 边界

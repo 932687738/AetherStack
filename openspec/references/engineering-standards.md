@@ -43,6 +43,31 @@
 - **Graph 生产参考**：`ai/.../knowledgehub/graph/`（待收敛节点瘦身）
 - **反例（勿复制）**：`OrchestratorAgent` 单体编排、Graph 节点内写去重/选库规则
 
+### 1.1 实现纪律（强制）
+
+细则见 **`.aetherstack/rules/implementation-discipline.md`**。摘要：
+
+**写码前顺序**：读 task + design 锚点 → 定位改动面（文件/调用链）→ 实现阶梯 → 写 diff。
+
+**实现阶梯（0→6）**：已批准 scope → 库内复用 → 标准库 → 框架能力 → 已有依赖 → 一处根因修复 → 最小实现（仍在 DDD 矩阵内）。
+
+**Bugfix 根因**：改 symptom 前 grep 所有 caller；优先在 domain / 共享 application 修一次，禁止只在 ticket 路径打补丁。
+
+**依赖新增门禁**：
+
+| 仓库 | 规则 |
+|------|------|
+| **ai** | 新 Maven 依赖须 design 说明；优先 Spring AI / 现有 starter；禁止为少量逻辑引第三库 |
+| **ai_react** | 新 npm 包须论证；优先 Ant Design / Umi 插件 / 现有 `utils/` |
+
+OpenSpec design 建议 checkbox：**无新增依赖 / 已论证新增依赖**。
+
+**删优于加**：优先删 legacy；必须兼容时在 design/tasks 注明 compat 理由。
+
+**`aether-debt:`**：有意简化留注释 + 升级路径；verify/CR 可 grep 汇总。
+
+**强度**：OpenSpec apply 默认 **strict**；bugfix/hotfix 可 **pragmatic**（tasks 注明）。
+
 ## 2. 接口与 DTO 规范
 
 - REST + SSE 路径统一前缀 `/api/agent-hub/`

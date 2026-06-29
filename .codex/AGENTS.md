@@ -86,6 +86,7 @@ Cursor Skills：`.cursor/skills/openspec-*/SKILL.md`
 | 提交型 DDD 设计 | — | `rules/ddd-commit-design.md` |
 | 更新文档 / 同步 changelog | — | `rules/documentation.md` |
 | CodeGraph / 代码智能索引 | MCP：`codegraph` / `codegraph-backend` / `codegraph-frontend` | `LOCALPATH.md` §CodeGraph；`make codegraph-init` |
+| 实现纪律 / 最小改动 / 根因修复 / aether-debt | — | `rules/implementation-discipline.md`、`engineering-standards.md` §1.1 |
 
 ## Harness
 

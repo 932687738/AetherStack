@@ -46,6 +46,13 @@ ai_react (Nebula Desk, Umi 4)
 | GET | `/api/super-agents/agents` | SuperAgents 注册表列表 | 待 UI（design DR-11 可选） |
 | POST | `/api/super-agents/agents` | 注册子 Agent | P1 管理/运维 |
 | POST | `/api/super-agents/agents/{name}/health` | 主动探测 Agent 健康 | P1 管理/运维 |
+| GET | `/api/super-agents/prompts/marketplace` | Prompt 市场列表（query `category`/`keyword`；Header `X-Tenant-Id` 可选） | `ai_react/src/services/promptMarketplaceService.ts` → `listPromptMarketplace` |
+| POST/GET | `/api/super-agents/prompts/marketplace/favorites` | 收藏 toggle / 列表（body/query `userId`） | `promptMarketplaceService.ts` → `toggleFavorite` / `listFavorites` |
+| POST | `/api/super-agents/prompts/marketplace/use` | 选用模板写入 Agent `system_prompt`（body `templateId`/`agentName`） | `promptMarketplaceService.ts` → `usePrompt` |
+| POST | `/api/super-agents/prompts/marketplace/save-generated` | 保存 AI 生成 Prompt 为模板 | `promptMarketplaceService.ts` → `saveGeneratedPrompt` |
+| POST | `/api/super-agents/prompts/generate` | AI 生成 Prompt（SSE；body `description`） | `prompt-marketplace/index.tsx`（SSE fetch） |
+| GET/POST | `/api/super-agents/agents/{agentName}/quick-commands` | 快捷指令列表 / 创建 | `promptMarketplaceService.ts` → `listQuickCommands` / `createQuickCommand` |
+| PUT/DELETE | `/api/super-agents/agents/{agentName}/quick-commands/{id}` | 快捷指令更新 / 删除（PUT 含乐观锁 `version`） | `promptMarketplaceService.ts` → `updateQuickCommand` / `deleteQuickCommand` |
 | GET/POST | `/springai/demo/alibaba-graph/human-loop/*` | Graph HIL Demo | `ai_react/src/services/humanLoopService.ts` |
 
 路径常量真源：`ai_react/src/constants/ApiPaths.ts`。

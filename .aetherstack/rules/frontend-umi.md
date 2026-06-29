@@ -41,6 +41,18 @@ alwaysApply: false
 - 样式：Ant Design CSS-in-JS / CSS Modules；禁止硬编码颜色字号
 - **禁止** `any`（须注释原因）、`console.log`/`debugger`、直接操作 DOM（Hook 内必要除外）
 
+## 框架内极简（阶梯 3–4，前端）
+
+| 优先 | 禁止 |
+|------|------|
+| Ant Design 5 组件（Modal/Table/Form 等） | 手写等价 UI  primitives |
+| 已有 `services/` + OpenAPI 类型 | pages/components 直连 API |
+| props / 局部 state | 为单次页面新加全局 Zustand |
+| 已有 `utils/`、`hooks/` | 新 npm 包替代数行逻辑 |
+| Umi 约定式路由、`harness` CLI | 绕过工程命令直接 npm |
+
+实现前 **必须先查** `services/`、`components/` 是否已有同类能力（见 `implementation-discipline.md` 阶梯 1）。
+
 ## 验证
 
 - 本地：`harness lint` + `harness build`（或 `make verify` 经 Harness 编排）

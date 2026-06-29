@@ -1,0 +1,103 @@
+---
+description: 实现纪律 - 写码前阶梯、根因修复、删优于加、aether-debt 标记；吸收 Ponytail 可合并部分，不替代 DDD/OpenSpec
+alwaysApply: true
+---
+
+
+# 实现纪律（Implementation Discipline）
+
+> **定位**：写生产代码前的决策纪律。吸收开源 Ponytail 的「先查再写、删优于加」思路，**不替代** DDD 四层、OpenSpec 交付链、AUTO-UT / AI-TDD 门禁。  
+> **配套**：`openspec/references/engineering-standards.md` §1.1、`harness/adapters/java-maven/code-patterns.md`
+
+## 强度模式
+
+| 模式 | 何时 | 行为 |
+|------|------|------|
+| **strict**（默认） | OpenSpec apply、L1 AI 模块、标准交付 | 全阶梯 + 测试/文档/契约同步 |
+| **pragmatic** | bugfix / hotfix（tasks 或 PR 注明） | 全阶梯 + 根因修复；文档按变更范围最小更新 |
+| **explore** | `/opsx-explore`、方案讨论 | 可质疑 scope；**不写**生产代码 |
+
+OpenSpec 已勾选 task **不得在 apply 阶段被 YAGNI 掉**；探索阶段可质疑，实现阶段按 tasks 执行。
+
+## 写码前顺序（强制）
+
+```text
+读 task + design/spec 锚点 → 定位真实改动面（文件/调用链）→ 跑实现阶梯 → 写 diff
+```
+
+**禁止**未读调用链就写 patch；阶梯缩短的是**实现体积**，不是阅读与 design 对齐。
+
+## 实现阶梯（AetherStack 版）
+
+在 **DDD 分层与 OpenSpec design 约束内**，按序尝试，**第一个满足需求的方案即停**：
+
+| 阶 | 问题 | 动作 |
+|----|------|------|
+| 0 | 范围是否已批准？ | OpenSpec tasks 已勾选 / hotfix 已注明 → 实现；否则先走 0.1 或 explore |
+| 1 | 代码库已有？ | Grep / CodeGraph / 查同类 ApplicationService、`recommendedpackaging`、现有 utils |
+| 2 | 标准库够用？ | Java：`Optional`、时间 API、`Stream`；TS：原生 API、已有 `utils/` |
+| 3 | 平台/框架已有？ | Spring / Umi / Ant Design 能力优先（见 `backend-ai.md`、`frontend-umi.md` § 框架内极简） |
+| 4 | 已安装依赖？ | 查 `pom.xml` / `package.json`；**禁止**为少量逻辑新引包（见 engineering-standards §1.1） |
+| 5 | 能否一处改完？ | **Bugfix**：优先在 domain / 共享 application 方法修一次，而非在每个 caller 打补丁 |
+| 6 | 最小实现 | 最少文件、最短 diff；仍须满足分层矩阵与 spec |
+
+两阶均可 → 取**更高阶（更简单）**；不确定时先读再选。
+
+## 架构白名单（不算过度设计）
+
+以下 **允许且强制**，不受「反单实现 interface」类规则约束：
+
+- Repository / 防腐层接口与 DomainService、Value Object、聚合根
+- ApplicationService 用例编排、Graph 节点、OpenSpec 要求的 DTO/record
+- `@Tool` 四段式描述、CompiledGraph/ReactAgent 按 `backend-ai.md` 选型
+- OpenSpec / 契约要求的配置项与迁移脚本
+
+## 禁止的过度实现
+
+- 单实现的 `XxxHelperFactory`、仅为一个 endpoint 的通用框架
+- 「以后可能用到」的 Strategy / Template / 未在 spec/design 出现的配置项
+- 未请求的功能、脚手架「for later」
+- 在每个 caller 重复 guard，而 shared 路径可修根因
+- silent 叠加 legacy 兼容层；不能删须在 design/tasks 注明 **compat 理由**
+
+## Bugfix 根因（强制）
+
+- 工单描述的是 **symptom**；改前 grep **所有 caller** 与共享入口
+- 优先在 **domain / 共享 application** 修一次，而非只改 ticket 提到的 HTTP 路径
+- 只 patch 单路径而 sibling caller 仍 broken → **未完成**
+
+## 删优于加
+
+- 重构/新 feature 时先评估能否 **删 legacy 分支**（对齐 `integration-contracts.md` 废弃标记）
+- 必须保留兼容时，在 PR/design 写明理由，避免叠 wrapper
+
+## `aether-debt:` 注释约定
+
+有意简化或已知上限时，留可追溯标记（Java / TS 单行注释）：
+
+```java
+// aether-debt: 全局锁；QPS > X 时改 per-tenant lock（见 change tasks 3.2）
+```
+
+```typescript
+// aether-debt: 客户端分页；数据量 > N 时改服务端分页
+```
+
+- CR 与 `/opsx-verify` 可 grep `aether-debt:` 纳入 verification-report
+- 与 `backend-design-guide.md` §9 架构债务清单互补，不替代 OpenSpec task
+
+## 与测试 / 文档的边界
+
+| 领域 | 纪律 |
+|------|------|
+| L1 AI / AUTO-UT / AUTO-AI-UT | **不受**「测试 YAGNI」；先测后码见 `ai-tdd.md` |
+| L3 CRUD | 常规单测即可 |
+| OpenSpec 文档 / 契约 / CHANGELOG | apply 按变更范围同步；**不因**「少写 prose」跳过 |
+| 安全、租户隔离、Prompt 注入防护 | **不可**为极简而省略 |
+
+## 参考
+
+- 工程规范：`openspec/references/engineering-standards.md` §1.1
+- 交付流程：`rules/delivery-workflow.md`
+- Harness 编码：`harness/agents/hev-coder.md` § 实现阶梯检查
+- CR 维度：`rules/superpowers.md` § 过度实现

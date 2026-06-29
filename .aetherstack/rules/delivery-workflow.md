@@ -36,7 +36,7 @@ OpenSpec 0.1（schema + 需求材料 + aiTddMode + uiCraftMode）
 
 | 阶段 | skill / 关键词 |
 |------|----------------|
-| **Apply 实现（OpenSpec tasks）** | **harness-apply** + hev-* | `/opsx-apply`；必读 `.cursor/skills/harness-apply/SKILL.md` |
+| **Apply 实现（OpenSpec tasks）** | **harness-apply** + hev-* | `/opsx-apply`；必读 `.cursor/skills/harness-apply/SKILL.md`；写码前 `implementation-discipline.md`（读 task → 阶梯 → diff） |
 | 设计审查（standard 模式，design 后） | `brainstorming` |
 | 方案探索（方案未定，非 OpenSpec design-review） | `brainstorming` |
 | 计划（无 OpenSpec tasks 时） | `writing-plans`；**禁止**与 tasks 并行 `executing-plans` |

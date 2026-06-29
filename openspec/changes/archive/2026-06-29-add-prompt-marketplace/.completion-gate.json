@@ -1,0 +1,59 @@
+﻿{
+    "version":  1,
+    "critical":  [
+
+                 ],
+    "checks":  {
+                   "traceability":  {
+                                        "status":  "pass",
+                                        "issues":  [
+
+                                                   ]
+                                    },
+                   "uiCraft":  {
+                                   "status":  "pass",
+                                   "issues":  [
+
+                                              ]
+                               },
+                   "codeReview":  {
+                                      "backend":  {
+                                                      "status":  "approved",
+                                                      "prUrl":  "",
+                                                      "note":  "Prompt marketplace CRUD, tenant guard, PromptGenerateService",
+                                                      "at":  "2026-06-29T17:30:00+08:00"
+                                                  },
+                                      "frontend":  {
+                                                       "status":  "approved",
+                                                       "prUrl":  "",
+                                                       "note":  "Marketplace modal, quick commands, ChatShell integration",
+                                                       "at":  "2026-06-29T17:22:45+08:00"
+                                                   }
+                                  },
+                   "openspecVerify":  {
+                                          "status":  "pass",
+                                          "reportPath":  "D:\\cache\\workspace\\AetherStack\\openspec\\changes\\add-prompt-marketplace\\verification-report.md"
+                                      },
+                   "designReview":  {
+                                        "status":  "skip",
+                                        "schema":  "simple-spec-driven"
+                                    },
+                   "superpowersVerification":  {
+                                                   "status":  "done"
+                                               },
+                   "harnessVerify":  {
+                                         "skipped":  true,
+                                         "status":  "skip"
+                                     },
+                   "tasks":  {
+                                 "status":  "pass",
+                                 "incomplete":  0
+                             }
+               },
+    "change":  "add-prompt-marketplace",
+    "overall":  "ready",
+    "warnings":  [
+
+                 ],
+    "updatedAt":  "2026-06-29T17:23:38.4034254+08:00"
+}
