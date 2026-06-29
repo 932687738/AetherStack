@@ -7,14 +7,14 @@
 - [x] 骨架搭建（Step 2）
 - [x] 集成与文档（Step 3）
 - [x] `/opsx-apply` × Harness 接线（harness-apply skill）
-- [ ] 首个 OpenSpec 变更 apply（端到端跑通）— **试点**：`add-app-variables`（制品已齐，待 `/opsx-apply`），见 [harness-e2e-pilot.md](plans/harness-e2e-pilot.md)
+- [x] 首个 OpenSpec 变更 apply（端到端跑通）— **试点**：`add-app-variables`（已 apply + gate），见 [harness-e2e-pilot.md](plans/harness-e2e-pilot.md)
 - [x] 验证通过（make verify / verify-all.ps1）— 2026-06-29 本地通过（mvn test + harness lint + build E2E 3/3）
-- [ ] 归档
+- [x] 归档 — `add-app-variables` → `openspec/changes/archive/2026-06-29-add-app-variables/`
 
 ## 当前焦点
 
 1. ~~验证链路已补齐~~；`verify-all.ps1` 已跑通
-2. 下一步：`/opsx-apply` 实现 `add-app-variables` → completion-gate → archive
+2. ~~试点 `add-app-variables`~~ 已归档；主 spec：`openspec/specs/aether-agent/app-variables/spec.md`
 
 ## 验证命令
 

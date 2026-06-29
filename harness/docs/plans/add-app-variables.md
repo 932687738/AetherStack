@@ -1,14 +1,13 @@
 # OpenSpec 变更：add-app-variables
 
-> Harness E2E 试点。与 `openspec/changes/add-app-variables/tasks.md` 同步。
+> Harness E2E 试点。归档路径：`openspec/changes/archive/2026-06-29-add-app-variables/`。
 
 ## 状态
 
 - [x] OpenSpec 制品就绪（spec / design-lite / tasks）
-- [ ] Analyze 完成（首 task hev-analyzer）
-- [ ] 实现进行中
-- [ ] Session verify（make verify）通过
-- [ ] 已归档
+- [x] Analyze / Code / Verify 完成
+- [x] Session verify（verify-all.ps1）通过
+- [x] 已归档（2026-06-29）
 
 ## Harness 进度
 

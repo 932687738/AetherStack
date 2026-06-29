@@ -1,0 +1,59 @@
+﻿{
+    "version":  1,
+    "critical":  [
+
+                 ],
+    "checks":  {
+                   "traceability":  {
+                                        "status":  "pass",
+                                        "issues":  [
+
+                                                   ]
+                                    },
+                   "uiCraft":  {
+                                   "status":  "pass",
+                                   "issues":  [
+
+                                              ]
+                               },
+                   "codeReview":  {
+                                      "backend":  {
+                                                      "status":  "approved",
+                                                      "prUrl":  "",
+                                                      "note":  "add-app-variables apply CR",
+                                                      "at":  "2026-06-29T20:47:48.8111069+08:00"
+                                                  },
+                                      "frontend":  {
+                                                       "status":  "approved",
+                                                       "prUrl":  "",
+                                                       "note":  "add-app-variables apply CR",
+                                                       "at":  "2026-06-29T20:47:49.1318568+08:00"
+                                                   }
+                                  },
+                   "openspecVerify":  {
+                                          "status":  "pass",
+                                          "reportPath":  "D:\\cache\\workspace\\AetherStack\\openspec\\changes\\add-app-variables\\verification-report.md"
+                                      },
+                   "designReview":  {
+                                        "status":  "skip",
+                                        "schema":  "simple-spec-driven"
+                                    },
+                   "superpowersVerification":  {
+                                                   "status":  "done"
+                                               },
+                   "harnessVerify":  {
+                                         "skipped":  true,
+                                         "status":  "skip"
+                                     },
+                   "tasks":  {
+                                 "status":  "pass",
+                                 "incomplete":  0
+                             }
+               },
+    "change":  "add-app-variables",
+    "overall":  "ready",
+    "warnings":  [
+
+                 ],
+    "updatedAt":  "2026-06-29T20:47:57.3624410+08:00"
+}
