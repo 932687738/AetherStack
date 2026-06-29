@@ -26,15 +26,24 @@ echo "frontend: $FRONTEND"
 if command -v mvn >/dev/null 2>&1 && [ -d "$BACKEND" ]; then
   echo "[backend] mvn test"
   (cd "$BACKEND" && mvn -B -q test) || { echo "backend test failed"; exit 1; }
+  for script in check-spring-ai-tools.ps1 check-spring-ai-rag.ps1 check-spring-ai-react-graph.ps1; do
+    sp="$ROOT/.aetherstack/scripts/$script"
+    if [ -f "$sp" ] && command -v pwsh >/dev/null 2>&1; then
+      pwsh -NoProfile -ExecutionPolicy Bypass -File "$sp" || true
+    fi
+  done
 else
   echo "[backend] skip (mvn missing or path not found)"
 fi
 
-if command -v npm >/dev/null 2>&1 && [ -d "$FRONTEND" ]; then
-  echo "[frontend] npm run lint && npm run build"
-  (cd "$FRONTEND" && npm run lint && npm run build) || { echo "frontend verify failed"; exit 1; }
-else
-  echo "[frontend] skip (npm missing or path not found)"
+HARNESS_JS="$FRONTEND/scripts/harness.mjs"
+if command -v node >/dev/null 2>&1 && [ -f "$HARNESS_JS" ]; then
+  echo "[frontend] harness lint"
+  (cd "$FRONTEND" && node scripts/harness.mjs lint) || { echo "frontend harness lint failed"; exit 1; }
+  echo "[frontend] harness build (max build + playwright e2e)"
+  (cd "$FRONTEND" && node scripts/harness.mjs build) || { echo "frontend harness build failed"; exit 1; }
+elif [ -d "$FRONTEND" ]; then
+  echo "[frontend] skip (node or scripts/harness.mjs not found)"
 fi
 
 echo "verify completed"

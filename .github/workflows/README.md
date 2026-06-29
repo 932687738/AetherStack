@@ -14,7 +14,7 @@
 | 仓库 | 本地路径 | 建议 CI |
 |------|----------|---------|
 | ai | `D:\cache\workspace\ai` | `mvn test` |
-| ai_react | `D:\cache\workspace\ai_react` | `npm run lint && npm run build` |
+| ai_react | `D:\cache\workspace\ai_react` | `node scripts/harness.mjs lint && node scripts/harness.mjs build` |
 
 本地统一验证：`make verify`（在关联路径执行上述命令）。
 

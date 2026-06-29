@@ -22,12 +22,34 @@ decomposition:
   max_interactions_per_plan: 5
 
 # 验证在关联仓库执行（见 .aetherstack/context/repos.yaml）
+# 本地一键：make verify → verify-all.ps1
 verify:
   loop_max: 3
+  adapters:
+    backend: java-maven
+    frontend: frontend-npm
   steps:
+    - name: full-verify
+      command: "powershell -ExecutionPolicy Bypass -File .aetherstack/scripts/verify-all.ps1"
+      note: orchestrates backend + frontend in linked repos
     - name: backend-test
-      command: "powershell -File .aetherstack/scripts/verify-all.ps1"
-      note: runs mvn test in AETHER_BACKEND_REPO or D:/cache/workspace/ai
+      repo: backend
+      command: "mvn -B -q test"
+      adapter: java-maven
+      verify_doc: harness/adapters/java-maven/verify-commands.md
+    - name: backend-spring-ai-checks
+      repo: governance
+      command: ".aetherstack/scripts/check-spring-ai-tools.ps1 (+ rag, react-graph)"
+      note: non-Strict warnings; use -Strict in completion-gate if required
+    - name: frontend-lint
+      repo: frontend
+      command: "node scripts/harness.mjs lint"
+      adapter: frontend-npm
+      verify_doc: harness/adapters/frontend-npm/verify-commands.md
+    - name: frontend-build-e2e
+      repo: frontend
+      command: "node scripts/harness.mjs build"
+      note: max build + playwright (MOCK_CHAT=true)
 
 agents:
   analyzer:

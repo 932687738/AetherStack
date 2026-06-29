@@ -63,4 +63,6 @@
 
 - 配置：`harness/harness.config.yaml`
 - 计划：`harness/docs/PLANS.md`
+- E2E 试跑：`harness/docs/plans/harness-e2e-pilot.md`
 - 设计：`harness/docs/DESIGN.md`
+- 验证文档：`harness/adapters/java-maven/verify-commands.md`、`harness/adapters/frontend-npm/verify-commands.md`
