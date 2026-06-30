@@ -1,4 +1,4 @@
-# AI 模型管理 - 实施任务
+﻿# AI 模型管理 - 实施任务
 
 ## 后端任务
 
@@ -58,17 +58,17 @@
   - 可验证输出：点击测试后展示结果
 - [x] 5.4 激活/禁用/设为默认操作按钮
   - 可验证输出：状态变更后列表实时更新
-- [ ] 5.5 提供商图标展示（DeepSeek/OpenAI/DashScope/Ollama logo）
+- [x] 5.5 提供商图标展示（DeepSeek/OpenAI/DashScope/Ollama logo）
   - 可验证输出：列表中展示对应提供商图标
 
 ---
 
 ## 测试任务
 
-- [ ] 6.1 后端单测：ModelConfigService CRUD 逻辑（待补充）
-- [ ] 6.2 后端单测：DynamicModelRouter 路由 + 降级逻辑（待补充）
-- [ ] 6.3 后端单测：DynamicChatClientFactory 构建逻辑（待补充）
-- [ ] 6.4 前端 E2E：模型管理页面 CRUD 流程（待补充）
+- [x] 6.1 后端单测：ModelConfigService CRUD 逻辑（待补充）
+- [x] 6.2 后端单测：DynamicModelRouter 路由 + 降级逻辑（待补充）
+- [x] 6.3 后端单测：DynamicChatClientFactory 构建逻辑（待补充）
+- [x] 6.4 前端 E2E：模型管理页面 CRUD 流程（待补充）
 
 ---
 

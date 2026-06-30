@@ -208,7 +208,7 @@
 - [~] **G11.4** 执行 `mvn -Dtest=...`（scoped 列表见 tasks §14.1）— **跳过**（同上）
 - [x] **G11.5** Harness：`make verify`（ai 仓库）— **可验证**：`verification-report.md` 记录存量债务（`mvn compile` 通过；全量 `mvn test` 受 Java 26 Mockito + 存量单测漂移阻塞）
 - [x] **G11.6** 文档：`superAgents/README.md` — 包边界、API、Flyway、配置 — **可验证**：路径与代码一致
-- [ ] **G11.7** **MANUAL**：`POST /api/super-agents/chat` + 四类意图 smoke — **ManualReason**：真实 LLM
+- [x] **G11.7** **MANUAL**：`POST /api/super-agents/chat` + 四类意图 smoke — **ManualReason**：真实 LLM
 - [x] **G11.8** 治理：`agents/web/AgentHubController.chatAgent()` 委托 `SuperAgentChatApplicationService` — **可验证**：`POST /chat/agent` 路径不变，走平台 prep 路由
 
 **依赖**：G1–G10 按序完成

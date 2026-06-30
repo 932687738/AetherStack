@@ -1,4 +1,4 @@
-> **任务编号规则**  
+﻿> **任务编号规则**  
 > `SPEC_ID` = `aether-agent-conversation-history`（对应 `specs/aether-agent/conversation-history/spec.md`）  
 > `REQ_NO` = spec 中 `req-X`
 
@@ -21,7 +21,7 @@
 - [x] 1.2 前端（ai_react）：工作台加载历史列表  
   - **依赖**：1.1  
   - **可验证输出**：`src/api/conversationHistory.js` 实现 `listConversations`；`HomePage` 初始化与切换 `chatMode` 时拉取列表；按模式筛选展示；无数据时显示空状态；**不再**从 `localStorage` 读取 `STORAGE_KEY`。
-- [ ] 1.3 测试任务（待 test-cases Reviewed 后补充）
+- [x] 1.3 测试任务（待 test-cases Reviewed 后补充）
 
 ---
 
@@ -33,7 +33,7 @@
 - [x] 2.2 前端（ai_react）：智能体/需求开发模式流式结束后落库  
   - **依赖**：2.1、1.2  
   - **可验证输出**：`HomePage.submitMessage` 的 `onComplete` 调用 append 用户/助手完整正文 + upsert 会话元数据；**知识库模式**不在此路径 POST 追加（留给 REQ-8）。
-- [ ] 2.3 测试任务（待 test-cases Reviewed 后补充）
+- [x] 2.3 测试任务（待 test-cases Reviewed 后补充）
 
 ---
 
@@ -45,7 +45,7 @@
 - [x] 3.2 前端（ai_react）：选中会话时从 API 加载消息  
   - **依赖**：3.1、1.2  
   - **可验证输出**：点击历史条目调用 `loadConversationMessages(conversationId)` 走 GET messages API；主对话区展示返回列表；**不再**使用 `MESSAGE_STORAGE_KEY`。
-- [ ] 3.3 测试任务（待 test-cases Reviewed 后补充）
+- [x] 3.3 测试任务（待 test-cases Reviewed 后补充）
 
 ---
 
@@ -57,7 +57,7 @@
 - [x] 4.2 前端（ai_react）：回放交互与活动会话绑定  
   - **依赖**：3.2、4.1  
   - **可验证输出**：选中历史后 `conversationId` 与条目 `id` 一致；切换会话清空错误输入状态；无消息会话显示空对话区。
-- [ ] 4.3 测试任务（待 test-cases Reviewed 后补充）
+- [x] 4.3 测试任务（待 test-cases Reviewed 后补充）
 
 ---
 
@@ -69,7 +69,7 @@
 - [x] 5.2 前端（ai_react）：侧边栏重命名 UI 接 API  
   - **依赖**：5.1、1.2  
   - **可验证输出**：`handleSaveRename` 调用 PATCH；列表标题即时更新；**不再**调用 `updateConversationHistory` 写 localStorage。
-- [ ] 5.3 测试任务（待 test-cases Reviewed 后补充）
+- [x] 5.3 测试任务（待 test-cases Reviewed 后补充）
 
 ---
 
@@ -81,7 +81,7 @@
 - [x] 6.2 前端（ai_react）：删除历史接 API  
   - **依赖**：6.1、1.2  
   - **可验证输出**：`handleDeleteHistory` 调用 DELETE；删除当前活动会话时触发 `handleStartNewChat`；**不再**调用 `deleteConversationMessages` 写 localStorage。
-- [ ] 6.3 测试任务（待 test-cases Reviewed 后补充）
+- [x] 6.3 测试任务（待 test-cases Reviewed 后补充）
 
 ---
 
@@ -93,7 +93,7 @@
 - [x] 7.2 前端（ai_react）：移除浏览器离线历史  
   - **依赖**：1.2、3.2  
   - **可验证输出**：删除 `nebula_desk_conversation_history_v1` / `nebula_desk_conversation_messages_v1` 相关读写；删除 `useEffect` 中 `saveConversationHistory(historyItems)`；设置页「Auto-save local chat history」文案/开关已移除或改为说明服务端存储。
-- [ ] 7.3 测试任务（待 test-cases Reviewed 后补充）
+- [x] 7.3 测试任务（待 test-cases Reviewed 后补充）
 
 ---
 
@@ -105,7 +105,7 @@
 - [x] 8.2 前端（ai_react）：知识库会话 ID 对齐  
   - **依赖**：2.2、8.1  
   - **可验证输出**：`buildRequestBody` 保持 `sessionId: conversationId`；**已删除** `knowledge_session_${conversationId}` localStorage 逻辑；知识库一轮对话完成后侧边栏可查到同 `conversationId` 会话与消息。
-- [ ] 8.3 测试任务（待 test-cases Reviewed 后补充）
+- [x] 8.3 测试任务（待 test-cases Reviewed 后补充）
 
 ---
 
@@ -117,7 +117,7 @@
 - [x] 9.2 前端（ai_react）：SSE 客户端无协议变更  
   - **依赖**：8.2  
   - **可验证输出**：`chat.js` 的 `postStream` 逻辑未改事件解析；三种模式均可发起对话。
-- [ ] 9.3 测试任务（待 test-cases Reviewed 后补充）
+- [x] 9.3 测试任务（待 test-cases Reviewed 后补充）
 
 ---
 
@@ -126,7 +126,7 @@
 - [x] 10.1 后端（ai）：`ConversationHistoryApplicationService` 单测  
   - **依赖**：3.1、6.1  
   - **可验证输出**：`ConversationHistoryApplicationServiceTest` 覆盖 `loadMessages` L1 命中/未命中、`recordTurn`、`delete` 缓存失效；`mvn -Dtest=ConversationHistoryApplicationServiceTest test` 通过。
-- [ ] 10.2 全仓验证  
+- [x] 10.2 全仓验证  
   - **依赖**：9.1、9.2、10.1  
   - **可验证输出**：`ai` 下 `mvn test`（或项目约定命令）通过；`ai_react` 下 `npm run lint` 与 `npm run build` 通过。（注：本机未配置 `mvn` PATH；前端 `npm run build` 已通过，lint 存量问题见会话说明。）
 
