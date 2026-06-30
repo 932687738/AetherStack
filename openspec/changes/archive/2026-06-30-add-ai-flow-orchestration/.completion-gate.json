@@ -1,0 +1,59 @@
+﻿{
+    "version":  1,
+    "critical":  [
+
+                 ],
+    "checks":  {
+                   "traceability":  {
+                                        "status":  "pass",
+                                        "issues":  [
+
+                                                   ]
+                                    },
+                   "uiCraft":  {
+                                   "status":  "pass",
+                                   "issues":  [
+
+                                              ]
+                               },
+                   "codeReview":  {
+                                      "backend":  {
+                                                      "status":  "approved",
+                                                      "prUrl":  "",
+                                                      "note":  "",
+                                                      "at":  "2026-06-30T11:34:21.8927800+08:00"
+                                                  },
+                                      "frontend":  {
+                                                       "status":  "approved",
+                                                       "prUrl":  "",
+                                                       "note":  "",
+                                                       "at":  "2026-06-30T11:34:22.2195171+08:00"
+                                                   }
+                                  },
+                   "openspecVerify":  {
+                                          "status":  "pass",
+                                          "reportPath":  "D:\\cache\\workspace\\AetherStack\\openspec\\changes\\add-ai-flow-orchestration\\verification-report.md"
+                                      },
+                   "designReview":  {
+                                        "status":  "pass",
+                                        "schema":  "standard-spec-driven"
+                                    },
+                   "superpowersVerification":  {
+                                                   "status":  "done"
+                                               },
+                   "harnessVerify":  {
+                                         "skipped":  true,
+                                         "status":  "skip"
+                                     },
+                   "tasks":  {
+                                 "status":  "pass",
+                                 "incomplete":  0
+                             }
+               },
+    "change":  "add-ai-flow-orchestration",
+    "overall":  "ready",
+    "warnings":  [
+
+                 ],
+    "updatedAt":  "2026-06-30T11:34:23.9499056+08:00"
+}

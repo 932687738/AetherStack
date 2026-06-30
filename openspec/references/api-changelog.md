@@ -9,6 +9,16 @@
 ## [Unreleased]
 
 ### Added
+- AI 流程编排（`add-ai-flow-orchestration`）：
+  - `GET/POST /api/agent-hub/flows` — 流程分页列表 / 创建草稿（默认 `start→end`）
+  - `GET/PUT/DELETE /api/agent-hub/flows/{id}` — 详情 / 更新 definition / 软删
+  - `POST /api/agent-hub/flows/{id}/publish|enable|disable|rollback` — 发布、启停、回滚
+  - `GET /api/agent-hub/flows/{id}/versions` — 版本历史
+  - `POST /api/agent-hub/flows/{id}/invoke|stream|debug` — 同步执行、SSE 执行、设计器调试 SSE
+  - `POST /api/agent-hub/flows/{id}/register-mcp-tool` — 注册为 Tool/MCP 描述
+  - `GET /api/agent-hub/flow-executions[/{id}]` — 执行记录列表 / 详情
+  - `GET/PUT /api/super-agents/agents/{name}/flow` — Agent 绑定/解绑流程；`PrepareSuperAgentChatNode` 路由至 `FLOW_ENGINE`
+  - Flyway `V28__ai_flow_orchestration.sql`：`flow_definitions`、`flow_versions`、`flow_executions`；`agent_registry.flow_id`
 - Prompt 模板管理（`add-prompt-management`）：
   - `GET/POST /api/super-agents/prompts/templates` — 管理端分页列表 / 创建模板
   - `PUT/DELETE /api/super-agents/prompts/templates/{name}` — 保存新版本 / 软删除（custom only）

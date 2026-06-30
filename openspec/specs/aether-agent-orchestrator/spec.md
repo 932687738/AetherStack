@@ -28,3 +28,28 @@
 - **前提**：数据库中无任何已激活模型（首次部署或全部禁用）
 - **操作**：`ModelRouter.resolveModelName()` 被调用
 - **结果**：回退到环境变量 `DASHSCOPE_CHAT_MODEL` 配置的默认模型（兼容现有部署方式）
+
+---
+
+## ADDED Requirements
+（`add-ai-flow-orchestration` — 流程引擎路由扩展）
+
+<a name="req-2"></a>
+### Requirement: 2. 对话路由增加流程引擎路径
+
+<a name="openspec-req-2"></a>系统应当（SHALL）在对话路由判断时，优先检查应用是否关联了流程；若关联则走流程引擎执行路径，否则走原有意图路由。
+
+#### 场景: 应用已关联流程时的对话路由
+- **前提**：应用配置了 flowId，且对应流程已发布并启用
+- **操作**：用户向该应用发送对话消息
+- **结果**：SuperAgentChatApplicationService 将请求路由到 FlowEngine（`FLOW_ENGINE`），而非 SUB_AGENT 意图路由
+
+#### 场景: 应用未关联流程时的对话路由
+- **前提**：应用未配置 flowId 或 flowId 为空
+- **操作**：用户向该应用发送对话消息
+- **结果**：走原有 AgentHubRouter 意图路由逻辑，行为不变
+
+#### 场景: 关联流程不可用时的错误处理
+- **前提**：应用关联的流程被禁用或删除
+- **操作**：用户向该应用发送对话消息
+- **结果**：系统返回明确错误提示（不静默降级），引导用户检查流程配置

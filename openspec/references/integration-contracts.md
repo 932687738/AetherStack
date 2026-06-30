@@ -43,6 +43,20 @@ ai_react (Nebula Desk, Umi 4)
 | POST | `/api/agent-hub/conversations/{conversationId}/messages` | 追加历史消息 | `ai_react/src/services/conversationService.ts` |
 | PATCH | `/api/agent-hub/conversations/{conversationId}` | 重命名会话 | `ai_react/src/services/conversationService.ts` |
 | DELETE | `/api/agent-hub/conversations/{conversationId}` | 删除会话及消息 | `ai_react/src/services/conversationService.ts` |
+| GET/POST | `/api/agent-hub/flows` | AI 流程列表（query `page`/`size`/`status`/`name`）/ 创建草稿 | `ai_react/src/services/flowService.ts` → `listFlows` / `createFlow` |
+| GET/PUT/DELETE | `/api/agent-hub/flows/{id}` | 流程详情 / 更新 definition 草稿 / 软删 | `flowService.ts` → `getFlow` / `updateFlow` / `deleteFlow` |
+| POST | `/api/agent-hub/flows/{id}/publish` | 发布流程（compile + 版本快照） | `flowService.ts` → `publishFlow` |
+| POST | `/api/agent-hub/flows/{id}/enable` | 启用流程 | `flowService.ts` → `enableFlow` |
+| POST | `/api/agent-hub/flows/{id}/disable` | 禁用流程（invoke 返回 `409 FLOW_DISABLED`） | `flowService.ts` → `disableFlow` |
+| GET | `/api/agent-hub/flows/{id}/versions` | 版本历史 | `flowService.ts` → `listFlowVersions` |
+| POST | `/api/agent-hub/flows/{id}/rollback` | 回滚到指定版本 | `flowService.ts` → `rollbackFlow` |
+| POST | `/api/agent-hub/flows/{id}/invoke` | 同步执行流程（body `params`/`conversationId`） | 外部集成 / MCP Tool |
+| POST | `/api/agent-hub/flows/{id}/stream` | SSE 执行流程（`flow_node_*` 事件） | 外部集成 |
+| POST | `/api/agent-hub/flows/{id}/debug` | SSE 设计器调试（Header `X-Admin-Api-Key`） | `flowService.ts` → `debugFlowStream` |
+| POST | `/api/agent-hub/flows/{id}/register-mcp-tool` | 注册为 MCP/Tool 描述（Header `X-Admin-Api-Key`） | `flowService.ts` → `registerFlowMcpTool` |
+| GET | `/api/agent-hub/flow-executions` | 执行记录分页（query `page`/`size`/`flowId`/`status`） | `flowService.ts` → `listFlowExecutions` |
+| GET | `/api/agent-hub/flow-executions/{id}` | 执行详情（含 `node_logs`） | `flowService.ts` → `getFlowExecution` |
+| GET/PUT | `/api/super-agents/agents/{name}/flow` | Agent 绑定/查询关联流程（body `flowId`，null 解绑） | `platformAgentRegistryService.ts` → `getAgentFlow` / `bindAgentFlow` |
 | GET | `/api/super-agents/agents` | SuperAgents 注册表列表 | 待 UI（design DR-11 可选） |
 | POST | `/api/super-agents/agents` | 注册子 Agent | P1 管理/运维 |
 | POST | `/api/super-agents/agents/{name}/health` | 主动探测 Agent 健康 | P1 管理/运维 |

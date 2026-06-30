@@ -137,6 +137,60 @@ endpoints:
     path: /api/super-agents/prompts/generate
     description: AI 辅助生成 Prompt（SSE；body description）
   - method: GET
+    path: /api/agent-hub/flows
+    description: AI 流程分页列表（query page/size/status/name；Header X-Tenant-Id 可选）
+  - method: POST
+    path: /api/agent-hub/flows
+    description: 创建流程草稿（Header X-Admin-Api-Key；X-Tenant-Id 可选）
+  - method: GET
+    path: /api/agent-hub/flows/{id}
+    description: 流程详情（Header X-Tenant-Id 可选）
+  - method: PUT
+    path: /api/agent-hub/flows/{id}
+    description: 更新 definition 草稿（Header X-Admin-Api-Key）
+  - method: DELETE
+    path: /api/agent-hub/flows/{id}
+    description: 软删除流程（Header X-Admin-Api-Key）
+  - method: POST
+    path: /api/agent-hub/flows/{id}/publish
+    description: 发布流程 compile + 版本快照（Header X-Admin-Api-Key）
+  - method: POST
+    path: /api/agent-hub/flows/{id}/enable
+    description: 启用流程（Header X-Admin-Api-Key）
+  - method: POST
+    path: /api/agent-hub/flows/{id}/disable
+    description: 禁用流程（Header X-Admin-Api-Key）
+  - method: GET
+    path: /api/agent-hub/flows/{id}/versions
+    description: 版本历史（Header X-Tenant-Id 可选）
+  - method: POST
+    path: /api/agent-hub/flows/{id}/rollback
+    description: 回滚到指定版本（body versionNo；Header X-Admin-Api-Key）
+  - method: POST
+    path: /api/agent-hub/flows/{id}/invoke
+    description: 同步执行流程（body params/conversationId；Header X-Tenant-Id 可选）
+  - method: POST
+    path: /api/agent-hub/flows/{id}/stream
+    description: SSE 执行流程（flow_node_* 事件）
+  - method: POST
+    path: /api/agent-hub/flows/{id}/debug
+    description: 设计器调试 SSE（Header X-Admin-Api-Key）
+  - method: POST
+    path: /api/agent-hub/flows/{id}/register-mcp-tool
+    description: 注册流程为 MCP/Tool（Header X-Admin-Api-Key）
+  - method: GET
+    path: /api/agent-hub/flow-executions
+    description: 执行记录分页（query page/size/flowId/status；Header X-Tenant-Id 可选）
+  - method: GET
+    path: /api/agent-hub/flow-executions/{executionId}
+    description: 执行详情含 node_logs（Header X-Tenant-Id 可选）
+  - method: GET
+    path: /api/super-agents/agents/{name}/flow
+    description: 查询 Agent 绑定流程（Header X-Tenant-Id 可选）
+  - method: PUT
+    path: /api/super-agents/agents/{name}/flow
+    description: 绑定/解绑流程（body flowId，null 解绑；Header X-Admin-Api-Key）
+  - method: GET
     path: /api/super-agents/agents/{agentName}/quick-commands
     description: 列出 Agent 快捷指令（Header X-Tenant-Id 可选）
   - method: POST
@@ -209,6 +263,7 @@ frontend_services:
   platform_mcp_admin: D:/cache/workspace/ai_react/src/services/platformMcpAdminService.ts
   platform_admin_common: D:/cache/workspace/ai_react/src/services/platformAdminCommon.ts
   platform_suspended_workflow: D:/cache/workspace/ai_react/src/services/platformSuspendedWorkflowService.ts
+  flow: D:/cache/workspace/ai_react/src/services/flowService.ts
   sse: D:/cache/workspace/ai_react/src/utils/StreamSse.ts
 legacy_frontend_reference: D:/cache/workspace/ai_react/legacy-vite
 backend_repo: D:/cache/workspace/ai
