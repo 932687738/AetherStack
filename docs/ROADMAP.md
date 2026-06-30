@@ -6,7 +6,7 @@
 > 主 spec 文件头 `交付阶段：P3/P4` **不等于已交付**；以本表 `闭环` 列为准。  
 > API 横切约定见 [`openspec/references/api-conventions.md`](../openspec/references/api-conventions.md)。
 
-**最后更新**：2026-06-29
+**最后更新**：2026-06-30
 
 ---
 
@@ -33,32 +33,33 @@
 
 ---
 
-## P2 — 进行中 / 部分闭环
+## P2 — 已闭环（2026-06-30）
 
 | Capability | Spec | 闭环 | 归档变更 | 备注 |
 |------------|------|------|----------|------|
-| SSE AgentProgress | `aether-integration-chat-sse-contract` | 🟡 partial | — | 协议在 spec；前端 UI-FUNC 待对齐 |
-| Skill 引擎 | `aether-agent-skill-engine` | 🟡 partial | `aether-agent-platform-foundation` | DB Skill + 代码 Skill |
-| 多 Agent 协作 | `aether-agent-collaboration` | 🟡 partial | `aether-agent-platform-foundation` | REQ-3 跨会话恢复属 P3 |
-| 分层记忆 | `aether-knowledge-memory` | 🟡 partial | `aether-agent-platform-foundation` | REQ-4 租户隔离 P3 |
-| MCP 安全 | `aether-integration-mcp-security` | 🟡 partial | — | P2 基础认证；P3 传输加密 |
+| SSE AgentProgress | `aether-integration-chat-sse-contract` | ✅ done | `aether-agent-platform-foundation` + P2-SSE 闭环（2026-06-30） | structured progress + plain 回退 + Tool failed |
+| Skill 引擎 | `aether-agent-skill-engine` | ✅ done | `aether-agent-platform-foundation` + P2-S 闭环（2026-06-30） | DB Skill 管理 + 代码 Skill 目录 + Prompt 菜单 |
+| 多 Agent 协作 | `aether-agent-collaboration` | ✅ done | `aether-agent-platform-foundation` + P2-C 闭环（2026-06-30） | 粘性短前缀 + 串行协作 UI + prep 预览 |
+| 分层记忆 | `aether-knowledge-memory` | ✅ done | `aether-agent-platform-foundation` + P2-MEM 闭环（2026-06-30） | SHORT/LONG/WORKING + SSE meta + 聊天召回提示 |
+| MCP 安全 | `aether-integration-mcp-security` | ✅ done | `aether-agent-platform-foundation` + P2-MCP + P3-TLS 闭环（2026-06-30） | REQ-1/2/4 + REQ-3 传输加密 |
 | 前端 Umi Desk | `aether-frontend-umi-desk` | ✅ done | `frontend-umi-refactor` | |
 | SuperAgents 管理 UI | `aether-agent-superagents-*-ui` | ✅ done | `superagents-frontend-page-completion` | |
 | 应用变量 | `aether-agent/app-variables` | ✅ done | `2026-06-29-add-app-variables` | 管理端配置 + 会话填写 + Prompt 注入 |
+| AI 流程编排 | `aether-agent-flow-*` | ✅ done | `add-ai-flow-orchestration` ✅ archived（2026-06-30） | 流程 CRUD/发布/调试 + FLOW_ENGINE 路由 + 前端三页 + 56 AUTO-UT |
 
 ---
 
-## P3 — 待闭环（优先波次）
+## P3 — 已闭环（2026-06-30）
 
-| Capability | Spec | 闭环 | 目标变更 ID | 优先 REQ | 代码现状 |
-|------------|------|------|-------------|----------|----------|
-| **可观测性** | `aether-agent-observability` | 🟡 partial | `p3-observability-resilience-foundation` ✅ archived | REQ-5 指标、REQ-1 Trace 验收 | **已消化** REQ-5、REQ-1 Trace（2026-06-09 归档）；审计/成本归因仍 P4 |
-| **弹性** | `aether-agent-resilience` | 🟡 partial | `p3-observability-resilience-foundation` ✅ archived | REQ-3 限流 429、REQ-1 Tool 重试 | **已消化** REQ-3、REQ-1 Tool 重试（2026-06-09 归档）；Graph Saga / LastResort 完整版仍待 P4 |
-| **多租户** | `aether-platform-multi-tenant` | 🟡 partial | `p3-multi-tenant-enforcement` ✅ archived | REQ-1~4 | **已消化** REQ-1~4（2026-06-09 归档）；Filter/Guard/缓存前缀/记忆隔离；全量 MyBatis 插件仍 P4 |
-| **异步恢复** | `aether-agent-async-resume` | ✅ done | `p3-async-resume` ✅ archived | REQ-1~3 | **已消化** REQ-1~3（2026-06-09 归档）；挂起/唤醒/查询 + 7 AUTO-UT |
-| 协作挂起恢复 | `aether-agent-collaboration` REQ-3 | ✅ done | 合入 `p3-async-resume` ✅ archived | REQ-3 | **已消化** chat「继续」桥接（2026-06-09 归档） |
-| 记忆租户隔离 | `aether-knowledge-memory` REQ-4 | 🟡 partial | 合入 `p3-multi-tenant-enforcement` ✅ archived | REQ-4 | **已消化** REQ-4（2026-06-09 归档） |
-| MCP 传输加密 | `aether-integration-mcp-security` REQ-3 | ⬜ not started | TBD | REQ-3 | |
+| Capability | Spec | 闭环 | 目标变更 ID | 备注 |
+|------------|------|------|-------------|------|
+| **可观测性** | `aether-agent-observability` | ✅ done | `p3-observability-resilience-foundation` + P3-OBS | REQ-1~5 + 决策审计 + Skill 发布快照 + 成本聚合 AUTO-UT |
+| **弹性** | `aether-agent-resilience` | ✅ done | `p3-observability-resilience-foundation` + P3-SAGA + P3-HA + P4-LR | REQ-1~5 + Saga 补偿审计 + 会话 hydrate + LastResort AUTO-UT |
+| **多租户** | `aether-platform-multi-tenant` | ✅ done | `p3-multi-tenant-enforcement` + P4-MT-PLUGIN | REQ-1~4 + 全量 MyBatis 租户 SQL 插件 |
+| **异步恢复** | `aether-agent-async-resume` | ✅ done | `p3-async-resume` ✅ archived | REQ-1~3；挂起/唤醒/查询 + 7 AUTO-UT |
+| 协作挂起恢复 | `aether-agent-collaboration` REQ-3 | ✅ done | 合入 `p3-async-resume` | chat「继续」桥接 |
+| 记忆租户隔离 | `aether-knowledge-memory` REQ-4 | ✅ done | `p3-multi-tenant-enforcement` + P3-MEM-TEN | TenantGuard + 分层记忆全路径 |
+| MCP 传输加密 | `aether-integration-mcp-security` REQ-3 | ✅ done | P2-MCP + P3-TLS | 远程明文 HTTP 拒绝 + localhost 例外 |
 
 ### 推荐实施顺序
 
@@ -74,10 +75,9 @@
 
 | Capability | Spec | 闭环 | 说明 |
 |------------|------|------|------|
-| Skill 治理 | `aether-agent-governance` | ⬜ not started | 灰度、冲突、废弃、效果评估 |
+| Skill 治理 | `aether-agent-governance` | ⬜ not started | 灰度、冲突、废弃、效果评估（代码已有 P4-GOV，待 OpenSpec 闭环） |
 | 开发者 SDK | `aether-platform-dev-sdk` | ⬜ not started | CLI/Maven 脚手架、OpenAPI 导出 |
-| LastResort 完整版 | `aether-agent-resilience` REQ-4 | 🟡 partial | `LastResortHandler` 已存在，缺 spec 级 AUTO-UT 闭环 |
-| Trace 本地回放 | `aether-platform-dev-sdk` REQ-3 | ⬜ not started | |
+| Trace 本地回放 | `aether-platform-dev-sdk` REQ-3 | ⬜ not started | TraceReplayRoutingSimulatorTest 已有 fixture |
 
 ---
 
@@ -90,7 +90,7 @@
 | API Changelog | ✅ done | `api-changelog.md` | 每 API 变更追加 |
 | OpenAPI 治理仓真源 | ⬜ not started | — | 导出 `openspec/contracts/openapi.yaml` + diff 脚本 |
 | 关联仓 CI | ⬜ not started | — | ai / ai_react GitHub Actions |
-| completion-gate + P3 | 🟡 partial | `completion-gate.yaml` | 按变更消化 REQ，不整 spec 一次做完 |
+| completion-gate + P3 | ✅ done | `completion-gate.yaml` | P3 能力面已闭环（2026-06-30） |
 
 ---
 

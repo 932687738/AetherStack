@@ -9,6 +9,11 @@
 ## [Unreleased]
 
 ### Added
+- P2/P3 闭环（2026-06-30）：MCP `status.mcpCallbacks[]` 增加 `highRisk`、`permissionTag`；远程 MCP TLS 启动校验（`McpTransportSecurity`）
+- P3 弹性：Graph Saga 补偿审计（`audit_log` OP_GRAPH_SAGA）；会话 DB hydrate 粘性路由（REQ-5）
+- P3 可观测：Skill 发布审计快照；agent/skill 成本日聚合
+- P4 多租户：MyBatis 全量租户 SQL 插件（`PlatformTenantMyBatisInterceptor`）
+- P4 弹性 REQ-4：`LastResortHandler` + `PlatformRouterFacade` 兜底 AUTO-UT（`LastResortHandlerTest`）
 - AI 流程编排（`add-ai-flow-orchestration`）：
   - `GET/POST /api/agent-hub/flows` — 流程分页列表 / 创建草稿（默认 `start→end`）
   - `GET/PUT/DELETE /api/agent-hub/flows/{id}` — 详情 / 更新 definition / 软删

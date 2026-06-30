@@ -19,15 +19,15 @@ endpoints:
       - X-User-Id
       - X-User-Roles
     sse_events:
-      plain: 默认纯文本 token 分片
-      structured: '{"type":"token","text":"..."}' 或 '{"type":"progress",...}' 或 '{"type":"artifact","artifact":{...}}'（aether.platform.sse.structured-events=true）
+      plain: structured-events=false 时纯文本 token + 【进度】行
+      structured: '{"type":"token","text":"..."}' 或 '{"type":"progress","step","status","toolName?","toolResultSummary?","errorMessage?"}' 或 artifact（aether.platform.sse.structured-events=true，默认 true）
       artifact_kinds: sql-review | table | code
   - method: POST
     path: /api/agent-hub/requirement-dev
     description: 需求开发模式 (SSE)
   - method: GET
     path: /api/agent-hub/status
-    description: Agent Hub 运行时状态
+    description: Agent Hub 运行时状态（tools/skills/agents；mcpCallbacks 含 transport/endpointSummary/highRisk/permissionTag）
   - method: POST
     path: /api/agent-hub/cli/invoke
     description: 同步唤起 Codex 或 Claude CLI（provider、prompt、可选 workingDirectoryRelative）
@@ -78,7 +78,7 @@ endpoints:
     description: 探测 Agent 健康并更新状态
   - method: GET
     path: /api/super-agents/skills
-    description: 列出租户 active Skill（Header X-Tenant-Id 可选）
+    description: 列出租户 active DB Skill + 只读 codeSkills（CompiledGraph 目录，Header X-Tenant-Id 可选）
   - method: POST
     path: /api/super-agents/skills
     description: 发布 Skill 新版本（Header X-Admin-Api-Key）
@@ -102,7 +102,7 @@ endpoints:
     description: 未覆盖意图列表（query limit，Header X-Tenant-Id 可选）
   - method: POST
     path: /api/super-agents/mcp/refresh
-    description: 刷新 MCP 外部工具缓存（Header X-Admin-Api-Key）
+    description: 刷新 MCP 外部工具缓存（Header X-Admin-Api-Key）；status.mcpCallbacks 含 highRisk/permissionTag
   - method: GET
     path: /api/super-agents/hooks/suspended
     description: 挂起工作流分页列表（query page/pageSize/keyword/status/skillName；Header X-Tenant-Id 可选）
@@ -204,9 +204,9 @@ endpoints:
     description: 删除快捷指令
   - note: super-agents-code-skills
     description: |
-      代码 Skill（CompiledGraph）经 ReAct Tool 暴露，非独立 REST：
+      代码 Skill（CompiledGraph）经 ReAct Tool 暴露；GET /api/super-agents/skills 响应 codeSkills[] 只读目录。
       executeCodeSkill(skillName, query, knowledgeBaseId, tenantId)、listCodeSkills()。
-      内置 refund-policy-lookup（rag_retrieve → finalize_output）、order-insight（客服→分析串行）。
+      内置 refund-policy-lookup、order-insight、text2sql-readonly 等。
   - method: GET
     path: /swagger-ui.html
     description: API 文档
