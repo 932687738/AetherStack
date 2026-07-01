@@ -1,0 +1,56 @@
+﻿{
+    "version":  1,
+    "critical":  [
+
+                 ],
+    "checks":  {
+                   "traceability":  {
+                                        "status":  "pass",
+                                        "issues":  [
+
+                                                   ]
+                                    },
+                   "uiCraft":  {
+                                   "status":  "skip",
+                                   "issues":  [
+
+                                              ]
+                               },
+                   "codeReview":  {
+                                      "backend":  {
+                                                      "status":  "approved",
+                                                      "prUrl":  "",
+                                                      "note":  "KnowledgeAdminPort unified ingest, TextEmbeddingPort, repository layering",
+                                                      "at":  "2026-07-01T16:27:34.5154550+08:00"
+                                                  },
+                                      "frontend":  {
+                                                       "status":  "pending"
+                                                   }
+                                  },
+                   "openspecVerify":  {
+                                          "status":  "pass",
+                                          "reportPath":  "D:\\cache\\workspace\\AetherStack\\openspec\\changes\\refactor-knowledge-arch-debt\\verification-report.md"
+                                      },
+                   "designReview":  {
+                                        "status":  "skip",
+                                        "schema":  "simple-spec-driven"
+                                    },
+                   "superpowersVerification":  {
+                                                   "status":  "done"
+                                               },
+                   "harnessVerify":  {
+                                         "skipped":  true,
+                                         "status":  "skip"
+                                     },
+                   "tasks":  {
+                                 "status":  "pass",
+                                 "incomplete":  0
+                             }
+               },
+    "change":  "refactor-knowledge-arch-debt",
+    "overall":  "ready",
+    "warnings":  [
+
+                 ],
+    "updatedAt":  "2026-07-01T16:27:39.8678351+08:00"
+}

@@ -39,8 +39,18 @@
 ### WARNING
 
 1. **MANUAL**：配置 `AGENTHUB_KNOWLEDGE_BASE_ID` 后 staging 验证捕获/压缩/显式入库端到端
-2. **completion-gate**：CR 记录可按 `-AllowWarnings` 归档（纯后端架构债）
+2. **全量 `mvnw test`**：`PromptMarketplaceServiceTest.usePromptUpdatesAgentSystemPrompt` NPE（与本变更无关，既有单测缺陷）
+
+## Completion Gate
+
+| 项 | 状态 |
+|----|------|
+| tasks / traceability / openspecVerify | ✅ pass |
+| superpowersVerification | ✅ done |
+| codeReview backend | ✅ approved |
+| harnessVerify | ⚠️ scoped 16/16 通过；全量 suite 1 error（见 WARNING #2） |
+| overall | `ready`（2026-07-01，`-SkipVerify -AllowWarnings`） |
 
 ## Final Assessment
 
-No critical issues. 2 warning(s) to consider. **Ready for archive (with noted improvements).**
+No critical issues. 2 warning(s) to consider. **Ready for archive (with noted improvements).** Completion gate: `ready` (2026-07-01).
