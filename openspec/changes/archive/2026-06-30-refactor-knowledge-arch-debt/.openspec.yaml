@@ -1,0 +1,5 @@
+schema: simple-spec-driven
+aiTddMode: auto
+uiCraftMode: disabled
+createdAt: "2026-06-30"
+description: "知识库架构技术债收口：双轨向量存储、密钥、Flyway 门禁、Repository 分层"

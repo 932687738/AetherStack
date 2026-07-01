@@ -6,7 +6,7 @@
 > 主 spec 文件头 `交付阶段：P3/P4` **不等于已交付**；以本表 `闭环` 列为准。  
 > API 横切约定见 [`openspec/references/api-conventions.md`](../openspec/references/api-conventions.md)。
 
-**最后更新**：2026-06-30
+**最后更新**：2026-06-30（+ knowledge-arch-debt 归档）
 
 ---
 
@@ -28,7 +28,7 @@
 | 平台路由 | `aether-agent-platform-router` | ✅ done | `aether-agent-platform-foundation` | P1 内核 |
 | Agent 注册表 | `aether-agent-registry` | ✅ done | `aether-agent-platform-foundation` | |
 | 模型路由 | `aether-agent-model-routing` | ✅ done | `aether-agent-platform-foundation` | |
-| RAG 主路径 | `aether-knowledge-rag` | ✅ done | 多变更累积 | knowledgehub |
+| RAG 主路径 | `aether-knowledge-rag` | ✅ done | 多变更累积 + `refactor-knowledge-arch-debt`（2026-06-30） | knowledgehub；Agent Hub 写入经 Port 收口 |
 | 编排抽象 | `aether-agent-orchestrator` | ✅ done | `aether-agent-platform-foundation` | |
 
 ---

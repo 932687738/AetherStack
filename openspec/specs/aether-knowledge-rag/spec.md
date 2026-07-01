@@ -50,6 +50,8 @@
 
 <a name="openspec-req-4"></a>系统应当（SHALL）禁止新增独立于 knowledgehub 的生产 RAG 存储；agents.knowledge 存量路径须在设计中给出收敛或防腐层方案。
 
+> **2026-06-30 收口**（`refactor-knowledge-arch-debt`）：Agent Hub 显式入库、自动捕获、压缩摘要均已改经 `KnowledgeAdminPort` 写入 `knowledge_chunks`；`KnowledgeStoreService` / `vector_store` 生产写入路径已移除。`spring.ai.vectorstore` 仅保留 learning 演示模块。
+
 #### 场景: 新功能需向量检索
 - **前提**：平台新增 Agent 需检索企业知识。
 - **操作**：架构评审新模块数据路径。
