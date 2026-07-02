@@ -14,11 +14,9 @@ if (-not (Test-Path $Backend)) {
     exit 0
 }
 
-$knowledgeDir = Join-Path $Backend 'src\main\java'
-if (-not (Test-Path $knowledgeDir)) {
-    Write-Warning "No src/main/java under backend"
-    exit 0
-}
+. (Join-Path $PSScriptRoot 'spring-ai-scan-utils.ps1')
+$javaFiles = Get-BackendJavaSourceFiles -BackendRoot $Backend -RelativePathPattern 'knowledgehub' -ProductionOnly
+Assert-BackendJavaSources -BackendRoot $Backend -Files $javaFiles -Strict:$Strict
 
 $q = [char]34
 $tq = "$q$q$q"
@@ -26,8 +24,6 @@ $violations = New-Object System.Collections.Generic.List[string]
 $ragKeywords = '检索|搜索|search|FAQ|知识库|RAG|向量|召回'
 $kbKeywords = '知识库|FAQ|KB|knowledge'
 $returnKeywords = '返回|摘要|条|全文|Top'
-$javaFiles = Get-ChildItem -Path $knowledgeDir -Filter '*.java' -Recurse -File |
-    Where-Object { $_.FullName -match '\\knowledgehub\\' }
 
 $blockPattern = "@Tool\s*\(\s*description\s*=\s*$tq(.*?)$tq"
 $stringPattern = '@Tool\s*\(\s*description\s*=\s*"([^"]*)"'

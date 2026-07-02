@@ -39,8 +39,8 @@ verify:
       verify_doc: harness/adapters/java-maven/verify-commands.md
     - name: backend-spring-ai-checks
       repo: governance
-      command: ".aetherstack/scripts/check-spring-ai-tools.ps1 (+ rag, react-graph)"
-      note: non-Strict warnings; use -Strict in completion-gate if required
+      command: ".aetherstack/scripts/check-spring-ai-*.ps1 (-Strict via completion-gate / verify-all -SpringAiStrict)"
+      note: make verify runs non-Strict warnings; archive gate uses -SpringAiStrict
     - name: frontend-lint
       repo: frontend
       command: "node scripts/harness.mjs lint"

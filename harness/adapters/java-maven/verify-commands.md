@@ -1,6 +1,46 @@
 # Java/Maven 验证命令
 
-## 三步验证
+## 关联仓基线（ai）
+
+当前 **ai** 仓库 CI / `make verify` 基线为：
+
+```bash
+mvn -B -q test
+```
+
+**未配置** Checkstyle / SpotBugs / Spotless 插件时，OpenSpec apply 的 scoped verify **不要**运行 `mvn checkstyle:check` 等命令（会失败）。以本节「OpenSpec Apply 路径」为准。
+
+## OpenSpec Apply 路径（scoped，单 task）
+
+在 **ai** 仓库 cwd：
+
+| 场景 | 命令 |
+|------|------|
+| 指定单测任务 | `mvn -Dtest=XxxTest test` 或 `mvn -B -q test -pl <module> -Dtest=XxxTest` |
+| 模块级 | `mvn -B -q test -pl <module>` |
+| 无模块提示 | `mvn -B -q test`（会话末 `make verify` 再跑全量） |
+
+变更含 `@Tool` / knowledgehub RAG / Graph 时，在 **治理仓** 追加（`-Strict` 失败即不通过）：
+
+```powershell
+.aetherstack/scripts/check-spring-ai-tools.ps1 -Strict
+.aetherstack/scripts/check-spring-ai-rag.ps1 -Strict
+.aetherstack/scripts/check-spring-ai-react-graph.ps1 -Strict
+```
+
+## 全量验证（make verify / 会话完成）
+
+```bash
+# ai 仓库
+mvn -B -q test
+```
+
+治理仓 `verify-all.ps1` 在 `mvn test` 通过后执行三个 `check-spring-ai-*.ps1`（**生产模块** `**/src/main/java`，排除 learning/springai）。
+
+- 日常 `make verify`：Spring AI 检查为 **警告模式**（打印违规，不阻断）
+- `make completion-gate`：调用 `verify-all.ps1 -SpringAiStrict`（违规阻断归档）
+
+## 三步验证（独立 Harness / 已配置 Linter 的项目）
 
 ### Step 0（可选）：Spring AI `@Tool` 描述检查
 
@@ -13,7 +53,7 @@
 .aetherstack/scripts/check-spring-ai-tools.ps1 -Strict
 ```
 
-`make verify` 在后端 `mvn test` 通过后自动执行（非 `-Strict`，仅警告）。
+`make verify` 在后端 `mvn test` 通过后自动执行 **`-Strict`**（违规即失败）。
 
 **通过标准**：每个 `@Tool` 的 `description` 含「适用/场景」与「不适用/反例」类表述。细则见 `openspec/references/spring-ai-multi-agent-standards.md`。
 

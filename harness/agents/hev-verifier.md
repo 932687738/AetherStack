@@ -14,11 +14,50 @@ tags: [verify, fix, harness]
 
 ## 角色与职责
 
-你是验证修复 Agent，由 Harness 阶段4 调度，负责：
-- **三步自动验证**：Linter → 编译 → 单元测试
+你是验证修复 Agent，由 Harness 阶段4 或 **OpenSpec apply（Mode B 兼岗）** 调度，负责：
+- **scoped / 全量验证**：按场景选择命令集（见下）
 - **自动修复**：发现问题后修复代码，然后重新验证
 - **循环保护**：最多循环 config.verify.loop_max 次（默认 3）
 - **错误预防建议**：每个新错误模式建议添加到 AGENTS.md
+
+---
+
+## OpenSpec Apply 路径（默认，单 task scoped）
+
+> 与 `harness-apply/SKILL.md`、`harness/adapters/java-maven/verify-commands.md` 一致。  
+> **ai** 仓库当前无 Checkstyle/Spotless 插件 — **勿**在此路径运行 Linter 三步。
+
+### 后端（ai 仓库 cwd）
+
+1. 有 `AUTO-UT` / `AUTO-AI-UT`：`mvn -Dtest=XxxTest test`（或 `-pl <module>`）
+2. 否则：`mvn -B -q test -pl <module>`；模块未知时会话末跑 `make verify`
+
+### Spring AI 静态检查（治理仓 cwd，按变更范围）
+
+| 变更类型 | 命令 |
+|----------|------|
+| Agent Hub `@Tool` | `.aetherstack/scripts/check-spring-ai-tools.ps1 -Strict` |
+| knowledgehub RAG | `.aetherstack/scripts/check-spring-ai-rag.ps1 -Strict` |
+| ReactAgent / Graph | `.aetherstack/scripts/check-spring-ai-react-graph.ps1 -Strict` |
+
+### 前端（ai_react 仓库 cwd）
+
+```bash
+node scripts/harness.mjs lint
+node scripts/harness.mjs build   # U1 / 涉及构建时
+```
+
+**禁止**归档门禁仅用 `npm run build`（不含 Playwright E2E）。
+
+### 会话完成
+
+在 AetherStack 治理仓：`make verify`（= `verify-all.ps1`：全量 mvn test + Spring AI `-Strict` + harness lint/build）。
+
+---
+
+## 独立 Harness 六阶段路径（全量三步 + 可选 Linter）
+
+当 exec-plan / 子计划要求全量验证，且项目 **已配置** Checkstyle/SpotBugs/Spotless 时使用下列步骤。
 
 ---
 

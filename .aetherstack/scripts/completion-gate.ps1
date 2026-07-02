@@ -132,6 +132,16 @@ if (Test-Path $verifyReport) {
     $critical.Add('缺少 verification-report.md — 归档前须 /opsx-verify 并保存报告到变更目录')
 }
 
+# --- superpowers steps ---
+$spJson = & (Join-Path $PSScriptRoot 'check-superpowers-steps.ps1') -ChangeDir $changeDir | ConvertFrom-Json
+$spStepsStatus = $spJson.status
+foreach ($i in $spJson.issues) {
+    if ($spStepsStatus -eq 'fail') { $critical.Add("Superpowers: $i") }
+}
+foreach ($i in $spJson.warnings) {
+    $warnings.Add("Superpowers: $i")
+}
+
 # --- code review (from gate file or infer scope) ---
 $cr = @{ backend = @{ status = 'pending' }; frontend = @{ status = 'pending' } }
 $sp = @{ status = 'pending' }
@@ -146,9 +156,6 @@ if (Test-Path $gatePath) {
     }
 }
 $spStatus = if ($sp.status) { $sp.status } else { 'pending' }
-if ($spStatus -ne 'done') {
-    $critical.Add('未记录 Superpowers verification-before-completion — 运行 record-completion-step.ps1 -Step superpowersVerification -Status done')
-}
 
 foreach ($scope in @('backend', 'frontend')) {
     if (-not (Test-ScopeNeeded $tasksContent $scope)) { continue }
@@ -162,7 +169,7 @@ foreach ($scope in @('backend', 'frontend')) {
 $hvStatus = if ($SkipVerify) { 'skip' } else { 'pending' }
 if (-not $SkipVerify) {
     try {
-        & (Join-Path $PSScriptRoot 'verify-all.ps1')
+        & (Join-Path $PSScriptRoot 'verify-all.ps1') -SpringAiStrict
         $hvStatus = 'pass'
     } catch {
         $hvStatus = 'fail'
@@ -194,6 +201,7 @@ $gate = @{
         openspecVerify          = @{ status = $ovStatus; reportPath = $ovPath }
         codeReview              = $cr
         superpowersVerification = @{ status = $spStatus }
+        superpowersSteps        = @{ status = $spStepsStatus; recorded = $spJson.recorded }
     }
     critical = @($critical)
     warnings = @($warnings)

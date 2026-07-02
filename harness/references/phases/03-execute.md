@@ -15,18 +15,29 @@
 
 ⚠️ 任何一项不满足 → MUST 回退到 Phase 2 补充，不得跳过。
 
-## Agent 分发守卫（MUST）
+## Agent 分发守卫
 
-执行引擎 MUST 按以下逻辑分发：
+执行引擎按场景选择模式（**OpenSpec apply 默认 Mode B**，见 `.cursor/skills/harness-apply/SKILL.md`）：
+
+| 场景 | 模式 | 行为 |
+|------|------|------|
+| **`/opsx-apply` / OpenSpec tasks** | **Mode B（默认）** | 主 Agent 兼岗 hev-*：读 `harness/agents/hev-*.md`，输出三阶段标题，scoped verify |
+| **独立 Harness 六阶段 / exec-plan** | Mode A（agents enabled） | 主 Agent 仅编排，spawn 子 Agent 执行分析/编码 |
+| **agents 全部 disabled** | Mode B | 主 Agent 直接执行 |
+
+### Mode A 守卫（仅独立 Harness 六阶段）
 
 1. 读取 `harness.config.yaml` → `agents` 配置
 2. 若任一 agent 的 `enabled: true`：
-   - MUST 使用 `subagent_type` 对应的 hev-* Agent 执行
+   - SHOULD 使用 Task 子 Agent 对应 hev-* 角色
    - 主 Agent 仅做编排，MUST NOT 直接编写业务代码
-3. 若所有 agent 的 `enabled: false` 或未配置：
-   - 主 Agent 直接执行（Mode B）
-4. 每个步骤执行前 MUST 打印分发决策：
+3. 每个步骤执行前 SHOULD 打印：
    `[Agent-Dispatch] Step={stepId} → Agent={agentType} | Mode={A/B} | Reason={config状态}`
+
+### OpenSpec apply（Mode B）
+
+- **不要求** spawn 子 Agent；`agents.*.enabled: true` 仅表示 hev-* 定义可用作兼岗指南
+- 验证命令以 `harness-apply/SKILL.md` 与 `harness/adapters/*/verify-commands.md` 为准
 
 ## 前置条件
 

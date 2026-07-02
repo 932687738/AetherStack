@@ -42,6 +42,8 @@ powershell -File .aetherstack/scripts/completion-gate.ps1 -Change my-change -All
 .aetherstack/scripts/record-completion-step.ps1 -Change my-change -Step openspecVerify -Status pass -ReportPath verification-report.md
 ```
 
+`check-superpowers-steps.ps1` 会在 `make completion-gate` 时校验：已记录 superpowersVerification、`verification-report.md` 含 Final Assessment；AI-TDD 变更另检查报告是否提及 TDD 覆盖。
+
 ## verification-report.md
 
 `/opsx-verify` 产出须落在变更目录，且 **Final Assessment** 含：
@@ -54,6 +56,6 @@ powershell -File .aetherstack/scripts/completion-gate.ps1 -Change my-change -All
 - `beforeSubmitPrompt`：归档/设计审查提醒
 - `beforeShellExecution`：无 gate 时阻断 `mv` 到 `changes/archive`
 
-## CI（可选）
+## CI
 
-治理仓 PR 可增设 workflow 调用 `completion-gate`（需传入 CHANGE 与已存在的变更目录）。
+治理仓 PR 可触发 `.github/workflows/completion-gate.yml`（默认 `-SkipVerify`；自托管 runner 检出 ai/ai_react 后可跑全量 verify）。开关：`COMPLETION_GATE_ENABLED=false`。

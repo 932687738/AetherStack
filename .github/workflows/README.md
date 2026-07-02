@@ -6,6 +6,7 @@
 |------|------|------|
 | `ci.yml` | 本仓治理层：`sync-config` 生成物一致性 | `CI_ENABLED=false` 跳过 |
 | `openspec-validate.yml` | OpenSpec CLI 校验 | `OPENSPEC_VALIDATE_ENABLED=false` 跳过 |
+| `completion-gate.yml` | OpenSpec 变更 completion-gate（默认 SkipVerify；自托管可全量） | `COMPLETION_GATE_ENABLED=false` 跳过 |
 
 ## 前后端 CI
 

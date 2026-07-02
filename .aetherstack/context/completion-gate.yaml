@@ -54,6 +54,11 @@ checks:
     step: superpowersVerification
     description: "apply 结束后 invoke verification-before-completion 并记录"
 
+  superpowers_steps:
+    required: true
+    script: check-superpowers-steps.ps1
+    description: "superpowersVerification 记录 + verification-report 基本结构"
+
 archive:
   block_shell_mv_without_gate: true
   gate_file: ".completion-gate.json"

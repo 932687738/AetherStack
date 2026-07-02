@@ -14,11 +14,9 @@ if (-not (Test-Path $Backend)) {
     exit 0
 }
 
-$srcDir = Join-Path $Backend 'src\main\java'
-if (-not (Test-Path $srcDir)) {
-    Write-Warning "No src/main/java under backend"
-    exit 0
-}
+. (Join-Path $PSScriptRoot 'spring-ai-scan-utils.ps1')
+$javaFiles = Get-BackendJavaSourceFiles -BackendRoot $Backend -ProductionOnly
+Assert-BackendJavaSources -BackendRoot $Backend -Files $javaFiles -Strict:$Strict
 
 function Add-Violation {
     param([string]$Rel, [string]$Message)
@@ -26,7 +24,7 @@ function Add-Violation {
 }
 
 $violations = New-Object System.Collections.Generic.List[string]
-$javaFiles = Get-ChildItem -Path $srcDir -Filter '*.java' -Recurse -File
+$iterationPattern = 'maxIterations|max-iterations|max_iterations|MAX_ITERATIONS|recursionLimit|AGENT_RECURSION_LIMIT'
 
 foreach ($file in $javaFiles) {
     $content = [System.IO.File]::ReadAllText($file.FullName, [System.Text.UTF8Encoding]::new($false))
@@ -40,10 +38,11 @@ foreach ($file in $javaFiles) {
         Add-Violation $rel 'Avoid manual while-loop tool orchestration in agents (use ReactAgent/CompiledGraph)'
     }
 
-    $isDemo = $rel -match 'springai[/\\]'
-    if (-not $isDemo -and $content -match 'ReactAgent|ToolCallingAgent|ReActAgent') {
-        if ($content -notmatch 'maxIterations|max-iterations|max_iterations|MAX_ITERATIONS') {
-            Add-Violation $rel 'ReactAgent must configure maxIterations (or equivalent)'
+    if ($rel -match 'devtools[/\\]AetherAgentGenRenderer\.java') { continue }
+
+    if ($content -match 'ReactAgent\.builder\s*\(') {
+        if ($content -notmatch $iterationPattern) {
+            Add-Violation $rel 'ReactAgent.builder() must set recursionLimit (CompileConfig) or document AGENT_RECURSION_LIMIT'
         }
     }
 

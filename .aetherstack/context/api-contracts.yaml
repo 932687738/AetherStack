@@ -263,7 +263,6 @@ frontend_services:
   platform_mcp_admin: D:/cache/workspace/ai_react/src/services/platformMcpAdminService.ts
   platform_admin_common: D:/cache/workspace/ai_react/src/services/platformAdminCommon.ts
   platform_suspended_workflow: D:/cache/workspace/ai_react/src/services/platformSuspendedWorkflowService.ts
-  flow: D:/cache/workspace/ai_react/src/services/flowService.ts
   sse: D:/cache/workspace/ai_react/src/utils/StreamSse.ts
 legacy_frontend_reference: D:/cache/workspace/ai_react/legacy-vite
 backend_repo: D:/cache/workspace/ai

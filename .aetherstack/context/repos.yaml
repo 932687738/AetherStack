@@ -23,8 +23,8 @@ repositories:
     start:
       frontend: npm run dev
     verify:
-      lint: npm run lint
-      build: npm run build
+      lint: node scripts/harness.mjs lint
+      build: node scripts/harness.mjs build
 
   # 只读参考（框架已复制到 AetherStack，日常不必改源仓）
   references:

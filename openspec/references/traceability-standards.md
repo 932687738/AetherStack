@@ -43,3 +43,5 @@ feat(agent): orchestrator routing [REQ-3] [TC-REQ3-01]
 ## 6. 门禁
 
 `make completion-gate CHANGE=<id>` 对未完成追溯的已勾选测试任务报 **CRITICAL**。
+
+追溯脚本 `check-traceability.ps1` 还会校验 tasks 行中 `→ XxxTest.java` 是否在 **ai** 仓库 `src/test/java` 下存在对应文件。

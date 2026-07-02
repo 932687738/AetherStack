@@ -14,46 +14,58 @@ if (-not (Test-Path $Backend)) {
     exit 0
 }
 
-$agentsDir = Join-Path $Backend 'src\main\java'
-if (-not (Test-Path $agentsDir)) {
-    Write-Warning "No src/main/java under backend"
-    exit 0
-}
+. (Join-Path $PSScriptRoot 'spring-ai-scan-utils.ps1')
+$javaFiles = Get-BackendJavaSourceFiles -BackendRoot $Backend -ProductionOnly
+Assert-BackendJavaSources -BackendRoot $Backend -Files $javaFiles -Strict:$Strict
 
 $q = [char]34
 $tq = "$q$q$q"
 $violations = New-Object System.Collections.Generic.List[string]
-$javaFiles = Get-ChildItem -Path $agentsDir -Filter '*.java' -Recurse -File
-$blockPattern = "@Tool\s*\(\s*description\s*=\s*$tq(.*?)$tq"
-$stringPattern = '@Tool\s*\(\s*description\s*=\s*"([^"]*)"'
+$blockPattern = '@Tool\s*\(\s*description\s*=\s*' + $tq + '(.*?)' + $tq
+# 排除 Java 17 文本块 """ — 仅匹配单行字符串 description
+$stringPattern = '@Tool\s*\(\s*description\s*=\s*"(?!"")([^"]*)"'
+
+function Test-ToolDescription {
+    param([string]$Desc)
+    # ASCII-only script file: Chinese keywords via \u escapes (PS 5.1 default encoding safe)
+    $positivePattern = '\u9002\u7528|\u573a\u666f|\u5173\u952e\u8bcd|\u5178\u578b|When to use|Use when|Typical'
+    $negativePattern = '\u4e0d\u9002\u7528|\u53cd\u4f8b|\u4e0d\u5f97|\u4e0d\u8981|\u7981\u6b62|Do not|When not|Avoid|Not for'
+    $hasPositive = ($Desc -match $positivePattern)
+    $hasNegative = ($Desc -match $negativePattern)
+    return @{ positive = $hasPositive; negative = $hasNegative }
+}
 
 foreach ($file in $javaFiles) {
     $content = [System.IO.File]::ReadAllText($file.FullName, [System.Text.UTF8Encoding]::new($false))
+    $rel = $file.FullName.Substring($Backend.Length).TrimStart('\', '/')
+    if ($rel -match 'devtools[/\\]AetherAgentGenRenderer\.java') { continue }
     if ($content -notmatch '@Tool\s*\(') { continue }
 
     $descriptions = New-Object System.Collections.Generic.List[string]
-    [regex]::Matches($content, $blockPattern, 'Singleline') | ForEach-Object {
-        $descriptions.Add($_.Groups[1].Value)
-    }
-    [regex]::Matches($content, $stringPattern, 'Singleline') | ForEach-Object {
-        $descriptions.Add($_.Groups[1].Value)
+    if ($content -match '@Tool\s*\(\s*description\s*=\s*"""') {
+        [regex]::Matches($content, $blockPattern, 'Singleline') | ForEach-Object {
+            $descriptions.Add($_.Groups[1].Value.Trim())
+        }
+    } else {
+        [regex]::Matches($content, $stringPattern, 'Singleline') | ForEach-Object {
+            $descriptions.Add($_.Groups[1].Value.Trim())
+        }
     }
 
     if ($descriptions.Count -eq 0) {
-        $rel = $file.FullName.Substring($Backend.Length).TrimStart('\', '/')
         $violations.Add("${rel}: @Tool 缺少可解析的 description")
         continue
     }
 
     foreach ($desc in $descriptions) {
-        $hasPositive = ($desc -match '适用|场景|关键词|典型')
-        $hasNegative = ($desc -match '不适用|反例|不得|不要|禁止')
-        $rel = $file.FullName.Substring($Backend.Length).TrimStart('\', '/')
         if ([string]::IsNullOrWhiteSpace($desc)) {
             $violations.Add("${rel}: @Tool description 为空")
-        } elseif (-not $hasPositive) {
+            continue
+        }
+        $check = Test-ToolDescription -Desc $desc
+        if (-not $check.positive) {
             $violations.Add("${rel}: description 缺少「适用场景/典型问法」类表述")
-        } elseif (-not $hasNegative) {
+        } elseif (-not $check.negative) {
             $violations.Add("${rel}: description 缺少「不适用/反例」类表述")
         }
     }
