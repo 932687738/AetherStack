@@ -58,4 +58,8 @@ powershell -File .aetherstack/scripts/completion-gate.ps1 -Change my-change -All
 
 ## CI
 
-治理仓 PR 可触发 `.github/workflows/completion-gate.yml`（默认 `-SkipVerify`；自托管 runner 检出 ai/ai_react 后可跑全量 verify）。开关：`COMPLETION_GATE_ENABLED=false`。
+治理仓 PR 可触发 `.github/workflows/completion-gate.yml`（默认 `-SkipVerify`；`COMPLETION_GATE_FULL_VERIFY=true` 或自托管 runner 已配置 `AETHER_*_REPO` 时跑全量 verify）。
+
+全量跨仓验证：`.github/workflows/verify-linked.yml`（`workflow_dispatch` / 每周 cron）。配置见 `harness/docs/plans/harness-phase3-ci.md`。
+
+开关：`COMPLETION_GATE_ENABLED=false`、`VERIFY_LINKED_ENABLED=false`。

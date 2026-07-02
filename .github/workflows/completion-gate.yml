@@ -16,16 +16,26 @@ on:
       skip_verify:
         description: 'Skip make verify (smoke gate only)'
         required: false
-        default: false
+        default: true
         type: boolean
 
 jobs:
   completion-gate:
     name: completion-gate
     if: vars.COMPLETION_GATE_ENABLED != 'false'
-    runs-on: ubuntu-latest
+    runs-on: ${{ vars.AETHER_SELF_HOSTED == 'true' && 'self-hosted' || 'ubuntu-latest' }}
     steps:
       - uses: actions/checkout@v4
+
+      - name: Checkout linked repos (optional)
+        if: vars.CHECKOUT_LINKED_REPOS == 'true'
+        shell: pwsh
+        env:
+          AETHER_AI_REPOSITORY: ${{ vars.AETHER_AI_REPOSITORY }}
+          AETHER_FRONTEND_REPOSITORY: ${{ vars.AETHER_FRONTEND_REPOSITORY }}
+          AETHER_LINKED_REF: ${{ vars.AETHER_LINKED_REF }}
+          GH_PAT: ${{ secrets.GH_PAT }}
+        run: ./.aetherstack/scripts/setup-linked-repos-ci.ps1
 
       - name: Resolve change id
         id: change
@@ -35,7 +45,6 @@ jobs:
             echo "id=${{ github.event.inputs.change }}" >> "$GITHUB_OUTPUT"
             exit 0
           fi
-          # PR: find active change dirs touched (exclude archive)
           mapfile -t dirs < <(git diff --name-only "${{ github.event.pull_request.base.sha }}" HEAD \
             | grep '^openspec/changes/' \
             | grep -v '^openspec/changes/archive/' \
@@ -54,19 +63,25 @@ jobs:
         if: steps.change.outputs.skip == 'true'
         run: echo "No active OpenSpec change in PR paths; skipping gate."
 
-      - name: Run completion-gate (SkipVerify)
-        if: steps.change.outputs.skip != 'true' && github.event.inputs.skip_verify == 'true'
+      - name: Run completion-gate
+        if: steps.change.outputs.skip != 'true'
         shell: pwsh
+        env:
+          AETHER_BACKEND_REPO: ${{ env.AETHER_BACKEND_REPO }}
+          AETHER_FRONTEND_REPO: ${{ env.AETHER_FRONTEND_REPO }}
         run: |
-          ./.aetherstack/scripts/completion-gate.ps1 -Change "${{ steps.change.outputs.id }}" -SkipVerify
-
-      - name: Run completion-gate (full)
-        if: steps.change.outputs.skip != 'true' && github.event.inputs.skip_verify != 'true'
-        shell: pwsh
-        run: |
-          ./.aetherstack/scripts/completion-gate.ps1 -Change "${{ steps.change.outputs.id }}" -SkipVerify
-        # Full verify (mvn + linked ai/ai_react) requires linked repos on runner.
-        # Enable -SkipVerify:false only when self-hosted runner has ai + ai_react checked out.
+          $change = '${{ steps.change.outputs.id }}'
+          $inputSkip = '${{ github.event.inputs.skip_verify }}' -eq 'true'
+          $fullByVar = '${{ vars.COMPLETION_GATE_FULL_VERIFY }}' -eq 'true'
+          $linked = ./.aetherstack/scripts/check-linked-repos.ps1 | ConvertFrom-Json
+          $runFull = (-not $inputSkip) -and ($fullByVar -or $linked.bothAvailable)
+          if ($runFull) {
+            Write-Host "Running completion-gate WITH verify (linked=$($linked.bothAvailable), fullVar=$fullByVar)"
+            ./.aetherstack/scripts/completion-gate.ps1 -Change $change
+          } else {
+            Write-Host "Running completion-gate SkipVerify (inputSkip=$inputSkip, linked=$($linked.bothAvailable))"
+            ./.aetherstack/scripts/completion-gate.ps1 -Change $change -SkipVerify
+          }
 
       - name: Upload gate artifact
         if: steps.change.outputs.skip != 'true'

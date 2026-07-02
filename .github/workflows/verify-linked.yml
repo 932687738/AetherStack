@@ -1,0 +1,74 @@
+name: Verify Linked Repos
+
+on:
+  workflow_dispatch:
+    inputs:
+      spring_ai_strict:
+        description: 'Run Spring AI checks in -Strict mode'
+        required: false
+        default: true
+        type: boolean
+      checkout_linked:
+        description: 'Clone ai/ai_react into .linked/ (requires repo vars + token)'
+        required: false
+        default: false
+        type: boolean
+  schedule:
+    # 每周一 02:00 UTC；自托管 runner 可设 VERIFY_LINKED_ENABLED=true 启用
+    - cron: '0 2 * * 1'
+
+jobs:
+  verify-linked:
+    name: verify-linked
+    if: vars.VERIFY_LINKED_ENABLED == 'true'
+    runs-on: ${{ vars.AETHER_SELF_HOSTED == 'true' && 'self-hosted' || 'ubuntu-latest' }}
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Checkout linked repos (optional)
+        if: inputs.checkout_linked == true || vars.CHECKOUT_LINKED_REPOS == 'true'
+        shell: pwsh
+        env:
+          AETHER_AI_REPOSITORY: ${{ vars.AETHER_AI_REPOSITORY }}
+          AETHER_FRONTEND_REPOSITORY: ${{ vars.AETHER_FRONTEND_REPOSITORY }}
+          AETHER_LINKED_REF: ${{ vars.AETHER_LINKED_REF }}
+          GH_PAT: ${{ secrets.GH_PAT }}
+        run: ./.aetherstack/scripts/setup-linked-repos-ci.ps1
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Linked repos probe
+        id: linked
+        shell: pwsh
+        env:
+          AETHER_BACKEND_REPO: ${{ env.AETHER_BACKEND_REPO }}
+          AETHER_FRONTEND_REPO: ${{ env.AETHER_FRONTEND_REPO }}
+        run: |
+          $json = ./.aetherstack/scripts/check-linked-repos.ps1 -RequireBoth | ConvertFrom-Json
+          if (-not $json.bothAvailable) {
+            Write-Error "Linked repos unavailable: $($json.issues -join '; '). Set AETHER_*_REPO env, use self-hosted runner, or enable CHECKOUT_LINKED_REPOS with AETHER_*_REPOSITORY vars."
+          }
+          Write-Host "backend=$($json.backend.path)"
+          Write-Host "frontend=$($json.frontend.path)"
+
+      - name: make verify (linked)
+        shell: pwsh
+        env:
+          AETHER_BACKEND_REPO: ${{ env.AETHER_BACKEND_REPO }}
+          AETHER_FRONTEND_REPO: ${{ env.AETHER_FRONTEND_REPO }}
+        run: |
+          if ('${{ inputs.spring_ai_strict }}' -eq 'true' -or '${{ inputs.spring_ai_strict }}' -eq '') {
+            ./.aetherstack/scripts/verify-all.ps1 -SpringAiStrict
+          } else {
+            ./.aetherstack/scripts/verify-all.ps1
+          }

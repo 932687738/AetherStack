@@ -12,12 +12,14 @@
 - [x] 首个 OpenSpec 变更 apply（端到端跑通）— **试点**：`add-app-variables`（已 apply + gate），见 [harness-e2e-pilot.md](plans/harness-e2e-pilot.md)
 - [x] 验证通过（make verify / verify-all.ps1）— 2026-06-29 本地通过（mvn test + harness lint + build E2E 3/3）
 - [x] 归档 — `add-app-variables` → `openspec/changes/archive/2026-06-29-add-app-variables/`
+- [x] **Phase 3** — Superpowers 步骤校验、completion-gate CI、关联仓 verify 工作流（见 [plans/harness-phase3-ci.md](plans/harness-phase3-ci.md)）
+- [x] **Phase 4** — 明确不做（跨仓 PR 绑定、Mode A spawn；见 phase3 文档 §Phase 4）
 
 ## 当前焦点
 
-1. ~~验证链路已补齐~~；`verify-all.ps1` 已跑通；Spring AI 检查默认 `-Strict`
-2. ~~试点 `add-app-variables`~~ 已归档
-3. **待办**：自托管 CI 全量 verify、active 变更推进至 tasks
+1. 日常交付：`/opsx-apply`（Mode B）→ `make verify` / `make verify-strict` → completion-gate → 归档
+2. **可选运维**：自托管 runner Variables（全量 CI verify）
+3. **业务向**：从 backlog 归档挑选下一项 OpenSpec 变更并补齐 tasks（见 `openspec/changes/README.md`）
 
 ## Maven 解析
 
@@ -41,4 +43,5 @@ make verify
 | 子计划 | 说明 |
 |--------|------|
 | [plans/harness-e2e-pilot.md](plans/harness-e2e-pilot.md) | 首个 E2E 试跑清单（试点 `add-app-variables`） |
+| [plans/harness-phase3-ci.md](plans/harness-phase3-ci.md) | Phase 3：CI / Superpowers / 关联仓 verify |
 | [plans/_template.md](plans/_template.md) | 变更级进度模板 |

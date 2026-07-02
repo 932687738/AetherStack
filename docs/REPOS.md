@@ -57,6 +57,15 @@ npm run dev
 make verify   # 在关联的后端/前端仓库中执行 test/lint/build
 ```
 
+## CI（各代码仓）
+
+| 仓库 | Workflow | 命令 |
+|------|----------|------|
+| **ai** | `.github/workflows/ci.yml` | `mvn -B test` |
+| **ai_react** | `.github/workflows/ci.yml` | `harness lint` + `harness build` |
+
+关闭：仓库 Settings → Actions → Variables → `CI_ENABLED=false`。
+
 ## 可选：Git Submodule
 
 若需将关联仓库挂载到 AetherStack 子目录（仍不复制业务到本仓历史），可在确认 remote URL 后执行：

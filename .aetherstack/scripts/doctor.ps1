@@ -59,6 +59,8 @@ else { $fail.Add("missing frontend harness CLI: $harness") }
 foreach ($rel in @(
         '.aetherstack\scripts\verify-all.ps1',
         '.aetherstack\scripts\completion-gate.ps1',
+        '.aetherstack\scripts\check-superpowers-steps.ps1',
+        '.aetherstack\scripts\check-linked-repos.ps1',
         '.cursor\skills\harness-apply\SKILL.md',
         'harness\harness.config.yaml'
     )) {
@@ -72,6 +74,17 @@ if (Test-Path $hooks) { $ok.Add('Cursor hooks.json configured') }
 else { $warn.Add('no .cursor/hooks.json; archive shell guard may be off') }
 
 $warn.Add('Superpowers plugin cannot be auto-detected; use /add-plugin superpowers in Cursor')
+
+try {
+    $linked = & (Join-Path $PSScriptRoot 'check-linked-repos.ps1') | ConvertFrom-Json
+    if ($linked.bothAvailable) {
+        $ok.Add("linked repos: backend + frontend available")
+    } else {
+        foreach ($i in $linked.issues) { $warn.Add("linked repos: $i") }
+    }
+} catch {
+    $warn.Add("linked repos check failed: $($_.Exception.Message)")
+}
 
 if (-not $SkipVerifySmoke) {
     Write-Host ''
