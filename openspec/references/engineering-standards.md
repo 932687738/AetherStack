@@ -212,3 +212,9 @@ OpenSpec design 建议 checkbox：**无新增依赖 / 已论证新增依赖**。
 ### 9.3 演进优先级
 
 P1 Knowledge Hub Graph/Domain 收敛 → P1 迁出 springai 依赖 → P2 Agent Hub Graph/ReactAgent 化 → P2 需求开发 Graph 化 → P3 全模块 DDD 对齐
+
+## 10. 外部 Agent Skills 与补充 Checklist
+
+- **主路由不变**：OpenSpec + Superpowers + Harness + Impeccable（禁止整包安装 [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills)）。
+- **按需引用**：见 `openspec/references/agent-skills-adoption.md`（5 个 bookmark skill + 全量映射表）。
+- **归档前对照**：安全 / 可观测 / 上线见 `openspec/references/supplementary-checklists.md`（与 `completion-gate.md` 配合，WARNING 级人工确认）。

@@ -87,6 +87,10 @@ Cursor Skills：`.cursor/skills/openspec-*/SKILL.md`
 | 更新文档 / 同步 changelog | — | `rules/documentation.md` |
 | CodeGraph / 代码智能索引 | MCP：`codegraph` / `codegraph-backend` / `codegraph-frontend` | `LOCALPATH.md` §CodeGraph；`make codegraph-init` |
 | 实现纪律 / 最小改动 / 根因修复 / aether-debt | — | `rules/implementation-discipline.md`、`engineering-standards.md` §1.1 |
+| 访谈需求 / grill me / 需求不清楚 | 外部：`interview-me`（OpenSpec 0.1 前） | `agent-skills-adoption.md` |
+| AI 高风险 / 安全敏感 design | 外部：`doubt-driven-development`；可选 `security-auditor` | `supplementary-checklists.md` §1 |
+| 前端 perf / `/webperf` / UI-AUDIT 后 | 外部：`web-performance-auditor` | `agent-skills-adoption.md` §2 |
+| 可观测 / 新指标 / 新 SSE 端点 | 外部：`observability-and-instrumentation`（可选） | `supplementary-checklists.md` §2 |
 
 ## Harness
 
@@ -113,3 +117,4 @@ Cursor Skills：`.cursor/skills/openspec-*/SKILL.md`
 - **ReactAgent / CompiledGraph**：`openspec/references/spring-ai-react-graph-standards.md`、`.aetherstack/rules/spring-ai-react-graph.md`
 - **前端 UI Craft**：`openspec/references/ui-craft-standards.md`、`.aetherstack/rules/ui-craft.md`、`.cursor/skills/impeccable/`
 - **前端 Umi 工程规范**：`openspec/references/frontend-umi-standards.md`、`.aetherstack/rules/frontend-umi.md`
+- **外部 Agent Skills（按需）**：`openspec/references/agent-skills-adoption.md`、`supplementary-checklists.md`

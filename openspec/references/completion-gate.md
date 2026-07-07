@@ -63,3 +63,8 @@ powershell -File .aetherstack/scripts/completion-gate.ps1 -Change my-change -All
 全量跨仓验证：`.github/workflows/verify-linked.yml`（`workflow_dispatch` / 每周 cron）。配置见 `harness/docs/plans/harness-phase3-ci.md`。
 
 开关：`COMPLETION_GATE_ENABLED=false`、`VERIFY_LINKED_ENABLED=false`。
+
+## 补充 Checklist（可选，高风险变更）
+
+触及 AI 安全、新对外 API/SSE、U1 大改版时，归档前建议对照 `supplementary-checklists.md` §1–§3，结论写入 `verification-report.md`。  
+未对照须在 Final Assessment 说明理由。详见 `agent-skills-adoption.md`。

@@ -82,10 +82,25 @@ AetherStack 仅通过 **rules + context** 叠加项目约束（多仓库、DDD�
 5. Mock DashScope/ChatClient；Prompt 断言关键片段；Flux 用 `StepVerifier`
 6. `AUTO-AI-UT` 任务勾选前必须 `mvn -Dtest=XxxTest test` 通过
 
+## 外部 Agent Skills（按需，非主路由）
+
+主路由仍为 **Superpowers + OpenSpec + Harness**。可**会话内 fetch** [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills) 个别 skill，**禁止整包安装**。
+
+| 场景 | 外部引用 | 说明 |
+|------|----------|------|
+| OpenSpec 0.1 前需求模糊 | `interview-me` | 一次一问；产出后再建变更目录 |
+| 安全/AI 高风险 design 或 CR 第二 pass | `doubt-driven-development`、`security-auditor` | 结论写入 design 附录或 verification-report |
+| U1 UI-AUDIT 后 / 上线前 perf | `web-performance-auditor` | 不替代 Impeccable |
+| 新 API/SSE/Graph 可观测 | `observability-and-instrumentation` | 对照 `supplementary-checklists.md` |
+
+细则与 24 skill 映射：`openspec/references/agent-skills-adoption.md`。冲突时以 AetherStack 规范为准。
+
 ## 禁止
 
 - 禁止在仓库内复制 obra 插件 skill 正文
+- 禁止复制 agent-skills 整包或 SKILL.md 正文进 `.cursor/skills/`
 - 禁止重建 `workflows/`、`skills-index.yaml`、`aether-skills/` 平行路由
+- 禁止用 agent-skills 生命周期命令替代 `/opsx-apply` 或 Superpowers TDD/CR
 
 ## 与 OpenSpec / Harness 分工
 
