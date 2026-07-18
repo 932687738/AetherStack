@@ -12,6 +12,9 @@
 ### CodeGraph (local index; regenerate with make codegraph-init) ###
 .codegraph/
 
+### Graphify (knowledge graph; build with graphify .) ###
+graphify-out/cost.json
+
 ### OS ###
 Thumbs.db
 
